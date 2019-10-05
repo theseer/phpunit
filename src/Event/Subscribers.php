@@ -13,7 +13,7 @@ use ArrayIterator;
 use EmptyIterator;
 use Iterator;
 
-class Subscribers
+final class Subscribers
 {
     private $subscribers = [];
 
