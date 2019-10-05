@@ -7,7 +7,7 @@ use IteratorAggregate;
 
 final class Types implements IteratorAggregate {
 
-    private array $types;
+    private $types;
 
     public function __construct(Type ...$types) {
         $this->types = $types;

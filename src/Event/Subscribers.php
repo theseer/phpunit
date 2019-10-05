@@ -6,7 +6,7 @@ use Iterator;
 
 class Subscribers {
 
-    private array $subscribers = [];
+    private $subscribers = [];
 
     public function add(Subscriber $subscriber): void {
         foreach($subscriber->wants() as $type) {

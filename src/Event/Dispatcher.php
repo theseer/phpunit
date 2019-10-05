@@ -3,7 +3,7 @@ namespace PHPUnit\Event;
 
 final class Dispatcher {
 
-    private Subscribers $subscribers;
+    private $subscribers;
 
     public function __construct() {
         $this->subscribers = new Subscribers();
