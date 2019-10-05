@@ -48,9 +48,11 @@ final class SubscribersTest extends TestCase
 
         $subscribers = new Subscribers();
 
-        $subscribers->add($firstSubscriber);
-        $subscribers->add($secondSubscriber);
-        $subscribers->add($thirdSubscriber);
+        $subscribers->add(
+            $firstSubscriber,
+            $secondSubscriber,
+            $thirdSubscriber
+        );
 
         $subscribersForType = $subscribers->for($type);
 
