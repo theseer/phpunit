@@ -9,7 +9,9 @@
  */
 namespace PHPUnit\Event;
 
-class UnsupportedEvent extends \Exception
+use PHPUnit\Exception;
+
+class UnsupportedEvent extends \Exception implements Exception
 {
     public static function type(Type $type): self
     {

@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Event;
 
+use PHPUnit\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,6 +46,7 @@ final class UnsupportedEventTest extends TestCase
         );
 
         self::assertInstanceOf(\Exception::class, $exception);
+        self::assertInstanceOf(Exception::class, $exception);
         self::assertSame($message, $exception->getMessage());
     }
 }
