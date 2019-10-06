@@ -8,8 +8,8 @@
  * file that was distributed with this source code.
  */
 use PHPUnit\Event\Dispatcher;
-use PHPUnit\Event\GenericEvent;
-use PHPUnit\Event\NamedType;
+use PHPUnit\Event\Test\AfterTest;
+use PHPUnit\Event\Test\BeforeTest;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
@@ -30,7 +30,7 @@ class DoubleTestCase implements Test
 
     public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+        $dispatcher->dispatch(new BeforeTest());
 
         $result->startTest($this);
 
@@ -39,7 +39,7 @@ class DoubleTestCase implements Test
 
         $result->endTest($this, 0);
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
+        $dispatcher->dispatch(new AfterTest());
 
         return $result;
     }

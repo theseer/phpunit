@@ -10,8 +10,8 @@
 namespace PHPUnit\Runner;
 
 use PHPUnit\Event\Dispatcher;
-use PHPUnit\Event\GenericEvent;
-use PHPUnit\Event\NamedType;
+use PHPUnit\Event\Test\AfterTest;
+use PHPUnit\Event\Test\BeforeTest;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -121,13 +121,13 @@ final class PhptTestCase implements SelfDescribing, Test
         try {
             $sections = $this->parse();
         } catch (Exception $e) {
-            $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+            $dispatcher->dispatch(new BeforeTest());
 
             $result->startTest($this);
             $result->addFailure($this, new SkippedTestError($e->getMessage()), 0);
             $result->endTest($this, 0);
 
-            $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
+            $dispatcher->dispatch(new AfterTest());
 
             return $result;
         }
@@ -136,7 +136,7 @@ final class PhptTestCase implements SelfDescribing, Test
         $xfail    = false;
         $settings = $this->parseIniSection(self::SETTINGS);
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+        $dispatcher->dispatch(new BeforeTest());
 
         $result->startTest($this);
 
@@ -228,7 +228,7 @@ final class PhptTestCase implements SelfDescribing, Test
 
         $result->endTest($this, $time);
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
+        $dispatcher->dispatch(new AfterTest());
 
         return $result;
     }

@@ -11,8 +11,6 @@ namespace PHPUnit\Framework;
 
 use DeepCopy\DeepCopy;
 use PHPUnit\Event\Dispatcher;
-use PHPUnit\Event\GenericEvent;
-use PHPUnit\Event\NamedType;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -2048,7 +2046,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+        $dispatcher->dispatch(new BeforeTest());
 
         $this->result->startTest($this);
 
@@ -2062,14 +2060,14 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->endTest($this, 0);
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
+        $dispatcher->dispatch(new AfterTest());
     }
 
     private function markSkippedForMissingDependency(Dispatcher $dispatcher, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+        $dispatcher->dispatch(new BeforeTest());
 
         $this->result->startTest($this);
 
@@ -2086,14 +2084,14 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->endTest($this, 0);
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
+        $dispatcher->dispatch(new AfterTest());
     }
 
     private function warnAboutDependencyThatDoesNotExist(Dispatcher $dispatcher, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_WARNING;
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+        $dispatcher->dispatch(new BeforeTest());
 
         $this->result->startTest($this);
 
@@ -2110,7 +2108,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->endTest($this, 0);
 
-        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
+        $dispatcher->dispatch(new AfterTest());
     }
 
     /**
