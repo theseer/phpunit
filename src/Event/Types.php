@@ -19,6 +19,10 @@ final class Types implements IteratorAggregate
 
     public function __construct(Type ...$types)
     {
+        if (0 === \count($types)) {
+            throw TypeRequired::create();
+        }
+
         $this->types = $types;
     }
 
