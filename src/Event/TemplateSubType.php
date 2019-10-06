@@ -13,9 +13,8 @@ abstract class TemplateSubType implements SubType
 {
     final public function is(Type $other): bool
     {
-        return (
+        return
             ($this->asString() === $other->asString()) ||
-            $this->super()->is($other)
-        );
+            $this->super()->is($other);
     }
 }
