@@ -10,7 +10,7 @@
 namespace PHPUnit\Framework;
 
 use DeepCopy\DeepCopy;
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -638,7 +638,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
+    public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = $this->createResult();
@@ -2042,11 +2042,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         return true;
     }
 
-    private function markSkippedForNotSpecifyingDependency(Dispatcher $dispatcher): void
+    private function markSkippedForNotSpecifyingDependency(Event\Dispatcher $dispatcher): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
-        $dispatcher->dispatch(new BeforeTest());
+        $dispatcher->dispatch(new Event\Test\BeforeTest());
 
         $this->result->startTest($this);
 
@@ -2060,14 +2060,14 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->endTest($this, 0);
 
-        $dispatcher->dispatch(new AfterTest());
+        $dispatcher->dispatch(new Event\Test\AfterTest());
     }
 
-    private function markSkippedForMissingDependency(Dispatcher $dispatcher, string $dependency): void
+    private function markSkippedForMissingDependency(Event\Dispatcher $dispatcher, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
-        $dispatcher->dispatch(new BeforeTest());
+        $dispatcher->dispatch(new Event\Test\BeforeTest());
 
         $this->result->startTest($this);
 
@@ -2084,14 +2084,14 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->endTest($this, 0);
 
-        $dispatcher->dispatch(new AfterTest());
+        $dispatcher->dispatch(new Event\Test\AfterTest());
     }
 
-    private function warnAboutDependencyThatDoesNotExist(Dispatcher $dispatcher, string $dependency): void
+    private function warnAboutDependencyThatDoesNotExist(Event\Dispatcher $dispatcher, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_WARNING;
 
-        $dispatcher->dispatch(new BeforeTest());
+        $dispatcher->dispatch(new Event\Test\BeforeTest());
 
         $this->result->startTest($this);
 
@@ -2108,7 +2108,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->endTest($this, 0);
 
-        $dispatcher->dispatch(new AfterTest());
+        $dispatcher->dispatch(new Event\Test\AfterTest());
     }
 
     /**

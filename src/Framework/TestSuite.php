@@ -9,11 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event\Dispatcher;
-use PHPUnit\Event\Test\AfterTest;
-use PHPUnit\Event\Test\BeforeTest;
-use PHPUnit\Event\TestSuite\AfterTestSuite;
-use PHPUnit\Event\TestSuite\BeforeTestSuite;
+use PHPUnit\Event;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\Filter\Factory;
 use PHPUnit\Runner\PhptTestCase;
@@ -519,7 +515,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Warning
      */
-    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
+    public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = $this->createResult();
@@ -533,7 +529,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
         $className   = $this->name;
         $hookMethods = TestUtil::getHookMethods($className);
 
-        $dispatcher->dispatch(new BeforeTestSuite());
+        $dispatcher->dispatch(new Event\TestSuite\BeforeTestSuite());
 
         $result->startTestSuite($this);
 
@@ -551,16 +547,16 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             }
         } catch (SkippedTestSuiteError $error) {
             foreach ($this->tests() as $test) {
-                $dispatcher->dispatch(new BeforeTest());
+                $dispatcher->dispatch(new Event\Test\BeforeTest());
 
                 $result->startTest($test);
                 $result->addFailure($test, $error, 0);
                 $result->endTest($test, 0);
 
-                $dispatcher->dispatch(new AfterTest());
+                $dispatcher->dispatch(new Event\Test\AfterTest());
             }
 
-            $dispatcher->dispatch(new AfterTestSuite());
+            $dispatcher->dispatch(new Event\TestSuite\AfterTestSuite());
 
             $result->endTestSuite($this);
 
@@ -573,7 +569,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                     break;
                 }
 
-                $dispatcher->dispatch(new BeforeTest());
+                $dispatcher->dispatch(new Event\Test\BeforeTest());
 
                 $result->startTest($test);
 
@@ -591,10 +587,10 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
                 $result->endTest($test, 0);
 
-                $dispatcher->dispatch(new AfterTest());
+                $dispatcher->dispatch(new Event\Test\AfterTest());
             }
 
-            $dispatcher->dispatch(new AfterTestSuite());
+            $dispatcher->dispatch(new Event\TestSuite\AfterTestSuite());
 
             $result->endTestSuite($this);
 
@@ -634,16 +630,16 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             $placeholderTest = clone $test;
             $placeholderTest->setName($afterClassMethod);
 
-            $dispatcher->dispatch(new BeforeTest());
+            $dispatcher->dispatch(new Event\Test\BeforeTest());
 
             $result->startTest($placeholderTest);
             $result->addFailure($placeholderTest, $error, 0);
             $result->endTest($placeholderTest, 0);
 
-            $dispatcher->dispatch(new AfterTest());
+            $dispatcher->dispatch(new Event\Test\AfterTest());
         }
 
-        $dispatcher->dispatch(new AfterTestSuite());
+        $dispatcher->dispatch(new Event\TestSuite\AfterTestSuite());
 
         $result->endTestSuite($this);
 
