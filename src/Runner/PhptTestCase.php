@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Runner;
 
+use PHPUnit\Event\Dispatcher;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -109,7 +110,7 @@ final class PhptTestCase implements SelfDescribing, Test
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function run(TestResult $result = null): TestResult
+    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = new TestResult;

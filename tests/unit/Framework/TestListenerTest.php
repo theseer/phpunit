@@ -10,6 +10,7 @@
 namespace PHPUnit\Framework;
 
 use MyTestListener;
+use PHPUnit\Event\Dispatcher;
 
 /**
  * @small
@@ -37,7 +38,11 @@ final class TestListenerTest extends TestCase
     public function testError(): void
     {
         $test = new \TestError;
-        $test->run($this->result);
+
+        $test->run(
+            new Dispatcher(),
+            $this->result
+        );
 
         $this->assertEquals(1, $this->listener->errorCount());
         $this->assertEquals(1, $this->listener->endCount());
@@ -46,7 +51,11 @@ final class TestListenerTest extends TestCase
     public function testFailure(): void
     {
         $test = new \Failure;
-        $test->run($this->result);
+
+        $test->run(
+            new Dispatcher(),
+            $this->result
+        );
 
         $this->assertEquals(1, $this->listener->failureCount());
         $this->assertEquals(1, $this->listener->endCount());
@@ -55,7 +64,11 @@ final class TestListenerTest extends TestCase
     public function testStartStop(): void
     {
         $test = new \Success;
-        $test->run($this->result);
+
+        $test->run(
+            new Dispatcher(),
+            $this->result
+        );
 
         $this->assertEquals(1, $this->listener->startCount());
         $this->assertEquals(1, $this->listener->endCount());

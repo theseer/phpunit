@@ -10,6 +10,7 @@
 namespace PHPUnit\Framework;
 
 use Countable;
+use PHPUnit\Event\Dispatcher;
 
 /**
  * A Test can be run and collect its results.
@@ -19,5 +20,5 @@ interface Test extends Countable
     /**
      * Runs a test and collects its result in a TestResult instance.
      */
-    public function run(TestResult $result = null): TestResult;
+    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult;
 }

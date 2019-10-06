@@ -10,6 +10,7 @@
 namespace PHPUnit\Framework;
 
 use DeepCopy\DeepCopy;
+use PHPUnit\Event\Dispatcher;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -637,7 +638,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function run(TestResult $result = null): TestResult
+    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = $this->createResult();

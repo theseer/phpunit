@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
+use PHPUnit\Event\Dispatcher;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\Filter\Factory;
 use PHPUnit\Runner\PhptTestCase;
@@ -514,7 +515,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Warning
      */
-    public function run(TestResult $result = null): TestResult
+    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = $this->createResult();
@@ -594,7 +595,10 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 $test->setRunTestInSeparateProcess($this->runTestInSeparateProcess);
             }
 
-            $test->run($result);
+            $test->run(
+                $dispatcher,
+                $result
+            );
         }
 
         try {

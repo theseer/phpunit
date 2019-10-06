@@ -1,4 +1,5 @@
 <?php
+use PHPUnit\Event\Dispatcher;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use PHPUnit\TextUI\Configuration\Registry;
@@ -57,7 +58,12 @@ function __phpunit_run_isolated_test()
     $test->setInIsolation(true);
 
     ob_end_clean();
-    $test->run($result);
+
+    $test->run(
+        new Dispatcher(),
+        $result
+    );
+
     $output = '';
     if (!$test->hasExpectationOnOutput()) {
         $output = $test->getActualOutput();

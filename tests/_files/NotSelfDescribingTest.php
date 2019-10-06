@@ -7,6 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+use PHPUnit\Event\Dispatcher;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestResult;
 
@@ -22,7 +24,7 @@ class NotSelfDescribingTest implements Test
         return 0;
     }
 
-    public function run(TestResult $result = null): TestResult
+    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         return new TestResult();
     }

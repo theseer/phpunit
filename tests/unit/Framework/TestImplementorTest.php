@@ -9,6 +9,8 @@
  */
 namespace PHPUnit\Framework;
 
+use PHPUnit\Event\Dispatcher;
+
 /**
  * @small
  */
@@ -19,7 +21,11 @@ final class TestImplementorTest extends TestCase
         $result = new TestResult;
 
         $test = new \DoubleTestCase(new \Success);
-        $test->run($result);
+
+        $test->run(
+            new Dispatcher(),
+            $result
+        );
 
         $this->assertCount(\count($test), $result);
         $this->assertEquals(0, $result->errorCount());

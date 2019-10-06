@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
+use PHPUnit\Event\Dispatcher;
 use PHPUnit\Runner\BaseTestRunner;
 
 final class SkippedTestCaseTest extends TestCase
@@ -67,7 +68,7 @@ final class SkippedTestCaseTest extends TestCase
             $message
         );
 
-        $result = $testCase->run();
+        $result = $testCase->run(new Dispatcher());
 
         $this->assertSame(BaseTestRunner::STATUS_SKIPPED, $testCase->getStatus());
         $this->assertSame(1, $result->skippedCount());
