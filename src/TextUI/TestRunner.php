@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\TextUI;
 
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
@@ -120,7 +120,7 @@ final class TestRunner extends BaseTestRunner
      * @throws \PHPUnit\Runner\Exception
      * @throws Exception
      */
-    public function run(Dispatcher $dispatcher, Test $suite, array $arguments = [], bool $exit = true): TestResult
+    public function run(Event\Dispatcher $dispatcher, Test $suite, array $arguments = [], bool $exit = true): TestResult
     {
         if (isset($arguments['configuration'])) {
             $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] = $arguments['configuration'];

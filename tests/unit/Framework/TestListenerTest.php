@@ -10,7 +10,7 @@
 namespace PHPUnit\Framework;
 
 use MyTestListener;
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 
 /**
  * @small
@@ -40,7 +40,7 @@ final class TestListenerTest extends TestCase
         $test = new \TestError;
 
         $test->run(
-            new Dispatcher(),
+            new Event\Dispatcher(),
             $this->result
         );
 
@@ -53,7 +53,7 @@ final class TestListenerTest extends TestCase
         $test = new \Failure;
 
         $test->run(
-            new Dispatcher(),
+            new Event\Dispatcher(),
             $this->result
         );
 
@@ -66,7 +66,7 @@ final class TestListenerTest extends TestCase
         $test = new \Success;
 
         $test->run(
-            new Dispatcher(),
+            new Event\Dispatcher(),
             $this->result
         );
 

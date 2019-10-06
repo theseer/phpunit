@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\Runner;
 
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
 
@@ -110,7 +110,7 @@ EOF;
              ->with($fileSection)
              ->will($this->returnValue(['stdout' => '', 'stderr' => '']));
 
-        $this->testCase->run(new Dispatcher());
+        $this->testCase->run(new Event\Dispatcher());
     }
 
     public function testRenderFileSection(): void
@@ -134,7 +134,7 @@ EOF
              ->with($renderedCode)
              ->will($this->returnValue(['stdout' => '', 'stderr' => '']));
 
-        $this->testCase->run(new Dispatcher());
+        $this->testCase->run(new Event\Dispatcher());
     }
 
     public function testRenderSkipifSection(): void
@@ -153,7 +153,7 @@ EOF
              ->with($renderedCode)
              ->will($this->returnValue(['stdout' => '', 'stderr' => '']));
 
-        $this->testCase->run(new Dispatcher());
+        $this->testCase->run(new Event\Dispatcher());
     }
 
     public function testShouldRunSkipifSectionWhenExists(): void
@@ -172,7 +172,7 @@ EOF
              ->with($skipifSection)
              ->will($this->returnValue(['stdout' => '', 'stderr' => '']));
 
-        $this->testCase->run(new Dispatcher());
+        $this->testCase->run(new Event\Dispatcher());
     }
 
     public function testShouldNotRunTestSectionIfSkipifSectionReturnsOutputWithSkipWord(): void
@@ -191,7 +191,7 @@ EOF
              ->with($skipifSection)
              ->will($this->returnValue(['stdout' => 'skip: Reason', 'stderr' => '']));
 
-        $this->testCase->run(new Dispatcher());
+        $this->testCase->run(new Event\Dispatcher());
     }
 
     public function testShouldRunCleanSectionWhenDefined(): void
@@ -209,14 +209,14 @@ EOF
              ->method('runJob')
              ->with($cleanSection);
 
-        $this->testCase->run(new Dispatcher());
+        $this->testCase->run(new Event\Dispatcher());
     }
 
     public function testShouldSkipTestWhenPhptFileIsEmpty(): void
     {
         $this->setPhpContent('');
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertCount(1, $result->skipped());
         $this->assertSame('Invalid PHPT file', $result->skipped()[0]->thrownException()->getMessage());
@@ -233,7 +233,7 @@ Something
 EOF
         );
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertCount(1, $result->skipped());
         $this->assertSame('Invalid PHPT file', $result->skipped()[0]->thrownException()->getMessage());
@@ -252,7 +252,7 @@ echo "Hello world!\n";
 EOF
         );
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertCount(1, $result->skipped());
         $skipMessage = $result->skipped()[0]->thrownException()->getMessage();
@@ -271,7 +271,7 @@ Tears and misery
 EOF
         );
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertCount(1, $result->skipped());
         $skipMessage = $result->skipped()[0]->thrownException()->getMessage();
@@ -288,7 +288,7 @@ EOF
              ->with(self::FILE_SECTION)
              ->will($this->returnValue(['stdout' => 'Hello PHPUnit!', 'stderr' => '']));
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertTrue($result->wasSuccessful());
     }
@@ -303,7 +303,7 @@ EOF
              ->with(self::FILE_SECTION)
              ->will($this->returnValue(['stdout' => 'Hello PHPUnit!', 'stderr' => '']));
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertTrue($result->wasSuccessful());
     }
@@ -318,7 +318,7 @@ EOF
              ->with(self::FILE_SECTION)
              ->will($this->returnValue(['stdout' => 'Hello PHPUnit!', 'stderr' => '']));
 
-        $result = $this->testCase->run(new Dispatcher());
+        $result = $this->testCase->run(new Event\Dispatcher());
 
         $this->assertTrue($result->wasSuccessful());
     }

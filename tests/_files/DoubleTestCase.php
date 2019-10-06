@@ -7,9 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use PHPUnit\Event\Dispatcher;
-use PHPUnit\Event\Test\AfterTest;
-use PHPUnit\Event\Test\BeforeTest;
+use PHPUnit\Event;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
@@ -28,9 +26,9 @@ class DoubleTestCase implements Test
         return 2;
     }
 
-    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
+    public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
-        $dispatcher->dispatch(new BeforeTest());
+        $dispatcher->dispatch(new Event\Test\BeforeTest());
 
         $result->startTest($this);
 
@@ -39,7 +37,7 @@ class DoubleTestCase implements Test
 
         $result->endTest($this, 0);
 
-        $dispatcher->dispatch(new AfterTest());
+        $dispatcher->dispatch(new Event\Test\AfterTest());
 
         return $result;
     }

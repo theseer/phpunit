@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 
 /**
  * @small
@@ -23,7 +23,7 @@ final class TestImplementorTest extends TestCase
         $test = new \DoubleTestCase(new \Success);
 
         $test->run(
-            new Dispatcher(),
+            new Event\Dispatcher(),
             $result
         );
 

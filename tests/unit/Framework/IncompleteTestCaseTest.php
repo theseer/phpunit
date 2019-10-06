@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Runner\BaseTestRunner;
 
 final class IncompleteTestCaseTest extends TestCase
@@ -68,7 +68,7 @@ final class IncompleteTestCaseTest extends TestCase
             $message
         );
 
-        $result = $testCase->run(new Dispatcher());
+        $result = $testCase->run(new Event\Dispatcher());
 
         $this->assertSame(BaseTestRunner::STATUS_INCOMPLETE, $testCase->getStatus());
         $this->assertSame(1, $result->notImplementedCount());

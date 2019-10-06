@@ -9,9 +9,7 @@
  */
 namespace PHPUnit\Runner;
 
-use PHPUnit\Event\Dispatcher;
-use PHPUnit\Event\Test\AfterTest;
-use PHPUnit\Event\Test\BeforeTest;
+use PHPUnit\Event;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -112,7 +110,7 @@ final class PhptTestCase implements SelfDescribing, Test
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function run(Dispatcher $dispatcher, TestResult $result = null): TestResult
+    public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = new TestResult;
@@ -121,13 +119,13 @@ final class PhptTestCase implements SelfDescribing, Test
         try {
             $sections = $this->parse();
         } catch (Exception $e) {
-            $dispatcher->dispatch(new BeforeTest());
+            $dispatcher->dispatch(new Event\Test\BeforeTest());
 
             $result->startTest($this);
             $result->addFailure($this, new SkippedTestError($e->getMessage()), 0);
             $result->endTest($this, 0);
 
-            $dispatcher->dispatch(new AfterTest());
+            $dispatcher->dispatch(new Event\Test\AfterTest());
 
             return $result;
         }
@@ -136,7 +134,7 @@ final class PhptTestCase implements SelfDescribing, Test
         $xfail    = false;
         $settings = $this->parseIniSection(self::SETTINGS);
 
-        $dispatcher->dispatch(new BeforeTest());
+        $dispatcher->dispatch(new Event\Test\BeforeTest());
 
         $result->startTest($this);
 
@@ -228,7 +226,7 @@ final class PhptTestCase implements SelfDescribing, Test
 
         $result->endTest($this, $time);
 
-        $dispatcher->dispatch(new AfterTest());
+        $dispatcher->dispatch(new Event\Test\AfterTest());
 
         return $result;
     }

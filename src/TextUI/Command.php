@@ -13,7 +13,7 @@ use PharIo\Manifest\ApplicationName;
 use PharIo\Manifest\Exception as ManifestException;
 use PharIo\Manifest\ManifestLoader;
 use PharIo\Version\Version as PharIoVersion;
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestSuite;
@@ -64,7 +64,7 @@ class Command
     public static function main(bool $exit = true): int
     {
         return (new static)->run(
-            new Dispatcher(),
+            new Event\Dispatcher(),
             $_SERVER['argv'],
             $exit
         );
@@ -73,7 +73,7 @@ class Command
     /**
      * @throws Exception
      */
-    public function run(Dispatcher $dispatcher, array $argv, bool $exit = true): int
+    public function run(Event\Dispatcher $dispatcher, array $argv, bool $exit = true): int
     {
         $this->handleArguments($argv);
 
