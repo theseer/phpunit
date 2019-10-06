@@ -106,11 +106,15 @@ class Command
 
         unset($this->arguments['test'], $this->arguments['testFile']);
 
+        $dispatcher->dispatch(new Event\Run\BeforeRun());
+
         try {
             $result = $runner->run($dispatcher, $suite, $this->arguments, $exit);
         } catch (Exception $e) {
             print $e->getMessage() . \PHP_EOL;
         }
+
+        $dispatcher->dispatch(new Event\Run\AfterRun());
 
         $return = TestRunner::FAILURE_EXIT;
 
