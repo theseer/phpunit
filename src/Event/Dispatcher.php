@@ -18,6 +18,9 @@ final class Dispatcher
         foreach ($subscribers as $subscriber) {
             foreach ($subscriber->typesSubscribedTo() as $type) {
                 $this->subscribers[$type->asString()][] = $subscriber;
+                if ($type instanceof SubType) {
+                    $this->subscribers[$type->super()->asString()][] = $subscriber;
+                }
             }
         }
     }
