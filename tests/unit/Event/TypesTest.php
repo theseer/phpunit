@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Event;
 
-use NamedType;
 use PHPUnit\Framework\TestCase;
 
 /**
