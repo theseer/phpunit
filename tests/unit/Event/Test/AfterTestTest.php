@@ -17,10 +17,10 @@ use PHPUnit\Framework\TestCase;
  */
 final class AfterTestTest extends TestCase
 {
-    public function testTypeIsTestEnded(): void
+    public function testTypeIsAfterTest(): void
     {
         $event = new AfterTest();
 
-        self::assertTrue($event->type()->is(new NamedType('test-ended')));
+        self::assertTrue($event->type()->is(new NamedType('after-test')));
     }
 }
