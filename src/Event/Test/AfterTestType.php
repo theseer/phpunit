@@ -11,7 +11,7 @@ namespace PHPUnit\Event\Test;
 
 use PHPUnit\Event\TemplateType;
 
-class AfterTestType extends TemplateType
+final class AfterTestType extends TemplateType
 {
     public function asString(): string
     {
