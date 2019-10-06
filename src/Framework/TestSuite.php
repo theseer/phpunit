@@ -10,6 +10,8 @@
 namespace PHPUnit\Framework;
 
 use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event\GenericEvent;
+use PHPUnit\Event\NamedType;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\Filter\Factory;
 use PHPUnit\Runner\PhptTestCase;
@@ -529,6 +531,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
         $className   = $this->name;
         $hookMethods = TestUtil::getHookMethods($className);
 
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-started')));
+
         $result->startTestSuite($this);
 
         try {
@@ -549,6 +553,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 $result->addFailure($test, $error, 0);
                 $result->endTest($test, 0);
             }
+
+            $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-ended')));
 
             $result->endTestSuite($this);
 
@@ -577,6 +583,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
                 $result->endTest($test, 0);
             }
+
+            $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-ended')));
 
             $result->endTestSuite($this);
 
@@ -620,6 +628,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             $result->addFailure($placeholderTest, $error, 0);
             $result->endTest($placeholderTest, 0);
         }
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-ended')));
 
         $result->endTestSuite($this);
 
