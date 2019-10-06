@@ -13,14 +13,13 @@ final class Dispatcher
 {
     private $subscribers = [];
 
-    public function register(Subscriber ...$subscribers): void
+    public function register(Subscriber $subscriber): void
     {
-        foreach ($subscribers as $subscriber) {
-            foreach ($subscriber->typesSubscribedTo() as $type) {
-                $this->subscribers[$type->asString()][] = $subscriber;
-                if ($type instanceof SubType) {
-                    $this->subscribers[$type->super()->asString()][] = $subscriber;
-                }
+        foreach ($subscriber->typesSubscribedTo() as $type) {
+            $this->subscribers[$type->asString()][] = $subscriber;
+
+            if ($type instanceof SubType) {
+                $this->subscribers[$type->super()->asString()][] = $subscriber;
             }
         }
     }
