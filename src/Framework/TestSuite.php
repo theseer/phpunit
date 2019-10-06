@@ -549,9 +549,13 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             }
         } catch (SkippedTestSuiteError $error) {
             foreach ($this->tests() as $test) {
+                $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+
                 $result->startTest($test);
                 $result->addFailure($test, $error, 0);
                 $result->endTest($test, 0);
+
+                $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
             }
 
             $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-ended')));
@@ -566,6 +570,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 if ($result->shouldStop()) {
                     break;
                 }
+
+                $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
 
                 $result->startTest($test);
 
@@ -582,6 +588,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 }
 
                 $result->endTest($test, 0);
+
+                $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
             }
 
             $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-ended')));
@@ -624,9 +632,13 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             $placeholderTest = clone $test;
             $placeholderTest->setName($afterClassMethod);
 
+            $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
+
             $result->startTest($placeholderTest);
             $result->addFailure($placeholderTest, $error, 0);
             $result->endTest($placeholderTest, 0);
+
+            $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
         }
 
         $dispatcher->dispatch(new GenericEvent(new NamedType('test-suite-ended')));

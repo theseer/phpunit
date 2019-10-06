@@ -11,6 +11,8 @@ namespace PHPUnit\Framework;
 
 use DeepCopy\DeepCopy;
 use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event\GenericEvent;
+use PHPUnit\Event\NamedType;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -1999,7 +2001,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     if (!$this->isCallableTestMethod($dependency)) {
                         $this->warnAboutDependencyThatDoesNotExist($dependency);
                     } else {
-                        $this->markSkippedForMissingDependency($dependency);
+                        $this->markSkippedForMissingDependency(
+                            $dispatcher,
+                            $dependency
+                        );
                     }
 
                     return false;
@@ -2039,9 +2044,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         return true;
     }
 
-    private function markSkippedForNotSpecifyingDependency(): void
+    private function markSkippedForNotSpecifyingDependency(Dispatcher $dispatcher): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
 
         $this->result->startTest($this);
 
@@ -2054,11 +2061,15 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         );
 
         $this->result->endTest($this, 0);
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
     }
 
-    private function markSkippedForMissingDependency(string $dependency): void
+    private function markSkippedForMissingDependency(Dispatcher $dispatcher, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
 
         $this->result->startTest($this);
 
@@ -2074,11 +2085,15 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         );
 
         $this->result->endTest($this, 0);
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
     }
 
-    private function warnAboutDependencyThatDoesNotExist(string $dependency): void
+    private function warnAboutDependencyThatDoesNotExist(Dispatcher $dispatcher, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_WARNING;
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-started')));
 
         $this->result->startTest($this);
 
@@ -2094,6 +2109,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         );
 
         $this->result->endTest($this, 0);
+
+        $dispatcher->dispatch(new GenericEvent(new NamedType('test-ended')));
     }
 
     /**
