@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\Event;
 
-use PHPUnit\Exception;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,7 +22,7 @@ final class TypeRequiredTest extends TestCase
         $exception = TypeRequired::create();
 
         self::assertInstanceOf(\Exception::class, $exception);
-        self::assertInstanceOf(Exception::class, $exception);
+        self::assertInstanceOf(InvalidArgumentException::class, $exception);
         self::assertSame('At least one type needs to be provided.', $exception->getMessage());
     }
 }
