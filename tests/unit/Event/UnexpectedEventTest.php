@@ -21,7 +21,7 @@ final class UnexpectedEventTest extends TestCase
     {
         $subscriberClassName = self::class;
 
-        $type = new NamedType('foo');
+        $type = new GenericType('foo');
 
         $exception = UnexpectedEvent::for(
             $subscriberClassName,

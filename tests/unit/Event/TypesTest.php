@@ -26,9 +26,9 @@ final class TypesTest extends TestCase
     public function testConstructorSetsTypes(): void
     {
         $composedTypes = [
-            new NamedType('foo'),
-            new NamedType('bar'),
-            new NamedType('baz'),
+            new GenericType('foo'),
+            new GenericType('bar'),
+            new GenericType('baz'),
         ];
 
         $types = new Types(...$composedTypes);
@@ -40,12 +40,12 @@ final class TypesTest extends TestCase
     public function testContainsReturnsFalseWhenEqualTypeHasNotBeenComposed(): void
     {
         $composedTypes = [
-            new NamedType('foo'),
-            new NamedType('bar'),
-            new NamedType('baz'),
+            new GenericType('foo'),
+            new GenericType('bar'),
+            new GenericType('baz'),
         ];
 
-        $type = new NamedType('qux');
+        $type = new GenericType('qux');
 
         $types = new Types(...$composedTypes);
 
@@ -55,12 +55,12 @@ final class TypesTest extends TestCase
     public function testContainsReturnsTrueWhenEqualTypeHasBeenComposed(): void
     {
         $composedTypes = [
-            new NamedType('foo'),
-            new NamedType('bar'),
-            new NamedType('baz'),
+            new GenericType('foo'),
+            new GenericType('bar'),
+            new GenericType('baz'),
         ];
 
-        $type = new NamedType('bar');
+        $type = new GenericType('bar');
 
         $types = new Types(...$composedTypes);
 
