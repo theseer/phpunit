@@ -624,10 +624,21 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 $test->setRunTestInSeparateProcess($this->runTestInSeparateProcess);
             }
 
+            if ($test instanceof TestCase) {
+                $dispatcher->dispatch(new Event\Test\BeforeTest(new Event\Test\Test()));
+            }
+
             $test->run(
                 $dispatcher,
                 $result
             );
+
+            if ($test instanceof TestCase) {
+                $dispatcher->dispatch(new Event\Test\AfterTest(
+                    new Event\Test\Test(),
+                    new Event\Test\Result\NeedsClarification()
+                ));
+            }
         }
 
         try {
