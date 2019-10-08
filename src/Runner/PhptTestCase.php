@@ -231,7 +231,7 @@ final class PhptTestCase implements SelfDescribing, Test
 
         $dispatcher->dispatch(new Event\Test\AfterTest(
             new Event\Test\Test(),
-            new Event\Test\Result\Unknown()
+            new Event\Test\Result\NeedsClarification()
         ));
 
         return $result;
