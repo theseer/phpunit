@@ -640,6 +640,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      */
     public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult
     {
+        $dispatcher->dispatch(new Event\Test\BeforeTest(new Event\Test\Test()));
+
         if ($result === null) {
             $result = $this->createResult();
         }
@@ -774,6 +776,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         }
 
         $this->result = null;
+
+        $dispatcher->dispatch(new Event\Test\AfterTest(
+            new Event\Test\Test(),
+            new Event\Test\Result\Unknown()
+        ));
 
         return $result;
     }
