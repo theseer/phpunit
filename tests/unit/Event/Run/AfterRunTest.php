@@ -19,8 +19,17 @@ final class AfterRunTest extends TestCase
 {
     public function testTypeIsAfterRun(): void
     {
-        $event = new AfterRun();
+        $event = new AfterRun(new Run());
 
         self::assertTrue($event->type()->is(new GenericType('after-run')));
+    }
+
+    public function testConstructorSetsValues(): void
+    {
+        $run = new Run();
+
+        $event = new AfterRun($run);
+
+        self::assertSame($run, $event->run());
     }
 }
