@@ -18,7 +18,10 @@ final class AfterTestTest extends TestCase
 {
     public function testTypeIsAfterTest(): void
     {
-        $event = new AfterTest(new Test());
+        $event = new AfterTest(
+            new Test(),
+            $this->prophesize(Result::class)->reveal()
+        );
 
         self::assertTrue($event->type()->is(new AfterTestType()));
     }
@@ -27,8 +30,14 @@ final class AfterTestTest extends TestCase
     {
         $test = new Test();
 
-        $event = new AfterTest($test);
+        $result = $this->prophesize(Result::class)->reveal();
+
+        $event = new AfterTest(
+            $test,
+            $result
+        );
 
         self::assertSame($test, $event->test());
+        self::assertSame($result, $event->result());
     }
 }

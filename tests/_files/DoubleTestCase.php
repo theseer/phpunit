@@ -37,7 +37,10 @@ class DoubleTestCase implements Test
 
         $result->endTest($this, 0);
 
-        $dispatcher->dispatch(new Event\Test\AfterTest(new Event\Test\Test()));
+        $dispatcher->dispatch(new Event\Test\AfterTest(
+            new Event\Test\Test(),
+            new Event\Test\Result\Unknown()
+        ));
 
         return $result;
     }
