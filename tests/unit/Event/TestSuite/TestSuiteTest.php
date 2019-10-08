@@ -18,10 +18,15 @@ final class TestSuiteTest extends TestCase
 {
     public function testConstructorSetsName(): void
     {
-        $name = 'Unit Tests';
+        $name          = 'Unit Tests';
+        $numberOfTests = 9001;
 
-        $testSuite = new TestSuite($name);
+        $testSuite = new TestSuite(
+            $name,
+            $numberOfTests
+        );
 
         self::assertSame($name, $testSuite->name());
+        self::assertSame($numberOfTests, $testSuite->numberOfTests());
     }
 }

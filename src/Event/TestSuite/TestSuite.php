@@ -13,13 +13,21 @@ final class TestSuite
 {
     private $name;
 
-    public function __construct(string $name)
+    private $numberOfTests;
+
+    public function __construct(string $name, int $numberOfTests)
     {
-        $this->name = $name;
+        $this->name          = $name;
+        $this->numberOfTests = $numberOfTests;
     }
 
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function numberOfTests(): int
+    {
+        return $this->numberOfTests;
     }
 }
