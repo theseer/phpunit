@@ -18,11 +18,17 @@ final class AfterTestSuiteTest extends TestCase
 {
     public function testTypeIsTestAfterTestSuite(): void
     {
+        $event = new AfterTestSuite(new TestSuite());
+
+        self::assertTrue($event->type()->is(new AfterTestSuiteType()));
+    }
+
+    public function testConstructorSetsValues(): void
+    {
         $testSuite = new TestSuite();
 
         $event = new AfterTestSuite($testSuite);
 
-        self::assertTrue($event->type()->is(new AfterTestSuiteType()));
         self::assertSame($testSuite, $event->testSuite());
     }
 }

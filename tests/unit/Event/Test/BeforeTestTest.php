@@ -18,11 +18,17 @@ final class BeforeTestTest extends TestCase
 {
     public function testTypeIsBeforeTest(): void
     {
+        $event = new BeforeTest(new Test());
+
+        self::assertTrue($event->type()->is(new BeforeTestType()));
+    }
+
+    public function testConstructorSetsValues(): void
+    {
         $test = new Test();
 
         $event = new BeforeTest($test);
 
-        self::assertTrue($event->type()->is(new BeforeTestType()));
         self::assertSame($test, $event->test());
     }
 }
