@@ -9,12 +9,9 @@
  */
 namespace PHPUnit\Event\Test;
 
-use PHPUnit\Event\TemplateType;
+use PHPUnit\Event\Subscriber;
 
-final class AfterTestType extends TemplateType
+interface BeforeTestSubscriber extends Subscriber
 {
-    public function asString(): string
-    {
-        return 'after-test';
-    }
+    public function notify(BeforeTest $event): void;
 }
