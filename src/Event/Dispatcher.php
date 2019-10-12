@@ -27,9 +27,7 @@ final class Dispatcher
 
     public function __construct()
     {
-        $this->subscribers = \array_map(static function (): array {
-            return [];
-        }, \array_flip(self::$map));
+        $this->subscribers = \array_fill_keys(self::$map, []);
     }
 
     public function register(Subscriber $subscriber): void
