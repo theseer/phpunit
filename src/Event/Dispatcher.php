@@ -34,12 +34,12 @@ final class Dispatcher
 
     public function register(Subscriber $subscriber): void
     {
-        foreach (self::$map as $subscriberInterfaceName => $eventClassName) {
-            if ($subscriber instanceof $subscriberInterfaceName) {
-                $this->subscribers[$eventClassName][] = $subscriber;
-
-                return;
+        foreach(\class_implements($subscriber) as $interface) {
+            if (!isset(self::$map[$interface])) {
+                continue;
             }
+
+            $this->subscribers[ self::$map[$interface] ][] = $subscriber;
         }
     }
 
