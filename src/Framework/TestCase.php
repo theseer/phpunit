@@ -652,7 +652,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         if (!$this instanceof WarningTestCase &&
             !$this instanceof SkippedTestCase &&
-            !$this->handleDependencies()) {
+            !$this->handleDependencies($dispatcher)) {
             return $result;
         }
 
@@ -1955,7 +1955,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         }
     }
 
-    private function handleDependencies(): bool
+    private function handleDependencies(Event\Dispatcher $dispatcher): bool
     {
         if (!empty($this->dependencies) && !$this->inIsolation) {
             $className  = \get_class($this);
