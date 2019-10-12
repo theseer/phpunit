@@ -54,17 +54,16 @@ class Command
     protected $longOptions = [];
 
     /**
-     * @var bool
-     */
-    private $versionStringPrinted = false;
-
-    /**
      * @throws \PHPUnit\Framework\Exception
      */
     public static function main(bool $exit = true): int
     {
+        $dispatcher = new Event\Dispatcher();
+
+        $dispatcher->register(new Event\Subscriber\ConsoleReporter\VersionReporter(new DefaultResultPrinter()));
+
         return (new static)->run(
-            new Event\Dispatcher(),
+            $dispatcher,
             $_SERVER['argv'],
             $exit
         );
@@ -565,8 +564,6 @@ class Command
 
     protected function handleVersionCheck(): void
     {
-        $this->printVersionString();
-
         $latestVersion = \file_get_contents('https://phar.phpunit.de/latest-version-of/phpunit');
         $isOutdated    = \version_compare($latestVersion, Version::id(), '>');
 
@@ -588,7 +585,6 @@ class Command
      */
     protected function showHelp(): void
     {
-        $this->printVersionString();
         (new Help)->writeToConsole();
     }
 
@@ -599,21 +595,8 @@ class Command
     {
     }
 
-    private function printVersionString(): void
-    {
-        if ($this->versionStringPrinted) {
-            return;
-        }
-
-        print Version::getVersionString() . \PHP_EOL . \PHP_EOL;
-
-        $this->versionStringPrinted = true;
-    }
-
     private function exitWithErrorMessage(string $message): void
     {
-        $this->printVersionString();
-
         print $message . \PHP_EOL;
 
         exit(TestRunner::FAILURE_EXIT);
@@ -658,8 +641,6 @@ class Command
 
     private function handleListGroups(TestSuite $suite, bool $exit): int
     {
-        $this->printVersionString();
-
         print 'Available test group(s):' . \PHP_EOL;
 
         $groups = $suite->getGroups();
@@ -684,8 +665,6 @@ class Command
      */
     private function handleListSuites(bool $exit): int
     {
-        $this->printVersionString();
-
         print 'Available test suite(s):' . \PHP_EOL;
 
         $configuration = Registry::getInstance()->get($this->arguments['configuration']);
@@ -709,8 +688,6 @@ class Command
      */
     private function handleListTests(TestSuite $suite, bool $exit): int
     {
-        $this->printVersionString();
-
         $renderer = new TextTestListRenderer;
 
         print $renderer->render($suite);
@@ -727,8 +704,6 @@ class Command
      */
     private function handleListTestsXml(TestSuite $suite, string $target, bool $exit): int
     {
-        $this->printVersionString();
-
         $renderer = new XmlTestListRenderer;
 
         \file_put_contents($target, $renderer->render($suite));
