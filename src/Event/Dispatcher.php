@@ -12,14 +12,15 @@ namespace PHPUnit\Event;
 final class Dispatcher
 {
     private static $map = [
-        Run\AfterRunSubscriber::class              => Run\AfterRun::class,
-        Run\BeforeRunSubscriber::class             => Run\BeforeRun::class,
-        Test\AfterLastTestSubscriber::class        => Test\AfterLastTest::class,
-        Test\AfterTestSubscriber::class            => Test\AfterTest::class,
-        Test\BeforeFirstTestSubscriber::class      => Test\BeforeFirstTest::class,
-        Test\BeforeTestSubscriber::class           => Test\BeforeTest::class,
-        TestSuite\AfterTestSuiteSubscriber::class  => TestSuite\AfterTestSuite::class,
-        TestSuite\BeforeTestSuiteSubscriber::class => TestSuite\BeforeTestSuite::class,
+        Execution\BeforeExecutionSubscriber::class       => Execution\BeforeExecution::class,
+        Run\AfterRunSubscriber::class                    => Run\AfterRun::class,
+        Run\BeforeRunSubscriber::class                   => Run\BeforeRun::class,
+        Test\AfterLastTestSubscriber::class              => Test\AfterLastTest::class,
+        Test\AfterTestSubscriber::class                  => Test\AfterTest::class,
+        Test\BeforeFirstTestSubscriber::class            => Test\BeforeFirstTest::class,
+        Test\BeforeTestSubscriber::class                 => Test\BeforeTest::class,
+        TestSuite\AfterTestSuiteSubscriber::class        => TestSuite\AfterTestSuite::class,
+        TestSuite\BeforeTestSuiteSubscriber::class       => TestSuite\BeforeTestSuite::class,
     ];
 
     private $subscribers = [];
