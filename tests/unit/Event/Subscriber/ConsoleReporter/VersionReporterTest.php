@@ -9,8 +9,7 @@
  */
 namespace PHPUnit\Event\Subscriber\ConsoleReporter;
 
-use PHPUnit\Event\Run\BeforeRun;
-use PHPUnit\Event\Run\Run;
+use PHPUnit\Event\Execution\BeforeExecution;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\Version;
 use RecordingPrinter;
@@ -26,7 +25,7 @@ final class VersionReporterTest extends TestCase
 
         $subscriber = new VersionReporter($printer);
 
-        $subscriber->notify(new BeforeRun(new Run()));
+        $subscriber->notify(new BeforeExecution());
 
         $expected = Version::getVersionString() . \PHP_EOL;
 

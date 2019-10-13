@@ -32,7 +32,7 @@ final class Dispatcher
 
     public function register(Subscriber $subscriber): void
     {
-        foreach(\class_implements($subscriber) as $interface) {
+        foreach (\class_implements($subscriber) as $interface) {
             if (!isset(self::$map[$interface])) {
                 continue;
             }

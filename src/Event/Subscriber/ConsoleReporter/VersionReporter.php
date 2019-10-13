@@ -9,12 +9,12 @@
  */
 namespace PHPUnit\Event\Subscriber\ConsoleReporter;
 
-use PHPUnit\Event\Run\BeforeRun;
-use PHPUnit\Event\Run\BeforeRunSubscriber;
+use PHPUnit\Event\Execution\BeforeExecution;
+use PHPUnit\Event\Execution\BeforeExecutionSubscriber;
 use PHPUnit\Runner\Version;
 use PHPUnit\TextUI\ResultPrinter;
 
-final class VersionReporter implements BeforeRunSubscriber
+final class VersionReporter implements BeforeExecutionSubscriber
 {
     private $printer;
 
@@ -23,7 +23,7 @@ final class VersionReporter implements BeforeRunSubscriber
         $this->printer = $resultPrinter;
     }
 
-    public function notify(BeforeRun $event): void
+    public function notify(BeforeExecution $event): void
     {
         $this->printer->write(Version::getVersionString() . \PHP_EOL);
     }
