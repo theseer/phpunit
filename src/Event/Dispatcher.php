@@ -21,7 +21,6 @@ final class Dispatcher
      */
     private $subscribers = [];
 
-
     public function __construct(TypeMap $map)
     {
         $this->typeMap = $map;
@@ -31,7 +30,7 @@ final class Dispatcher
     {
         if (!$this->typeMap->isKnownSubscriberType($subscriber)) {
             throw new RuntimeException(
-                sprintf(
+                \sprintf(
                     'Subscriber "%s" does not implement any known interface - did you forget to register it?',
                     \get_class($subscriber)
                 )
@@ -39,6 +38,7 @@ final class Dispatcher
         }
 
         $eventClassName = $this->typeMap->map($subscriber);
+
         if (!\array_key_exists($eventClassName, $this->subscribers)) {
             $this->subscribers[$eventClassName] = [];
         }
@@ -52,7 +52,7 @@ final class Dispatcher
 
         if (!$this->typeMap->isKnownEventType($event)) {
             throw new RuntimeException(
-                sprintf('Unknown event type "%s"', $eventClassName)
+                \sprintf('Unknown event type "%s"', $eventClassName)
             );
         }
 

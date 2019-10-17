@@ -20,7 +20,7 @@ final class AfterTestTest extends TestCase
     {
         $test = new Test();
 
-        $result = new class implements Result{
+        $result = new class implements Result {
             public function is(Result $other): bool
             {
                 return false;
@@ -28,7 +28,7 @@ final class AfterTestTest extends TestCase
 
             public function asString(): string
             {
-                return get_class($this);
+                return \get_class($this);
             }
         };
 

@@ -1,57 +1,67 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
+/*
+ * This file is part of PHPUnit.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace PHPUnit\Event;
 
 use RuntimeException;
 
-class TypeMap {
-
+class TypeMap
+{
     /**
      * @var array
      */
     private $mapping = [];
 
-    public function addMapping(string $subscriberInterface, string $eventClass): void {
+    public function addMapping(string $subscriberInterface, string $eventClass): void
+    {
         if (!\interface_exists($subscriberInterface, true)) {
             throw new RuntimeException(
-                sprintf('Subscriber "%s" does not exist or is not an interface', $subscriberInterface)
+                \sprintf('Subscriber "%s" does not exist or is not an interface', $subscriberInterface)
             );
         }
 
         if (!\class_exists($eventClass, true)) {
             throw new RuntimeException(
-                sprintf('Event class "%s" does not exist', $eventClass)
+                \sprintf('Event class "%s" does not exist', $eventClass)
             );
         }
 
         if (!\in_array(Subscriber::class, \class_implements($subscriberInterface), true)) {
             throw new RuntimeException(
-                sprintf('Subscriber "%s" does not implement Subscriber interface', $subscriberInterface)
+                \sprintf('Subscriber "%s" does not implement Subscriber interface', $subscriberInterface)
             );
         }
 
         if (!\in_array(Event::class, \class_implements($eventClass), true)) {
             throw new RuntimeException(
-                sprintf('Event "%s" does not implement Event interface', $eventClass)
+                \sprintf('Event "%s" does not implement Event interface', $eventClass)
             );
         }
 
         if (\array_key_exists($subscriberInterface, $this->mapping)) {
             throw new RuntimeException(
-                sprintf('Subscriber "%s" already registered - cannot overwrite', $subscriberInterface)
+                \sprintf('Subscriber "%s" already registered - cannot overwrite', $subscriberInterface)
             );
         }
 
         if (\in_array($eventClass, $this->mapping, true)) {
             throw new RuntimeException(
-                sprintf('Event "%s" already assigned - cannot add multiple subscribers for an event type', $eventClass )
+                \sprintf('Event "%s" already assigned - cannot add multiple subscribers for an event type', $eventClass)
             );
         }
 
         $this->mapping[$subscriberInterface] = $eventClass;
     }
 
-    public function isKnownSubscriberType(Subscriber $subscriber): bool {
-        foreach(\class_implements($subscriber) as $interface) {
+    public function isKnownSubscriberType(Subscriber $subscriber): bool
+    {
+        foreach (\class_implements($subscriber) as $interface) {
             if (\array_key_exists($interface, $this->mapping)) {
                 return true;
             }
@@ -60,21 +70,21 @@ class TypeMap {
         return false;
     }
 
-    public function isKnownEventType(Event $event): bool {
+    public function isKnownEventType(Event $event): bool
+    {
         return \in_array(\get_class($event), $this->mapping, true);
     }
 
-    public function map(Subscriber $subscriber): string {
-        foreach(\class_implements($subscriber) as $interface) {
+    public function map(Subscriber $subscriber): string
+    {
+        foreach (\class_implements($subscriber) as $interface) {
             if (\array_key_exists($interface, $this->mapping)) {
                 return $this->mapping[$interface];
             }
         }
 
         throw new RuntimeException(
-            sprintf('Subscriber "%s" does not implement a known interface', \get_class($subscriber))
+            \sprintf('Subscriber "%s" does not implement a known interface', \get_class($subscriber))
         );
-
     }
-
 }
