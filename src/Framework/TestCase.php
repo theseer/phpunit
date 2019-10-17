@@ -1977,7 +1977,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 $shallowClone = false;
 
                 if (empty($dependency)) {
-                    $this->markSkippedForNotSpecifyingDependency();
+                    $this->markSkippedForNotSpecifyingDependency($dispatcher);
 
                     return false;
                 }
@@ -2004,7 +2004,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
                 if (!isset($passedKeys[$dependency])) {
                     if (!$this->isCallableTestMethod($dependency)) {
-                        $this->warnAboutDependencyThatDoesNotExist($dependency);
+                        $this->warnAboutDependencyThatDoesNotExist(
+                            $dispatcher,
+                            $dependency
+                        );
                     } else {
                         $this->markSkippedForMissingDependency(
                             $dispatcher,
