@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\Runner;
 
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestCaseTest;
 use PHPUnit\Framework\TestResult;
@@ -57,7 +57,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new TestCaseTest($testName);
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -84,7 +84,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \TestError('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -96,7 +96,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \Failure('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -108,7 +108,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \TestSkipped('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -120,7 +120,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \TestIncomplete('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -132,7 +132,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \Success('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -144,7 +144,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \TestWarning('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -156,7 +156,7 @@ final class ResultCacheExtensionTest extends TestCase
         $test = new \TestRisky('test_name');
 
         $test->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -169,10 +169,17 @@ final class ResultCacheExtensionTest extends TestCase
         $suite->addTestSuite(\EmptyTestCaseTest::class);
 
         $suite->run(
-            new Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
         $this->assertSame(BaseTestRunner::STATUS_WARNING, $this->cache->getState('Warning'));
+    }
+
+    private static function createEmitter(): Event\Emitter
+    {
+        $facade = new Event\Facade();
+
+        return $facade->emitter();
     }
 }

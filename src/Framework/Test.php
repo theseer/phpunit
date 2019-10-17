@@ -20,5 +20,5 @@ interface Test extends Countable
     /**
      * Runs a test and collects its result in a TestResult instance.
      */
-    public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult;
+    public function run(Event\Emitter $emitter, TestResult $result = null): TestResult;
 }

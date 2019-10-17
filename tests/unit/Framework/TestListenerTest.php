@@ -40,7 +40,7 @@ final class TestListenerTest extends TestCase
         $test = new \TestError;
 
         $test->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -53,7 +53,7 @@ final class TestListenerTest extends TestCase
         $test = new \Failure;
 
         $test->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -66,11 +66,18 @@ final class TestListenerTest extends TestCase
         $test = new \Success;
 
         $test->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
         $this->assertEquals(1, $this->listener->startCount());
         $this->assertEquals(1, $this->listener->endCount());
+    }
+
+    private static function createEmitter(): Event\Emitter
+    {
+        $facade = new Event\Facade();
+
+        return $facade->emitter();
     }
 }

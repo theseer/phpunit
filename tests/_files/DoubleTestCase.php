@@ -26,9 +26,9 @@ class DoubleTestCase implements Test
         return 2;
     }
 
-    public function run(Event\Dispatcher $dispatcher, TestResult $result = null): TestResult
+    public function run(Event\Emitter $emitter, TestResult $result = null): TestResult
     {
-        $dispatcher->dispatch(new Event\Test\BeforeTest(new Event\Test\Test()));
+        $emitter->testWasStarted();
 
         $result->startTest($this);
 
@@ -37,10 +37,7 @@ class DoubleTestCase implements Test
 
         $result->endTest($this, 0);
 
-        $dispatcher->dispatch(new Event\Test\AfterTest(
-            new Event\Test\Test(),
-            new Event\Test\Result\NeedsClarification()
-        ));
+        $emitter->testWasCompletedWithResultThatNeedsClarification();
 
         return $result;
     }

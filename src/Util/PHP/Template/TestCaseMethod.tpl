@@ -1,5 +1,5 @@
 <?php
-use PHPUnit\Event\Dispatcher;
+use PHPUnit\Event;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use PHPUnit\TextUI\Configuration\Registry;
@@ -59,8 +59,10 @@ function __phpunit_run_isolated_test()
 
     ob_end_clean();
 
+    $facade = new Event\Facade();
+
     $test->run(
-        new Dispatcher(),
+        $facade->emitter(),
         $result
     );
 

@@ -40,7 +40,7 @@ final class TestSuiteTest extends TestCase
         $suite->addTestSuite(\OneTestCase::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -52,7 +52,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\OneTestCase::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -64,7 +64,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\InheritedTestCase::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -77,7 +77,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\NoTestCases::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -106,7 +106,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\OneTestCase::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -121,7 +121,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\OverrideTestCase::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -135,7 +135,7 @@ final class TestSuiteTest extends TestCase
         \BeforeClassAndAfterClassTest::resetProperties();
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -150,7 +150,7 @@ final class TestSuiteTest extends TestCase
         \BeforeClassWithOnlyDataProviderTest::resetProperties();
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -164,7 +164,7 @@ final class TestSuiteTest extends TestCase
 
         \BeforeAndAfterTest::resetProperties();
 
-        $test->run(new Event\Dispatcher());
+        $test->run(self::createEmitter());
 
         $this->assertEquals(2, \BeforeAndAfterTest::$beforeWasRun);
         $this->assertEquals(2, \BeforeAndAfterTest::$afterWasRun);
@@ -176,7 +176,7 @@ final class TestSuiteTest extends TestCase
 
         \BeforeAndAfterTest::resetProperties();
 
-        $result = $test->run(new Event\Dispatcher());
+        $result = $test->run(self::createEmitter());
 
         $this->assertCount(4, $result->passed());
     }
@@ -186,7 +186,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\DataProviderSkippedTest::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -199,7 +199,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\TestCaseWithExceptionInHook::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -213,7 +213,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\DataProviderDependencyTest::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -229,7 +229,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\DataProviderIncompleteTest::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -242,7 +242,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\RequirementsClassBeforeClassHookTest::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -261,7 +261,7 @@ final class TestSuiteTest extends TestCase
         $suite->addTestFile($dir . 'InheritanceA.php');
         $suite->addTestFile($dir . 'InheritanceB.php');
 
-        $result = $suite->run(new Event\Dispatcher());
+        $result = $suite->run(self::createEmitter());
 
         $this->assertCount(2, $result);
     }
@@ -274,7 +274,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\ExceptionInTearDownAfterClassTest::class);
 
         $suite->run(
-            new Event\Dispatcher(),
+            self::createEmitter(),
             $this->result
         );
 
@@ -288,5 +288,12 @@ final class TestSuiteTest extends TestCase
             'throw Exception in tearDownAfterClass()',
             $failure->thrownException()->getMessage()
         );
+    }
+
+    private static function createEmitter(): Event\Emitter
+    {
+        $facade = new Event\Facade();
+
+        return $facade->emitter();
     }
 }

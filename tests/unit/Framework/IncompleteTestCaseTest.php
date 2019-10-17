@@ -68,7 +68,7 @@ final class IncompleteTestCaseTest extends TestCase
             $message
         );
 
-        $result = $testCase->run(new Event\Dispatcher());
+        $result = $testCase->run(self::createEmitter());
 
         $this->assertSame(BaseTestRunner::STATUS_INCOMPLETE, $testCase->getStatus());
         $this->assertSame(1, $result->notImplementedCount());
@@ -85,5 +85,12 @@ final class IncompleteTestCaseTest extends TestCase
 
         $this->assertSame($name, $failure->getTestName());
         $this->assertSame($message, $failure->exceptionMessage());
+    }
+
+    private static function createEmitter(): Event\Emitter
+    {
+        $facade = new Event\Facade();
+
+        return $facade->emitter();
     }
 }

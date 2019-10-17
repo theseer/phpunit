@@ -63,8 +63,10 @@ class Command
      */
     public static function main(bool $exit = true): int
     {
+        $facade = new Event\Facade();
+
         return (new static)->run(
-            new Event\Dispatcher(),
+            $facade->emitter(),
             $_SERVER['argv'],
             $exit
         );
@@ -73,9 +75,9 @@ class Command
     /**
      * @throws Exception
      */
-    public function run(Event\Dispatcher $dispatcher, array $argv, bool $exit = true): int
+    public function run(Event\Emitter $emitter, array $argv, bool $exit = true): int
     {
-        $dispatcher->dispatch(new Event\Execution\BeforeExecution());
+        $emitter->executionWasStarted();
 
         $this->handleArguments($argv);
 
@@ -108,15 +110,15 @@ class Command
 
         unset($this->arguments['test'], $this->arguments['testFile']);
 
-        $dispatcher->dispatch(new Event\Run\BeforeRun(new Event\Run\Run()));
+        $emitter->runWasStarted();
 
         try {
-            $result = $runner->run($dispatcher, $suite, $this->arguments, $exit);
+            $result = $runner->run($emitter, $suite, $this->arguments, $exit);
         } catch (Exception $e) {
             print $e->getMessage() . \PHP_EOL;
         }
 
-        $dispatcher->dispatch(new Event\Run\AfterRun(new Event\Run\Run()));
+        $emitter->runWasCompleted();
 
         $return = TestRunner::FAILURE_EXIT;
 

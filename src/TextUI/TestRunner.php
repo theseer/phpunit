@@ -120,7 +120,7 @@ final class TestRunner extends BaseTestRunner
      * @throws \PHPUnit\Runner\Exception
      * @throws Exception
      */
-    public function run(Event\Dispatcher $dispatcher, Test $suite, array $arguments = [], bool $exit = true): TestResult
+    public function run(Event\Emitter $emitter, Test $suite, array $arguments = [], bool $exit = true): TestResult
     {
         if (isset($arguments['configuration'])) {
             $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] = $arguments['configuration'];
@@ -633,7 +633,7 @@ final class TestRunner extends BaseTestRunner
             $suite->setRunTestInSeparateProcess($arguments['processIsolation']);
         }
 
-        $dispatcher->dispatch(new Event\Test\BeforeFirstTest());
+        $emitter->firstTestWasStarted();
 
         foreach ($this->extensions as $extension) {
             if ($extension instanceof BeforeFirstTestHook) {
@@ -642,7 +642,7 @@ final class TestRunner extends BaseTestRunner
         }
 
         $suite->run(
-            $dispatcher,
+            $emitter,
             $result
         );
 
@@ -652,7 +652,7 @@ final class TestRunner extends BaseTestRunner
             }
         }
 
-        $dispatcher->dispatch(new Event\Test\AfterLastTest());
+        $emitter->lastTestWasCompleted();
 
         $result->flushListeners();
         $this->printer->printResult($result);
