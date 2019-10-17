@@ -640,8 +640,6 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      */
     public function run(Event\Emitter $emitter, TestResult $result = null): TestResult
     {
-        $emitter->testWasStarted();
-
         if ($result === null) {
             $result = $this->createResult();
         }
@@ -776,8 +774,6 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         }
 
         $this->result = null;
-
-        $emitter->testWasCompletedWithResultThatNeedsClarification();
 
         return $result;
     }
@@ -2053,8 +2049,6 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
-        $emitter->testWasStarted();
-
         $this->result->startTest($this);
 
         $this->result->addError(
@@ -2066,15 +2060,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         );
 
         $this->result->endTest($this, 0);
-
-        $emitter->testWasSkipped();
     }
 
     private function markSkippedForMissingDependency(Event\Emitter $emitter, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
-
-        $emitter->testWasStarted();
 
         $this->result->startTest($this);
 
@@ -2090,15 +2080,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         );
 
         $this->result->endTest($this, 0);
-
-        $emitter->testWasSkipped();
     }
 
     private function warnAboutDependencyThatDoesNotExist(Event\Emitter $emitter, string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_WARNING;
-
-        $emitter->testWasStarted();
 
         $this->result->startTest($this);
 
@@ -2114,8 +2100,6 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         );
 
         $this->result->endTest($this, 0);
-
-        $emitter->testWasCompletedWithWarning();
     }
 
     /**

@@ -77,8 +77,6 @@ class Command
      */
     public function run(Event\Emitter $emitter, array $argv, bool $exit = true): int
     {
-        $emitter->executionWasStarted();
-
         $this->handleArguments($argv);
 
         $runner = $this->createRunner();
@@ -110,15 +108,11 @@ class Command
 
         unset($this->arguments['test'], $this->arguments['testFile']);
 
-        $emitter->runWasStarted();
-
         try {
             $result = $runner->run($emitter, $suite, $this->arguments, $exit);
         } catch (Exception $e) {
             print $e->getMessage() . \PHP_EOL;
         }
-
-        $emitter->runWasCompleted();
 
         $return = TestRunner::FAILURE_EXIT;
 

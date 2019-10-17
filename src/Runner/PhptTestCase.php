@@ -119,13 +119,9 @@ final class PhptTestCase implements SelfDescribing, Test
         try {
             $sections = $this->parse();
         } catch (Exception $e) {
-            $emitter->testWasStarted();
-
             $result->startTest($this);
             $result->addFailure($this, new SkippedTestError($e->getMessage()), 0);
             $result->endTest($this, 0);
-
-            $emitter->testWasCompletedWithFailure();
 
             return $result;
         }
@@ -133,8 +129,6 @@ final class PhptTestCase implements SelfDescribing, Test
         $code     = $this->render($sections['FILE']);
         $xfail    = false;
         $settings = $this->parseIniSection(self::SETTINGS);
-
-        $emitter->testWasStarted();
 
         $result->startTest($this);
 
@@ -225,8 +219,6 @@ final class PhptTestCase implements SelfDescribing, Test
         $this->runClean($sections);
 
         $result->endTest($this, $time);
-
-        $emitter->testWasCompletedWithResultThatNeedsClarification();
 
         return $result;
     }

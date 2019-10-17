@@ -529,11 +529,6 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
         $className   = $this->name;
         $hookMethods = TestUtil::getHookMethods($className);
 
-        $emitter->testSuiteWasStarted(
-            $this->name,
-            \count($this)
-        );
-
         $result->startTestSuite($this);
 
         try {
@@ -550,19 +545,10 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             }
         } catch (SkippedTestSuiteError $error) {
             foreach ($this->tests() as $test) {
-                $emitter->testWasStarted();
-
                 $result->startTest($test);
                 $result->addFailure($test, $error, 0);
                 $result->endTest($test, 0);
-
-                $emitter->testWasCompletedWithFailure();
             }
-
-            $emitter->testSuiteWasFinished(
-                $this->name,
-                \count($this)
-            );
 
             $result->endTestSuite($this);
 
@@ -574,8 +560,6 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 if ($result->shouldStop()) {
                     break;
                 }
-
-                $emitter->testWasStarted();
 
                 $result->startTest($test);
 
@@ -592,14 +576,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 }
 
                 $result->endTest($test, 0);
-
-                $emitter->testWasCompletedWithError();
             }
-
-            $emitter->testSuiteWasFinished(
-                $this->name,
-                \count($this)
-            );
 
             $result->endTestSuite($this);
 
@@ -618,18 +595,10 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 $test->setRunTestInSeparateProcess($this->runTestInSeparateProcess);
             }
 
-            if ($test instanceof TestCase) {
-                $emitter->testWasStarted();
-            }
-
             $test->run(
                 $emitter,
                 $result
             );
-
-            if ($test instanceof TestCase) {
-                $emitter->testWasCompletedWithResultThatNeedsClarification();
-            }
         }
 
         try {
@@ -647,19 +616,10 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             $placeholderTest = clone $test;
             $placeholderTest->setName($afterClassMethod);
 
-            $emitter->testWasStarted();
-
             $result->startTest($placeholderTest);
             $result->addFailure($placeholderTest, $error, 0);
             $result->endTest($placeholderTest, 0);
-
-            $emitter->testWasCompletedWithFailure();
         }
-
-        $emitter->testSuiteWasFinished(
-            $this->name,
-            \count($this)
-        );
 
         $result->endTestSuite($this);
 

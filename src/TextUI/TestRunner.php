@@ -633,8 +633,6 @@ final class TestRunner extends BaseTestRunner
             $suite->setRunTestInSeparateProcess($arguments['processIsolation']);
         }
 
-        $emitter->firstTestWasStarted();
-
         foreach ($this->extensions as $extension) {
             if ($extension instanceof BeforeFirstTestHook) {
                 $extension->executeBeforeFirstTest();
@@ -651,8 +649,6 @@ final class TestRunner extends BaseTestRunner
                 $extension->executeAfterLastTest();
             }
         }
-
-        $emitter->lastTestWasCompleted();
 
         $result->flushListeners();
         $this->printer->printResult($result);
