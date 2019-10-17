@@ -11,6 +11,9 @@ namespace PHPUnit\Event;
 
 use RuntimeException;
 
+/**
+ * @internal
+ */
 final class Dispatcher
 {
     /** @var TypeMap */
