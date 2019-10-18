@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event;
 use PHPUnit\Runner\BaseTestRunner;
 
 final class SkippedTestCaseTest extends TestCase
@@ -68,7 +67,7 @@ final class SkippedTestCaseTest extends TestCase
             $message
         );
 
-        $result = $testCase->run(self::createEmitter());
+        $result = $testCase->run();
 
         $this->assertSame(BaseTestRunner::STATUS_SKIPPED, $testCase->getStatus());
         $this->assertSame(1, $result->skippedCount());
@@ -85,12 +84,5 @@ final class SkippedTestCaseTest extends TestCase
 
         $this->assertSame($name, $failure->getTestName());
         $this->assertSame($message, $failure->exceptionMessage());
-    }
-
-    private static function createEmitter(): Event\Emitter
-    {
-        $facade = new Event\Facade();
-
-        return $facade->emitter();
     }
 }

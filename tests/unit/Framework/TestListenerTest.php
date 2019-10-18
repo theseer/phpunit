@@ -10,7 +10,6 @@
 namespace PHPUnit\Framework;
 
 use MyTestListener;
-use PHPUnit\Event;
 
 /**
  * @small
@@ -39,10 +38,7 @@ final class TestListenerTest extends TestCase
     {
         $test = new \TestError;
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertEquals(1, $this->listener->errorCount());
         $this->assertEquals(1, $this->listener->endCount());
@@ -52,10 +48,7 @@ final class TestListenerTest extends TestCase
     {
         $test = new \Failure;
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertEquals(1, $this->listener->failureCount());
         $this->assertEquals(1, $this->listener->endCount());
@@ -65,19 +58,9 @@ final class TestListenerTest extends TestCase
     {
         $test = new \Success;
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertEquals(1, $this->listener->startCount());
         $this->assertEquals(1, $this->listener->endCount());
-    }
-
-    private static function createEmitter(): Event\Emitter
-    {
-        $facade = new Event\Facade();
-
-        return $facade->emitter();
     }
 }

@@ -13,7 +13,6 @@ use PharIo\Manifest\ApplicationName;
 use PharIo\Manifest\Exception as ManifestException;
 use PharIo\Manifest\ManifestLoader;
 use PharIo\Version\Version as PharIoVersion;
-use PHPUnit\Event;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestSuite;
@@ -63,10 +62,7 @@ class Command
      */
     public static function main(bool $exit = true): int
     {
-        $facade = new Event\Facade();
-
         return (new static)->run(
-            $facade->emitter(),
             $_SERVER['argv'],
             $exit
         );
@@ -75,7 +71,7 @@ class Command
     /**
      * @throws Exception
      */
-    public function run(Event\Emitter $emitter, array $argv, bool $exit = true): int
+    public function run(array $argv, bool $exit = true): int
     {
         $this->handleArguments($argv);
 
@@ -109,7 +105,7 @@ class Command
         unset($this->arguments['test'], $this->arguments['testFile']);
 
         try {
-            $result = $runner->run($emitter, $suite, $this->arguments, $exit);
+            $result = $runner->run($suite, $this->arguments, $exit);
         } catch (Exception $e) {
             print $e->getMessage() . \PHP_EOL;
         }

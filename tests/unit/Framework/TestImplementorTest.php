@@ -9,8 +9,6 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event;
-
 /**
  * @small
  */
@@ -22,20 +20,10 @@ final class TestImplementorTest extends TestCase
 
         $test = new \DoubleTestCase(new \Success);
 
-        $test->run(
-            self::createEmitter(),
-            $result
-        );
+        $test->run($result);
 
         $this->assertCount(\count($test), $result);
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
-    }
-
-    private static function createEmitter(): Event\Emitter
-    {
-        $facade = new Event\Facade();
-
-        return $facade->emitter();
     }
 }

@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-use PHPUnit\Event;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestResult;
 
@@ -24,7 +23,7 @@ class NotSelfDescribingTest implements Test
         return 0;
     }
 
-    public function run(Event\Emitter $emitter, TestResult $result = null): TestResult
+    public function run(TestResult $result = null): TestResult
     {
         return new TestResult();
     }

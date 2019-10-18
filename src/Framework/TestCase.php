@@ -10,7 +10,6 @@
 namespace PHPUnit\Framework;
 
 use DeepCopy\DeepCopy;
-use PHPUnit\Event;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -638,7 +637,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function run(Event\Emitter $emitter, TestResult $result = null): TestResult
+    public function run(TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = $this->createResult();
@@ -650,7 +649,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         if (!$this instanceof WarningTestCase &&
             !$this instanceof SkippedTestCase &&
-            !$this->handleDependencies($emitter)) {
+            !$this->handleDependencies()) {
             return $result;
         }
 
@@ -1948,7 +1947,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         }
     }
 
-    private function handleDependencies(Event\Emitter $emitter): bool
+    private function handleDependencies(): bool
     {
         if (!empty($this->dependencies) && !$this->inIsolation) {
             $className  = \get_class($this);
@@ -1970,7 +1969,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 $shallowClone = false;
 
                 if (empty($dependency)) {
-                    $this->markSkippedForNotSpecifyingDependency($emitter);
+                    $this->markSkippedForNotSpecifyingDependency();
 
                     return false;
                 }
@@ -1997,15 +1996,9 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
                 if (!isset($passedKeys[$dependency])) {
                     if (!$this->isCallableTestMethod($dependency)) {
-                        $this->warnAboutDependencyThatDoesNotExist(
-                            $emitter,
-                            $dependency
-                        );
+                        $this->warnAboutDependencyThatDoesNotExist($dependency);
                     } else {
-                        $this->markSkippedForMissingDependency(
-                            $emitter,
-                            $dependency
-                        );
+                        $this->markSkippedForMissingDependency($dependency);
                     }
 
                     return false;
@@ -2045,7 +2038,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         return true;
     }
 
-    private function markSkippedForNotSpecifyingDependency(Event\Emitter $emitter): void
+    private function markSkippedForNotSpecifyingDependency(): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
@@ -2062,7 +2055,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         $this->result->endTest($this, 0);
     }
 
-    private function markSkippedForMissingDependency(Event\Emitter $emitter, string $dependency): void
+    private function markSkippedForMissingDependency(string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_SKIPPED;
 
@@ -2082,7 +2075,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         $this->result->endTest($this, 0);
     }
 
-    private function warnAboutDependencyThatDoesNotExist(Event\Emitter $emitter, string $dependency): void
+    private function warnAboutDependencyThatDoesNotExist(string $dependency): void
     {
         $this->status = BaseTestRunner::STATUS_WARNING;
 

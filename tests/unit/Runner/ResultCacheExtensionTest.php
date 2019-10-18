@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Runner;
 
-use PHPUnit\Event;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestCaseTest;
 use PHPUnit\Framework\TestResult;
@@ -56,10 +55,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new TestCaseTest($testName);
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_ERROR, $this->cache->getState($expectedTestName));
     }
@@ -83,10 +79,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \TestError('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_ERROR, $this->cache->getState(\TestError::class . '::test_name'));
     }
@@ -95,10 +88,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \Failure('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_FAILURE, $this->cache->getState(\Failure::class . '::test_name'));
     }
@@ -107,10 +97,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \TestSkipped('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_SKIPPED, $this->cache->getState(\TestSkipped::class . '::test_name'));
     }
@@ -119,10 +106,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \TestIncomplete('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_INCOMPLETE, $this->cache->getState(\TestIncomplete::class . '::test_name'));
     }
@@ -131,10 +115,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \Success('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_UNKNOWN, $this->cache->getState(\Success::class . '::test_name'));
     }
@@ -143,10 +124,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \TestWarning('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_WARNING, $this->cache->getState(\TestWarning::class . '::test_name'));
     }
@@ -155,10 +133,7 @@ final class ResultCacheExtensionTest extends TestCase
     {
         $test = new \TestRisky('test_name');
 
-        $test->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $test->run($this->result);
 
         $this->assertSame(BaseTestRunner::STATUS_RISKY, $this->cache->getState(\TestRisky::class . '::test_name'));
     }
@@ -169,17 +144,9 @@ final class ResultCacheExtensionTest extends TestCase
         $suite->addTestSuite(\EmptyTestCaseTest::class);
 
         $suite->run(
-            self::createEmitter(),
             $this->result
         );
 
         $this->assertSame(BaseTestRunner::STATUS_WARNING, $this->cache->getState('Warning'));
-    }
-
-    private static function createEmitter(): Event\Emitter
-    {
-        $facade = new Event\Facade();
-
-        return $facade->emitter();
     }
 }

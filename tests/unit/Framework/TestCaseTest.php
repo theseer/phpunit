@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Runner\BaseTestRunner;
@@ -64,7 +63,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \Success;
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_PASSED, $test->getStatus());
         $this->assertEquals(0, $result->errorCount());
@@ -77,7 +76,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \Failure;
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_FAILURE, $test->getStatus());
         $this->assertEquals(0, $result->errorCount());
@@ -90,7 +89,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \TestError;
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_ERROR, $test->getStatus());
         $this->assertEquals(1, $result->errorCount());
@@ -103,7 +102,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \TestSkipped;
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_SKIPPED, $test->getStatus());
         $this->assertEquals('Skipped test', $test->getStatusMessage());
@@ -117,7 +116,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \TestIncomplete;
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_INCOMPLETE, $test->getStatus());
         $this->assertEquals('Incomplete test', $test->getStatusMessage());
@@ -131,7 +130,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \ExceptionInSetUpTest('testSomething');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertFalse($test->assertPreConditions);
@@ -144,7 +143,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \ExceptionInAssertPreConditionsTest('testSomething');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -157,7 +156,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \ExceptionInTest('testSomething');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -170,7 +169,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \ExceptionInAssertPostConditionsTest('testSomething');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -183,7 +182,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \ExceptionInTearDownTest('testSomething');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -198,7 +197,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \ExceptionInTestDetectedInTeardown('testSomething');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->exceptionDetected);
     }
@@ -208,10 +207,7 @@ final class TestCaseTest extends TestCase
         $result = new TestResult;
         $t      = new TestSuite(\NoArgTestCaseTest::class);
 
-        $t->run(
-            self::createEmitter(),
-            $result
-        );
+        $t->run($result);
 
         $this->assertCount(1, $result);
         $this->assertEquals(0, $result->failureCount());
@@ -222,7 +218,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \WasRun;
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->wasRun);
     }
@@ -232,7 +228,7 @@ final class TestCaseTest extends TestCase
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -255,7 +251,7 @@ final class TestCaseTest extends TestCase
 
         $test->expectExceptionCode(0);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -267,7 +263,7 @@ final class TestCaseTest extends TestCase
 
         $test->expectExceptionCode(9000);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertFalse($result->wasSuccessful());
@@ -289,7 +285,7 @@ final class TestCaseTest extends TestCase
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -300,7 +296,7 @@ final class TestCaseTest extends TestCase
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -312,7 +308,7 @@ final class TestCaseTest extends TestCase
         $test->expectException(\RuntimeException::class);
         $test->expectExceptionMessage('A runtime error occurred');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -324,7 +320,7 @@ final class TestCaseTest extends TestCase
         $test->expectException(\RuntimeException::class);
         $test->expectExceptionMessage('A logic error occurred');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->failureCount());
         $this->assertCount(1, $result);
@@ -351,7 +347,7 @@ final class TestCaseTest extends TestCase
         $test->expectException(\RuntimeException::class);
         $test->expectExceptionMessageMatches('/runtime .*? occurred/');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -374,7 +370,7 @@ final class TestCaseTest extends TestCase
         $test->expectException(\RuntimeException::class);
         $test->expectExceptionMessageMatches('/logic .*? occurred/');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->failureCount());
         $this->assertCount(1, $result);
@@ -390,7 +386,7 @@ final class TestCaseTest extends TestCase
         $test->expectException(\RuntimeException::class);
         $test->expectExceptionMessageMatches('#runtime .*? occurred/');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertEquals(
             "Invalid expected exception message regex given: '#runtime .*? occurred/'",
@@ -409,7 +405,7 @@ final class TestCaseTest extends TestCase
 
         $test->expectExceptionObject($exception);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertFalse($result->wasSuccessful());
@@ -426,7 +422,7 @@ final class TestCaseTest extends TestCase
 
         $test->expectExceptionObject($exception);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertFalse($result->wasSuccessful());
@@ -443,7 +439,7 @@ final class TestCaseTest extends TestCase
 
         $test->expectExceptionObject($exception);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertFalse($result->wasSuccessful());
@@ -460,7 +456,7 @@ final class TestCaseTest extends TestCase
 
         $test->expectExceptionObject($exception);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -487,7 +483,7 @@ final class TestCaseTest extends TestCase
         $test = new \ThrowNoExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->failureCount());
         $this->assertCount(1, $result);
@@ -498,7 +494,7 @@ final class TestCaseTest extends TestCase
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\InvalidArgumentException::class);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->failureCount());
         $this->assertCount(1, $result);
@@ -509,7 +505,7 @@ final class TestCaseTest extends TestCase
         $test = new \DoNoAssertionTestCase('testNothing');
         $test->expectNotToPerformAssertions();
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(0, $result->riskyCount());
         $this->assertCount(1, $result);
@@ -619,7 +615,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \IsolationTest('testIsInIsolationReturnsFalse');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -630,7 +626,7 @@ final class TestCaseTest extends TestCase
         $test   = new \IsolationTest('testIsInIsolationReturnsTrue');
         $test->setRunTestInSeparateProcess(true);
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -640,7 +636,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \OutputTestCase('testExpectOutputStringFooActualFoo');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -650,7 +646,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \OutputTestCase('testExpectOutputStringFooActualBar');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertFalse($result->wasSuccessful());
@@ -660,7 +656,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \OutputTestCase('testExpectOutputRegexFooActualFoo');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertTrue($result->wasSuccessful());
@@ -670,7 +666,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \OutputTestCase('testExpectOutputRegexFooActualBar');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(1, $result);
         $this->assertFalse($result->wasSuccessful());
@@ -680,7 +676,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testAlwaysSkip');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
         $this->assertEquals(
@@ -693,7 +689,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testAlwaysSkip2');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
         $this->assertEquals(
@@ -706,7 +702,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testAlwaysSkip3');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
         $this->assertEquals(
@@ -719,7 +715,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testAlwaysSkip4');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
         $this->assertEquals(
@@ -732,7 +728,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testNine');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
         $this->assertEquals(
@@ -745,7 +741,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testTen');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertEquals(
             'Extension testExt is required.',
@@ -757,7 +753,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testSpecificExtensionVersion');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertEquals(
             'Extension testExt >= 1.8.0 is required.',
@@ -769,7 +765,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testAllPossibleRequirements');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertEquals(
             'PHP >= 99-dev is required.' . \PHP_EOL .
@@ -789,7 +785,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testExistingMethod');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(0, $result->skippedCount());
     }
@@ -798,7 +794,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testExistingFunction');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(0, $result->skippedCount());
     }
@@ -807,7 +803,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testExistingExtension');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(0, $result->skippedCount());
     }
@@ -816,7 +812,7 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \RequirementsTest('testExistingOs');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(0, $result->skippedCount());
     }
@@ -830,13 +826,13 @@ final class TestCaseTest extends TestCase
 
         \ini_set('display_errors', 'On');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(0, $result->skippedCount());
 
         \ini_set('display_errors', 'Off');
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
 
@@ -849,7 +845,7 @@ final class TestCaseTest extends TestCase
 
         $test = new \ChangeCurrentWorkingDirectoryTest('testSomethingThatChangesTheCwd');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame($expectedCwd, \getcwd());
     }
@@ -920,7 +916,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testWithCreatePartialMockWarning');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_WARNING, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -930,7 +926,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testWithCreatePartialMockPassesNoWarning');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_PASSED, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -1114,7 +1110,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatFails');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_FAILURE, $test->getStatus());
         $this->assertTrue($test->hasFailed());
@@ -1124,7 +1120,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatErrors');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_ERROR, $test->getStatus());
         $this->assertTrue($test->hasFailed());
@@ -1134,7 +1130,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatPasses');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_PASSED, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -1144,7 +1140,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatIsMarkedAsIncomplete');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_INCOMPLETE, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -1154,7 +1150,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatIsMarkedAsRisky');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_RISKY, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -1164,7 +1160,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatIsMarkedAsSkipped');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_SKIPPED, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -1174,7 +1170,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentStatuses('testThatAddsAWarning');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertSame(BaseTestRunner::STATUS_WARNING, $test->getStatus());
         $this->assertFalse($test->hasFailed());
@@ -1184,7 +1180,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentOutput('testThatDoesNotGenerateOutput');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertFalse($test->hasOutput());
     }
@@ -1193,7 +1189,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentOutput('testThatExpectsOutputRegex');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertFalse($test->hasOutput());
     }
@@ -1202,7 +1198,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentOutput('testThatExpectsOutputString');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertFalse($test->hasOutput());
     }
@@ -1211,7 +1207,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \TestWithDifferentOutput('testThatGeneratesOutput');
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertTrue($test->hasOutput());
     }
@@ -1265,12 +1261,5 @@ final class TestCaseTest extends TestCase
                 'data' => $recursionData,
             ],
         ];
-    }
-
-    private static function createEmitter(): Event\Emitter
-    {
-        $facade = new Event\Facade();
-
-        return $facade->emitter();
     }
 }

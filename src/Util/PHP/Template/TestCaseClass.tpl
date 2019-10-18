@@ -1,5 +1,4 @@
 <?php
-use PHPUnit\Event;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use PHPUnit\TextUI\Configuration\Registry;
 use PHPUnit\TextUI\Configuration\PhpHandler;
@@ -56,12 +55,7 @@ function __phpunit_run_isolated_test()
 
     ob_end_clean();
 
-    $facade = new Event\Facade();
-
-    $test->run(
-        $facade->emitter(),
-        $result
-    );
+    $test->run($result);
 
     $output = '';
     if (!$test->hasExpectationOnOutput()) {

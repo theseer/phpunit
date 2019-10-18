@@ -9,8 +9,6 @@
  */
 namespace PHPUnit\Framework;
 
-use PHPUnit\Event;
-
 /**
  * @small
  */
@@ -39,10 +37,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite('stdClass');
         $suite->addTestSuite(\OneTestCase::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertCount(1, $this->result);
     }
@@ -51,10 +46,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\OneTestCase::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertCount(1, $this->result);
     }
@@ -63,10 +55,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\InheritedTestCase::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertTrue($this->result->wasSuccessful());
         $this->assertCount(2, $this->result);
@@ -76,10 +65,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\NoTestCases::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertNotTrue($this->result->wasSuccessful());
         $this->assertEquals(0, $this->result->failureCount());
@@ -105,10 +91,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\OneTestCase::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertEquals(0, $this->result->errorCount());
         $this->assertEquals(0, $this->result->failureCount());
@@ -120,10 +103,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\OverrideTestCase::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertCount(1, $this->result);
     }
@@ -134,10 +114,7 @@ final class TestSuiteTest extends TestCase
 
         \BeforeClassAndAfterClassTest::resetProperties();
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertEquals(1, \BeforeClassAndAfterClassTest::$beforeClassWasRun, '@beforeClass method was not run once for the whole suite.');
         $this->assertEquals(1, \BeforeClassAndAfterClassTest::$afterClassWasRun, '@afterClass method was not run once for the whole suite.');
@@ -149,10 +126,7 @@ final class TestSuiteTest extends TestCase
 
         \BeforeClassWithOnlyDataProviderTest::resetProperties();
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run();
 
         $this->assertTrue(\BeforeClassWithOnlyDataProviderTest::$setUpBeforeClassWasCalled, 'setUpBeforeClass method was not run.');
         $this->assertTrue(\BeforeClassWithOnlyDataProviderTest::$beforeClassWasCalled, '@beforeClass method was not run.');
@@ -164,7 +138,7 @@ final class TestSuiteTest extends TestCase
 
         \BeforeAndAfterTest::resetProperties();
 
-        $test->run(self::createEmitter());
+        $test->run();
 
         $this->assertEquals(2, \BeforeAndAfterTest::$beforeWasRun);
         $this->assertEquals(2, \BeforeAndAfterTest::$afterWasRun);
@@ -176,7 +150,7 @@ final class TestSuiteTest extends TestCase
 
         \BeforeAndAfterTest::resetProperties();
 
-        $result = $test->run(self::createEmitter());
+        $result = $test->run();
 
         $this->assertCount(4, $result->passed());
     }
@@ -185,10 +159,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\DataProviderSkippedTest::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertEquals(3, $this->result->count());
         $this->assertEquals(1, $this->result->skippedCount());
@@ -198,10 +169,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\TestCaseWithExceptionInHook::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertEquals(2, $this->result->count());
         $this->assertEquals(1, $this->result->errorCount());
@@ -212,10 +180,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\DataProviderDependencyTest::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $skipped           = $this->result->skipped();
         $lastSkippedResult = \array_pop($skipped);
@@ -228,10 +193,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\DataProviderIncompleteTest::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertEquals(3, $this->result->count());
         $this->assertEquals(1, $this->result->notImplementedCount());
@@ -242,7 +204,6 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\RequirementsClassBeforeClassHookTest::class);
 
         $suite->run(
-            self::createEmitter(),
             $this->result
         );
 
@@ -261,7 +222,7 @@ final class TestSuiteTest extends TestCase
         $suite->addTestFile($dir . 'InheritanceA.php');
         $suite->addTestFile($dir . 'InheritanceB.php');
 
-        $result = $suite->run(self::createEmitter());
+        $result = $suite->run();
 
         $this->assertCount(2, $result);
     }
@@ -273,10 +234,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\ExceptionInTearDownAfterClassTest::class);
 
-        $suite->run(
-            self::createEmitter(),
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertSame(3, $this->result->count());
         $this->assertCount(1, $this->result->failures());
@@ -288,12 +246,5 @@ final class TestSuiteTest extends TestCase
             'throw Exception in tearDownAfterClass()',
             $failure->thrownException()->getMessage()
         );
-    }
-
-    private static function createEmitter(): Event\Emitter
-    {
-        $facade = new Event\Facade();
-
-        return $facade->emitter();
     }
 }
