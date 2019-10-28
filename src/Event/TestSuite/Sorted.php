@@ -11,6 +11,6 @@ namespace PHPUnit\Event\TestSuite;
 
 use PHPUnit\Event\Event;
 
-final class Configured implements Event
+final class Sorted implements Event
 {
 }
