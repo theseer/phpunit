@@ -59,12 +59,20 @@ class Command
     private $versionStringPrinted = false;
 
     /**
+     * @var Event\Emitter
+     */
+    private $eventEmitter;
+
+    public function __construct(Event\Emitter $eventEmitter) {
+        $this->eventEmitter = $eventEmitter;
+    }
+
+    /**
      * @throws \PHPUnit\Framework\Exception
      */
     public static function main(bool $exit = true): int
     {
-        return (new static)->run(
-            (new Event\Facade())->emitter(),
+        return (new static((new Event\Facade())->emitter()))->run(
             $_SERVER['argv'],
             $exit
         );
@@ -73,9 +81,9 @@ class Command
     /**
      * @throws Exception
      */
-    public function run(Event\Emitter $eventEmitter, array $argv, bool $exit = true): int
+    public function run(array $argv, bool $exit = true): int
     {
-        $eventEmitter->applicationStarted();
+        $this->eventEmitter->applicationStarted();
 
         $this->handleArguments($argv);
 
