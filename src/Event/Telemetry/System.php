@@ -25,7 +25,7 @@ class System
 
     public function snapshot(): Snapshot
     {
-        return new SnapShot(
+        return new Snapshot(
             $this->clock->now(),
             $this->memoryMeter->memoryUsage(),
             $this->memoryMeter->peakMemoryUsage()
