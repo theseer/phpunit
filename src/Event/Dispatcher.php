@@ -62,6 +62,7 @@ final class Dispatcher
         }
 
         foreach ($this->subscribers[$eventClassName] as $subscriber) {
+            /** @noinspection PhpParamsInspection */
             $subscriber->notify($event);
         }
     }
