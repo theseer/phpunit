@@ -9,12 +9,17 @@
  */
 namespace PHPUnit\Event;
 
+use DateTimeZone;
+use PHPUnit\Event\Telemetry\System;
+use PHPUnit\Event\Telemetry\SystemClock;
+use PHPUnit\Event\Telemetry\SystemMemoryMeter;
+
 class Facade
 {
-    /** @var TypeMap */
+    /** @var null|TypeMap */
     private $typeMap;
 
-    /** @var Emitter */
+    /** @var null|Emitter */
     private $emitter;
 
     public function registerTypeMapping(string $subscriberInterface, string $eventClass): void
@@ -28,6 +33,10 @@ class Facade
             $this->emitter = new Emitter(
                 new Dispatcher(
                     $this->typeMap()
+                ),
+                new System(
+                    new SystemClock(new DateTimeZone(\date_default_timezone_get())),
+                    new SystemMemoryMeter()
                 )
             );
         }
