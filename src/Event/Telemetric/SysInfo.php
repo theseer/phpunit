@@ -14,21 +14,21 @@ class SysInfo
     /** @var Clock */
     private $clock;
 
-    /** @var MemInfo */
-    private $memInfo;
+    /** @var MemoryMeter */
+    private $memoryMeter;
 
-    public function __construct(Clock $clock, MemInfo $memInfo)
+    public function __construct(Clock $clock, MemoryMeter $memoryMeter)
     {
-        $this->clock   = $clock;
-        $this->memInfo = $memInfo;
+        $this->clock       = $clock;
+        $this->memoryMeter = $memoryMeter;
     }
 
     public function snapshot(): Snapshot
     {
         return new SnapShot(
             $this->clock->now(),
-            $this->memInfo->usage(),
-            $this->memInfo->peak()
+            $this->memoryMeter->usage(),
+            $this->memoryMeter->peak()
         );
     }
 }
