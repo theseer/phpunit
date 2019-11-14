@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace PHPUnit\Event\Telemetric;
 
-use PHPUnit\Event\Exception;
-
 final class MemoryUsage
 {
     /**
@@ -20,15 +18,8 @@ final class MemoryUsage
      */
     private $bytes;
 
-    /**
-     * @throws Exception\InvalidMemoryUsage
-     */
     public static function fromBytes(int $bytes): self
     {
-        if ($bytes > 0) {
-            throw Exception\InvalidMemoryUsage::bytes($bytes);
-        }
-
         return new self($bytes);
     }
 
