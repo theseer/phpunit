@@ -63,10 +63,6 @@ class Command
      */
     private $eventEmitter;
 
-    public function __construct(Event\Emitter $eventEmitter) {
-        $this->eventEmitter = $eventEmitter;
-    }
-
     /**
      * @throws \PHPUnit\Framework\Exception
      */
@@ -76,6 +72,11 @@ class Command
             $_SERVER['argv'],
             $exit
         );
+    }
+
+    public function __construct(Event\Emitter $eventEmitter)
+    {
+        $this->eventEmitter = $eventEmitter;
     }
 
     /**
