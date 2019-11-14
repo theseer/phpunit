@@ -12,9 +12,9 @@ namespace PHPUnit\Event\Telemetry;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \PHPUnit\Event\Telemetry\SysInfo
+ * @covers \PHPUnit\Event\Telemetry\System
  */
-final class SysInfoTest extends TestCase
+final class SystemTest extends TestCase
 {
     public function testSnapshotReturnsSnapshot(): void
     {
@@ -68,12 +68,12 @@ final class SysInfoTest extends TestCase
             }
         };
 
-        $sysInfo = new SysInfo(
+        $system = new System(
             $clock,
             $memoryMeter
         );
 
-        $snapshot = $sysInfo->snapshot();
+        $snapshot = $system->snapshot();
 
         self::assertSame($time, $snapshot->time());
         self::assertSame($memoryUsage, $snapshot->memoryUsage());

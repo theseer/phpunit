@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\Event\Telemetry;
 
-class SysInfo
+class System
 {
     /** @var Clock */
     private $clock;
