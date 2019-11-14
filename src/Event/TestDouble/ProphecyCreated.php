@@ -10,7 +10,22 @@
 namespace PHPUnit\Event\TestDouble;
 
 use PHPUnit\Event\Event;
+use PHPUnit\Event\Telemetry;
 
 final class ProphecyCreated implements Event
 {
+    /**
+     * @var Telemetry\Info
+     */
+    private $telemetryInfo;
+
+    public function __construct(Telemetry\Info $telemetryInfo)
+    {
+        $this->telemetryInfo = $telemetryInfo;
+    }
+
+    public function telemetryInfo(): Telemetry\Info
+    {
+        return $this->telemetryInfo;
+    }
 }

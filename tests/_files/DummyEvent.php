@@ -9,7 +9,11 @@
  */
 
 use PHPUnit\Event\Event;
+use PHPUnit\Event\Telemetry\Info;
 
 final class DummyEvent implements Event
 {
+    public function telemetryInfo(): Info
+    {
+    }
 }
