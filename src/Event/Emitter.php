@@ -30,7 +30,7 @@ class Emitter
     public function __construct(Dispatcher $dispatcher, System $system)
     {
         $this->dispatcher = $dispatcher;
-        $this->system    = $system;
+        $this->system     = $system;
 
         $this->startSnapshot    = $system->snapshot();
         $this->previousSnapshot = $system->snapshot();
