@@ -115,6 +115,8 @@ class Command
             return $this->handleListTestsXml($suite, $this->arguments['listTestsXml'], $exit);
         }
 
+        $this->eventEmitter->applicationConfigured();
+
         unset($this->arguments['test'], $this->arguments['testFile']);
 
         try {
@@ -566,6 +568,8 @@ class Command
         } catch (Exception $e) {
             $this->exitWithErrorMessage($e->getMessage());
         }
+
+        $this->eventEmitter->bootstrapFinished();
     }
 
     protected function handleVersionCheck(): void
@@ -658,6 +662,8 @@ class Command
             require $file;
 
             $this->arguments['loadedExtensions'][] = $manifest->getName() . ' ' . $manifest->getVersion()->getVersionString();
+
+            $this->eventEmitter->extensionLoaded();
         }
     }
 
