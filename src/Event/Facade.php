@@ -38,7 +38,7 @@ class Facade
     public function emitter(): Emitter
     {
         if ($this->emitter === null) {
-            $this->emitter = new Emitter(
+            $this->emitter = new DispatchingEmitter(
                 $this->dispatcher(),
                 new System(
                     new SystemClock(new DateTimeZone(\date_default_timezone_get())),
