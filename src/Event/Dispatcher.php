@@ -9,8 +9,6 @@
  */
 namespace PHPUnit\Event;
 
-use RuntimeException;
-
 /**
  * @internal
  */
@@ -32,7 +30,7 @@ final class Dispatcher
     public function register(Subscriber $subscriber): void
     {
         if (!$this->typeMap->isKnownSubscriberType($subscriber)) {
-            throw new RuntimeException(
+            throw new UnknownSubscriberType(
                 \sprintf(
                     'Subscriber "%s" does not implement any known interface - did you forget to register it?',
                     \get_class($subscriber)
@@ -54,7 +52,7 @@ final class Dispatcher
         $eventClassName = \get_class($event);
 
         if (!$this->typeMap->isKnownEventType($event)) {
-            throw new RuntimeException(
+            throw new UnknownEventType(
                 \sprintf('Unknown event type "%s"', $eventClassName)
             );
         }
