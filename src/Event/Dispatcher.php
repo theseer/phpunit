@@ -63,6 +63,7 @@ final class Dispatcher
 
         foreach ($this->subscribers[$eventClassName] as $subscriber) {
             /* @noinspection PhpParamsInspection */
+            /* @psalm-suppress UndefinedInterfaceMethod */
             $subscriber->notify($event);
         }
     }
