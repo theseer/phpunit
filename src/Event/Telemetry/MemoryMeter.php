@@ -7,9 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Event\Telemetric;
+namespace PHPUnit\Event\Telemetry;
 
-interface Clock
+interface MemoryMeter
 {
-    public function now(): \DateTimeImmutable;
+    public function usage(): MemoryUsage;
+
+    public function peak(): MemoryUsage;
 }
