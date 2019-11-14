@@ -27,8 +27,8 @@ class SysInfo
     {
         return new SnapShot(
             $this->clock->now(),
-            $this->memoryMeter->usage(),
-            $this->memoryMeter->peak()
+            $this->memoryMeter->memoryUsage(),
+            $this->memoryMeter->peakMemoryUsage()
         );
     }
 }
