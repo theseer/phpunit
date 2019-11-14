@@ -9,9 +9,7 @@
  */
 namespace PHPUnit\Event\Telemetric;
 
-class Clock
+interface Clock
 {
-    public function now(): void
-    {
-    }
+    public function now(): \DateTimeImmutable;
 }
