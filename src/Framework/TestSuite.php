@@ -608,6 +608,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                     \call_user_func([$this->name, $afterClassMethod]);
                 }
             }
+
+            Event\Registry::emitter()->testSuiteAfterClassFinished();
         } catch (\Throwable $t) {
             $message = "Exception in {$this->name}::$afterClassMethod" . \PHP_EOL . $t->getMessage();
             $error   = new SyntheticError($message, 0, $t->getFile(), $t->getLine(), $t->getTrace());
