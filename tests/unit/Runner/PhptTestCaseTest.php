@@ -216,7 +216,6 @@ EOF
         $this->setPhpContent('');
 
         $result = $this->testCase->run();
-
         $this->assertCount(1, $result->skipped());
         $this->assertSame('Invalid PHPT file', $result->skipped()[0]->thrownException()->getMessage());
     }

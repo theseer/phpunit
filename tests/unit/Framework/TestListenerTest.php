@@ -37,7 +37,6 @@ final class TestListenerTest extends TestCase
     public function testError(): void
     {
         $test = new \TestError;
-
         $test->run($this->result);
 
         $this->assertEquals(1, $this->listener->errorCount());
@@ -47,7 +46,6 @@ final class TestListenerTest extends TestCase
     public function testFailure(): void
     {
         $test = new \Failure;
-
         $test->run($this->result);
 
         $this->assertEquals(1, $this->listener->failureCount());
@@ -57,7 +55,6 @@ final class TestListenerTest extends TestCase
     public function testStartStop(): void
     {
         $test = new \Success;
-
         $test->run($this->result);
 
         $this->assertEquals(1, $this->listener->startCount());

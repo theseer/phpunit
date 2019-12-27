@@ -62,7 +62,6 @@ final class TestCaseTest extends TestCase
     public function testSuccess(): void
     {
         $test   = new \Success;
-
         $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_PASSED, $test->getStatus());
@@ -75,7 +74,6 @@ final class TestCaseTest extends TestCase
     public function testFailure(): void
     {
         $test   = new \Failure;
-
         $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_FAILURE, $test->getStatus());
@@ -88,7 +86,6 @@ final class TestCaseTest extends TestCase
     public function testError(): void
     {
         $test   = new \TestError;
-
         $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_ERROR, $test->getStatus());
@@ -101,7 +98,6 @@ final class TestCaseTest extends TestCase
     public function testSkipped(): void
     {
         $test   = new \TestSkipped;
-
         $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_SKIPPED, $test->getStatus());
@@ -115,7 +111,6 @@ final class TestCaseTest extends TestCase
     public function testIncomplete(): void
     {
         $test   = new \TestIncomplete;
-
         $result = $test->run();
 
         $this->assertEquals(BaseTestRunner::STATUS_INCOMPLETE, $test->getStatus());
@@ -129,7 +124,6 @@ final class TestCaseTest extends TestCase
     public function testExceptionInSetUp(): void
     {
         $test   = new \ExceptionInSetUpTest('testSomething');
-
         $test->run();
 
         $this->assertTrue($test->setUp);
@@ -142,7 +136,6 @@ final class TestCaseTest extends TestCase
     public function testExceptionInAssertPreConditions(): void
     {
         $test   = new \ExceptionInAssertPreConditionsTest('testSomething');
-
         $test->run();
 
         $this->assertTrue($test->setUp);
@@ -155,7 +148,6 @@ final class TestCaseTest extends TestCase
     public function testExceptionInTest(): void
     {
         $test   = new \ExceptionInTest('testSomething');
-
         $test->run();
 
         $this->assertTrue($test->setUp);
@@ -168,7 +160,6 @@ final class TestCaseTest extends TestCase
     public function testExceptionInAssertPostConditions(): void
     {
         $test   = new \ExceptionInAssertPostConditionsTest('testSomething');
-
         $test->run();
 
         $this->assertTrue($test->setUp);
@@ -181,7 +172,6 @@ final class TestCaseTest extends TestCase
     public function testExceptionInTearDown(): void
     {
         $test   = new \ExceptionInTearDownTest('testSomething');
-
         $test->run();
 
         $this->assertTrue($test->setUp);
@@ -196,7 +186,6 @@ final class TestCaseTest extends TestCase
     public function testExceptionInTestIsDetectedInTeardown(): void
     {
         $test   = new \ExceptionInTestDetectedInTeardown('testSomething');
-
         $test->run();
 
         $this->assertTrue($test->exceptionDetected);
@@ -217,7 +206,6 @@ final class TestCaseTest extends TestCase
     public function testWasRun(): void
     {
         $test = new \WasRun;
-
         $test->run();
 
         $this->assertTrue($test->wasRun);
@@ -614,7 +602,6 @@ final class TestCaseTest extends TestCase
     public function testIsInIsolationReturnsFalse(): void
     {
         $test   = new \IsolationTest('testIsInIsolationReturnsFalse');
-
         $result = $test->run();
 
         $this->assertCount(1, $result);
@@ -625,7 +612,6 @@ final class TestCaseTest extends TestCase
     {
         $test   = new \IsolationTest('testIsInIsolationReturnsTrue');
         $test->setRunTestInSeparateProcess(true);
-
         $result = $test->run();
 
         $this->assertCount(1, $result);
@@ -635,7 +621,6 @@ final class TestCaseTest extends TestCase
     public function testExpectOutputStringFooActualFoo(): void
     {
         $test   = new \OutputTestCase('testExpectOutputStringFooActualFoo');
-
         $result = $test->run();
 
         $this->assertCount(1, $result);
@@ -645,7 +630,6 @@ final class TestCaseTest extends TestCase
     public function testExpectOutputStringFooActualBar(): void
     {
         $test   = new \OutputTestCase('testExpectOutputStringFooActualBar');
-
         $result = $test->run();
 
         $this->assertCount(1, $result);
@@ -655,7 +639,6 @@ final class TestCaseTest extends TestCase
     public function testExpectOutputRegexFooActualFoo(): void
     {
         $test   = new \OutputTestCase('testExpectOutputRegexFooActualFoo');
-
         $result = $test->run();
 
         $this->assertCount(1, $result);
@@ -665,7 +648,6 @@ final class TestCaseTest extends TestCase
     public function testExpectOutputRegexFooActualBar(): void
     {
         $test   = new \OutputTestCase('testExpectOutputRegexFooActualBar');
-
         $result = $test->run();
 
         $this->assertCount(1, $result);
@@ -675,7 +657,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresHigherVersionOfPHPUnit(): void
     {
         $test   = new \RequirementsTest('testAlwaysSkip');
-
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -688,7 +669,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresHigherVersionOfPHP(): void
     {
         $test   = new \RequirementsTest('testAlwaysSkip2');
-
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -701,7 +681,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresNonExistingOs(): void
     {
         $test   = new \RequirementsTest('testAlwaysSkip3');
-
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -714,7 +693,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresNonExistingOsFamily(): void
     {
         $test   = new \RequirementsTest('testAlwaysSkip4');
-
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -727,7 +705,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresNonExistingFunction(): void
     {
         $test   = new \RequirementsTest('testNine');
-
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -740,7 +717,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresNonExistingExtension(): void
     {
         $test   = new \RequirementsTest('testTen');
-
         $test->run();
 
         $this->assertEquals(
@@ -752,7 +728,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsIfRequiresExtensionWithAMinimumVersion(): void
     {
         $test   = new \RequirementsTest('testSpecificExtensionVersion');
-
         $test->run();
 
         $this->assertEquals(
@@ -764,7 +739,6 @@ final class TestCaseTest extends TestCase
     public function testSkipsProvidesMessagesForAllSkippingReasons(): void
     {
         $test   = new \RequirementsTest('testAllPossibleRequirements');
-
         $test->run();
 
         $this->assertEquals(
@@ -784,36 +758,28 @@ final class TestCaseTest extends TestCase
     public function testRequiringAnExistingMethodDoesNotSkip(): void
     {
         $test   = new \RequirementsTest('testExistingMethod');
-
         $result = $test->run();
-
         $this->assertEquals(0, $result->skippedCount());
     }
 
     public function testRequiringAnExistingFunctionDoesNotSkip(): void
     {
         $test   = new \RequirementsTest('testExistingFunction');
-
         $result = $test->run();
-
         $this->assertEquals(0, $result->skippedCount());
     }
 
     public function testRequiringAnExistingExtensionDoesNotSkip(): void
     {
         $test   = new \RequirementsTest('testExistingExtension');
-
         $result = $test->run();
-
         $this->assertEquals(0, $result->skippedCount());
     }
 
     public function testRequiringAnExistingOsDoesNotSkip(): void
     {
         $test   = new \RequirementsTest('testExistingOs');
-
         $result = $test->run();
-
         $this->assertEquals(0, $result->skippedCount());
     }
 
@@ -825,15 +791,11 @@ final class TestCaseTest extends TestCase
         $displayErrorsVal = \ini_get('display_errors');
 
         \ini_set('display_errors', 'On');
-
         $result = $test->run();
-
         $this->assertEquals(0, $result->skippedCount());
 
         \ini_set('display_errors', 'Off');
-
         $result = $test->run();
-
         $this->assertEquals(1, $result->skippedCount());
 
         \ini_set('display_errors', $displayErrorsVal);
@@ -844,7 +806,6 @@ final class TestCaseTest extends TestCase
         $expectedCwd = \getcwd();
 
         $test = new \ChangeCurrentWorkingDirectoryTest('testSomethingThatChangesTheCwd');
-
         $test->run();
 
         $this->assertSame($expectedCwd, \getcwd());

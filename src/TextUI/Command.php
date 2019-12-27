@@ -63,10 +63,7 @@ class Command
      */
     public static function main(bool $exit = true): int
     {
-        return (new static)->run(
-            $_SERVER['argv'],
-            $exit
-        );
+        return (new static)->run($_SERVER['argv'], $exit);
     }
 
     /**

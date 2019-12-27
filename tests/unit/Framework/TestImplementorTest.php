@@ -19,7 +19,6 @@ final class TestImplementorTest extends TestCase
         $result = new TestResult;
 
         $test = new \DoubleTestCase(new \Success);
-
         $test->run($result);
 
         $this->assertCount(\count($test), $result);

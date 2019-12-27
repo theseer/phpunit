@@ -36,7 +36,6 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite('stdClass');
         $suite->addTestSuite(\OneTestCase::class);
-
         $suite->run($this->result);
 
         $this->assertCount(1, $this->result);
@@ -113,7 +112,6 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\BeforeClassAndAfterClassTest::class);
 
         \BeforeClassAndAfterClassTest::resetProperties();
-
         $suite->run($this->result);
 
         $this->assertEquals(1, \BeforeClassAndAfterClassTest::$beforeClassWasRun, '@beforeClass method was not run once for the whole suite.');
@@ -125,8 +123,7 @@ final class TestSuiteTest extends TestCase
         $suite = new TestSuite(\BeforeClassWithOnlyDataProviderTest::class);
 
         \BeforeClassWithOnlyDataProviderTest::resetProperties();
-
-        $suite->run();
+        $suite->run($this->result);
 
         $this->assertTrue(\BeforeClassWithOnlyDataProviderTest::$setUpBeforeClassWasCalled, 'setUpBeforeClass method was not run.');
         $this->assertTrue(\BeforeClassWithOnlyDataProviderTest::$beforeClassWasCalled, '@beforeClass method was not run.');
@@ -137,7 +134,6 @@ final class TestSuiteTest extends TestCase
         $test = new TestSuite(\BeforeAndAfterTest::class);
 
         \BeforeAndAfterTest::resetProperties();
-
         $test->run();
 
         $this->assertEquals(2, \BeforeAndAfterTest::$beforeWasRun);
@@ -149,7 +145,6 @@ final class TestSuiteTest extends TestCase
         $test = new TestSuite(\TestWithTest::class);
 
         \BeforeAndAfterTest::resetProperties();
-
         $result = $test->run();
 
         $this->assertCount(4, $result->passed());
@@ -203,9 +198,7 @@ final class TestSuiteTest extends TestCase
     {
         $suite = new TestSuite(\RequirementsClassBeforeClassHookTest::class);
 
-        $suite->run(
-            $this->result
-        );
+        $suite->run($this->result);
 
         $this->assertEquals(0, $this->result->errorCount());
         $this->assertEquals(1, $this->result->skippedCount());
@@ -233,7 +226,6 @@ final class TestSuiteTest extends TestCase
     public function testTearDownAfterClassInTestSuite(): void
     {
         $suite = new TestSuite(\ExceptionInTearDownAfterClassTest::class);
-
         $suite->run($this->result);
 
         $this->assertSame(3, $this->result->count());

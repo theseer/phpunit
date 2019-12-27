@@ -54,9 +54,7 @@ function __phpunit_run_isolated_test()
     $test->setInIsolation(TRUE);
 
     ob_end_clean();
-
     $test->run($result);
-
     $output = '';
     if (!$test->hasExpectationOnOutput()) {
         $output = $test->getActualOutput();

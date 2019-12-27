@@ -105,9 +105,9 @@ final class Registry
 
         foreach ($defaultEvents as $eventClass) {
             self::typeMap()->addMapping(
-                 $eventClass . 'Subscriber',
-                 $eventClass
-             );
+                $eventClass . 'Subscriber',
+                $eventClass
+            );
         }
     }
 }
