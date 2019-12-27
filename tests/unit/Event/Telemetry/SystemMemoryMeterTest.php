@@ -29,7 +29,7 @@ final class SystemMemoryMeterTest extends TestCase
     {
         $memoryMeter = new SystemMemoryMeter();
 
-        $peakMemoryUsage = MemoryUsage::fromBytes(\memory_get_usage(true));
+        $peakMemoryUsage = MemoryUsage::fromBytes(\memory_get_peak_usage(true));
 
         self::assertEquals($peakMemoryUsage, $memoryMeter->peakMemoryUsage());
     }
