@@ -145,7 +145,10 @@ class Command
      */
     protected function createRunner(): TestRunner
     {
-        return new TestRunner($this->arguments['loader']);
+        return new TestRunner(
+            $this->eventEmitter,
+            $this->arguments['loader']
+        );
     }
 
     /**

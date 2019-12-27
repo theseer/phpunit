@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\TextUI;
 
+use PHPUnit\Event\Emitter;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
@@ -80,6 +81,11 @@ final class TestRunner extends BaseTestRunner
     private $codeCoverageFilter;
 
     /**
+     * @var Emitter
+     */
+    private $eventEmitter;
+
+    /**
      * @var TestSuiteLoader
      */
     private $loader;
@@ -104,8 +110,10 @@ final class TestRunner extends BaseTestRunner
      */
     private $extensions = [];
 
-    public function __construct(TestSuiteLoader $loader = null, CodeCoverageFilter $filter = null)
+    public function __construct(Emitter $eventEmitter, TestSuiteLoader $loader = null, CodeCoverageFilter $filter = null)
     {
+        $this->eventEmitter = $eventEmitter;
+
         if ($filter === null) {
             $filter = new CodeCoverageFilter;
         }
@@ -186,6 +194,9 @@ final class TestRunner extends BaseTestRunner
             $sorter = new TestSuiteSorter($cache);
 
             $sorter->reorderTestsInSuite($suite, $arguments['executionOrder'], $arguments['resolveDependencies'], $arguments['executionOrderDefects']);
+
+            $this->eventEmitter->testSuiteSorted();
+
             $originalExecutionOrder = $sorter->getOriginalExecutionOrder();
 
             unset($sorter);
