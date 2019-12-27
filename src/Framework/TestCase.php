@@ -2209,6 +2209,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         $this->snapshot = null;
 
         if (isset($rte)) {
+            Event\Registry::emitter()->globalStateModified();
+
             throw $rte;
         }
     }
