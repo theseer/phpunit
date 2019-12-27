@@ -22,7 +22,7 @@ final class DispatcherTest extends TestCase
 
         $dispatcher = new Dispatcher(new TypeMap());
 
-        self::expectException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $dispatcher->register($subscriber);
     }
@@ -33,7 +33,7 @@ final class DispatcherTest extends TestCase
 
         $dispatcher = new Dispatcher(new TypeMap());
 
-        self::expectException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $dispatcher->dispatch($event);
     }
