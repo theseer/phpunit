@@ -1574,12 +1574,16 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      */
     protected function createMock(string $originalClassName): MockObject
     {
-        return $this->getMockBuilder($originalClassName)
-                    ->disableOriginalConstructor()
-                    ->disableOriginalClone()
-                    ->disableArgumentCloning()
-                    ->disallowMockingUnknownTypes()
-                    ->getMock();
+        $mock = $this->getMockBuilder($originalClassName)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->getMock();
+
+        Event\Registry::emitter()->testDoubleMockCreated();
+
+        return $mock;
     }
 
     /**
