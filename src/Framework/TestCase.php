@@ -2198,6 +2198,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         if ($this->backupGlobals) {
             $restorer->restoreGlobalVariables($this->snapshot);
+
+            Event\Registry::emitter()->globalStateRestored();
         }
 
         if ($this->backupStaticAttributes) {
