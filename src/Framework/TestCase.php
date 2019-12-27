@@ -10,6 +10,7 @@
 namespace PHPUnit\Framework;
 
 use DeepCopy\DeepCopy;
+use PHPUnit\Event;
 use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
@@ -1853,7 +1854,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             $this->recordDoubledType($classOrInterface);
         }
 
-        return $this->getProphet()->prophesize($classOrInterface);
+        $prophecy = $this->getProphet()->prophesize($classOrInterface);
+
+        Event\Registry::emitter()->testDoubleProphecyCreated();
+
+        return $prophecy;
     }
 
     /**
