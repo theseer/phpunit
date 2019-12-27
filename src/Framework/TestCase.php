@@ -2171,6 +2171,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         }
 
         $this->snapshot = $this->createGlobalStateSnapshot($this->backupGlobals === true);
+
+        Event\Registry::emitter()->globalStateCaptured();
     }
 
     /**
