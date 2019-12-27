@@ -9,7 +9,7 @@
  */
 namespace PHPUnit\TextUI;
 
-use PHPUnit\Event\Emitter;
+use PHPUnit\Event;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
@@ -81,11 +81,6 @@ final class TestRunner extends BaseTestRunner
     private $codeCoverageFilter;
 
     /**
-     * @var Emitter
-     */
-    private $eventEmitter;
-
-    /**
      * @var TestSuiteLoader
      */
     private $loader;
@@ -110,10 +105,8 @@ final class TestRunner extends BaseTestRunner
      */
     private $extensions = [];
 
-    public function __construct(Emitter $eventEmitter, TestSuiteLoader $loader = null, CodeCoverageFilter $filter = null)
+    public function __construct(TestSuiteLoader $loader = null, CodeCoverageFilter $filter = null)
     {
-        $this->eventEmitter = $eventEmitter;
-
         if ($filter === null) {
             $filter = new CodeCoverageFilter;
         }
@@ -195,7 +188,7 @@ final class TestRunner extends BaseTestRunner
 
             $sorter->reorderTestsInSuite($suite, $arguments['executionOrder'], $arguments['resolveDependencies'], $arguments['executionOrderDefects']);
 
-            $this->eventEmitter->testSuiteSorted();
+            Event\Registry::emitter()->testSuiteSorted();
 
             $originalExecutionOrder = $sorter->getOriginalExecutionOrder();
 
@@ -649,11 +642,11 @@ final class TestRunner extends BaseTestRunner
             }
         }
 
-        $this->eventEmitter->testRunStarted();
+        Event\Registry::emitter()->testRunStarted();
 
         $suite->run($result);
 
-        $this->eventEmitter->testRunFinished();
+        Event\Registry::emitter()->testRunFinished();
 
         foreach ($this->extensions as $extension) {
             if ($extension instanceof AfterLastTestHook) {

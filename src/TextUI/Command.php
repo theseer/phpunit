@@ -59,24 +59,14 @@ class Command
     private $versionStringPrinted = false;
 
     /**
-     * @var Event\Emitter
-     */
-    private $eventEmitter;
-
-    /**
      * @throws \PHPUnit\Framework\Exception
      */
     public static function main(bool $exit = true): int
     {
-        return (new static((new Event\Facade())->emitter()))->run(
+        return (new static)->run(
             $_SERVER['argv'],
             $exit
         );
-    }
-
-    public function __construct(Event\Emitter $eventEmitter)
-    {
-        $this->eventEmitter = $eventEmitter;
     }
 
     /**
@@ -84,7 +74,7 @@ class Command
      */
     public function run(array $argv, bool $exit = true): int
     {
-        $this->eventEmitter->applicationStarted();
+        Event\Registry::emitter()->applicationStarted();
 
         $this->handleArguments($argv);
 
@@ -115,7 +105,7 @@ class Command
             return $this->handleListTestsXml($suite, $this->arguments['listTestsXml'], $exit);
         }
 
-        $this->eventEmitter->applicationConfigured();
+        Event\Registry::emitter()->applicationConfigured();
 
         unset($this->arguments['test'], $this->arguments['testFile']);
 
@@ -145,10 +135,7 @@ class Command
      */
     protected function createRunner(): TestRunner
     {
-        return new TestRunner(
-            $this->eventEmitter,
-            $this->arguments['loader']
-        );
+        return new TestRunner($this->arguments['loader']);
     }
 
     /**
@@ -572,7 +559,7 @@ class Command
             $this->exitWithErrorMessage($e->getMessage());
         }
 
-        $this->eventEmitter->bootstrapFinished();
+        Event\Registry::emitter()->bootstrapFinished();
     }
 
     protected function handleVersionCheck(): void
@@ -666,7 +653,7 @@ class Command
 
             $this->arguments['loadedExtensions'][] = $manifest->getName() . ' ' . $manifest->getVersion()->getVersionString();
 
-            $this->eventEmitter->extensionLoaded();
+            Event\Registry::emitter()->extensionLoaded();
         }
     }
 
