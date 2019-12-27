@@ -796,6 +796,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     {
         ComparatorFactory::getInstance()->register($comparator);
 
+        Event\Registry::emitter()->comparatorRegistered();
+
         $this->customComparators[] = $comparator;
     }
 
