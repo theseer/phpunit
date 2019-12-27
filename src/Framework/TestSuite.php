@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
+use PHPUnit\Event;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\Filter\Factory;
 use PHPUnit\Runner\PhptTestCase;
@@ -542,6 +543,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                     \call_user_func([$this->name, $beforeClassMethod]);
                 }
             }
+
+            Event\Registry::emitter()->testSuiteBeforeClassFinished();
         } catch (SkippedTestSuiteError $error) {
             foreach ($this->tests() as $test) {
                 $result->startTest($test);
