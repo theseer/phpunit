@@ -1791,6 +1791,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->registerMockObject($mockObject);
 
+        Event\Registry::emitter()->testDoubleMockForTraitCreated();
+
         return $mockObject;
     }
 
