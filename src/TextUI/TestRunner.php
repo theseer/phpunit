@@ -649,7 +649,11 @@ final class TestRunner extends BaseTestRunner
             }
         }
 
+        $this->eventEmitter->testRunStarted();
+
         $suite->run($result);
+
+        $this->eventEmitter->testRunFinished();
 
         foreach ($this->extensions as $extension) {
             if ($extension instanceof AfterLastTestHook) {
