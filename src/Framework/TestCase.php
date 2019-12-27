@@ -1027,6 +1027,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 $this->$method();
             }
 
+            Event\Registry::emitter()->testSetUpFinished();
+
             $this->assertPreConditions();
             $this->testResult = $this->runTest();
             $this->verifyMockObjects();
