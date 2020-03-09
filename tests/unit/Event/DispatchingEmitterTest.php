@@ -10,6 +10,7 @@
 namespace PHPUnit\Event;
 
 use PHPUnit\Framework;
+use PHPUnit\TextUI;
 
 /**
  * @covers \PHPUnit\Event\DispatchingEmitter
@@ -78,6 +79,42 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $argv,
             $exit
         );
+    }
+
+    public function testArgumentsParsedDispatchesArgumentsParsedEvent(): void
+    {
+        $argumentsBuilder = new TextUI\Arguments\ArgumentsBuilder();
+
+        $arguments = $argumentsBuilder->fromParameters(
+            [],
+            []
+        );
+
+        $subscriber = $this->createMock(Arguments\ParsedSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->callback(static function (Arguments\Parsed $event) use ($arguments): bool {
+                self::assertSame($arguments, $event->arguments());
+
+                return true;
+            }));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Arguments\ParsedSubscriber::class,
+            Arguments\Parsed::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->argumentsParsed($arguments);
     }
 
     public function testAssertionMadeDispatchesAssertionMadeEvent(): void

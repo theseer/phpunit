@@ -64,6 +64,7 @@ final class Registry
         $defaultEvents = [
             Application\Configured::class,
             Application\Started::class,
+            Arguments\Parsed::class,
             Assertion\Made::class,
             Bootstrap\Finished::class,
             Comparator\Registered::class,

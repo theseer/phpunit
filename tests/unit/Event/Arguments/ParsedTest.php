@@ -1,0 +1,39 @@
+<?php declare(strict_types=1);
+/*
+ * This file is part of PHPUnit.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace PHPUnit\Event\Arguments;
+
+use PHPUnit\Event\AbstractEventTestCase;
+use PHPUnit\TextUI;
+
+/**
+ * @covers \PHPUnit\Event\Arguments\Parsed
+ */
+final class ParsedTest extends AbstractEventTestCase
+{
+    public function testConstructorSetsValues(): void
+    {
+        $telemetryInfo = self::createTelemetryInfo();
+
+        $argumentsBuilder = new TextUI\Arguments\ArgumentsBuilder();
+
+        $arguments = $argumentsBuilder->fromParameters(
+            [],
+            []
+        );
+
+        $event = new Parsed(
+            $telemetryInfo,
+            $arguments
+        );
+
+        self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($arguments, $event->arguments());
+    }
+}

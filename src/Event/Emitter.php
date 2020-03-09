@@ -9,11 +9,15 @@
  */
 namespace PHPUnit\Event;
 
+use PHPUnit\TextUI\Arguments\Arguments;
+
 interface Emitter
 {
     public function applicationConfigured(): void;
 
     public function applicationStarted(array $argv, bool $exit): void;
+
+    public function argumentsParsed(Arguments $arguments): void;
 
     public function assertionMade(): void;
 
