@@ -8,8 +8,6 @@
  * file that was distributed with this source code.
  */
 
-use PHPUnit\TextUI\Arguments\Arguments;
-
 final class NullEmitter implements \PHPUnit\Event\Emitter
 {
     public function applicationConfigured(): void
@@ -17,10 +15,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     }
 
     public function applicationStarted(array $argv, bool $exit): void
-    {
-    }
-
-    public function argumentsParsed(Arguments $arguments): void
     {
     }
 

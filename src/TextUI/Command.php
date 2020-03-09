@@ -191,8 +191,6 @@ class Command
 
         \assert(isset($arguments) && $arguments instanceof Arguments);
 
-        Event\Registry::emitter()->argumentsParsed($arguments);
-
         if ($arguments->hasGenerateConfiguration() && $arguments->generateConfiguration()) {
             $this->printVersionString();
 

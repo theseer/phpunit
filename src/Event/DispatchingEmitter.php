@@ -12,7 +12,6 @@ namespace PHPUnit\Event;
 use PHPUnit\Event\Telemetry\Info;
 use PHPUnit\Event\Telemetry\Snapshot;
 use PHPUnit\Event\Telemetry\System;
-use PHPUnit\TextUI;
 
 final class DispatchingEmitter implements Emitter
 {
@@ -48,14 +47,6 @@ final class DispatchingEmitter implements Emitter
             $this->telemetryInfo(),
             $argv,
             $exit
-        ));
-    }
-
-    public function argumentsParsed(TextUI\Arguments\Arguments $arguments): void
-    {
-        $this->dispatcher->dispatch(new Arguments\Parsed(
-            $this->telemetryInfo(),
-            $arguments
         ));
     }
 
