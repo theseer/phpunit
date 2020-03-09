@@ -589,7 +589,10 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
             $result->endTestSuite($this);
 
-            Event\Registry::emitter()->testSuiteRunFinished($this);
+            Event\Registry::emitter()->testSuiteRunFailed(
+                $this,
+                $t
+            );
 
             return $result;
         }
