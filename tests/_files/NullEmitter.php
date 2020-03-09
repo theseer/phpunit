@@ -148,6 +148,14 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
+    public function testSuiteAfterClassFinished(): void
+    {
+    }
+
+    public function testSuiteBeforeClassFinished(): void
+    {
+    }
+
     public function testSuiteConfigured(): void
     {
     }
