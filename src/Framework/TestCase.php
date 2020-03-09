@@ -651,7 +651,6 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         if (!$this instanceof WarningTestCase &&
             !$this instanceof SkippedTestCase &&
             !$this->handleDependencies()) {
-
             return $result;
         }
 
