@@ -531,6 +531,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
         $result->startTestSuite($this);
 
+        Event\Registry::emitter()->testSuiteRunStarted($this);
+
         try {
             foreach ($hookMethods['beforeClass'] as $beforeClassMethod) {
                 if ($this->testCase &&
