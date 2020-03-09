@@ -179,8 +179,6 @@ final class TestRunner extends BaseTestRunner
             $this->addExtension(new ResultCacheExtension($cache));
         }
 
-        Event\Registry::emitter()->applicationConfigured($arguments);
-
         if ($arguments['executionOrder'] !== TestSuiteSorter::ORDER_DEFAULT || $arguments['executionOrderDefects'] !== TestSuiteSorter::ORDER_DEFAULT || $arguments['resolveDependencies']) {
             $cache = $cache ?? new NullTestResultCache;
 
@@ -642,6 +640,7 @@ final class TestRunner extends BaseTestRunner
             }
         }
 
+        Event\Registry::emitter()->applicationConfigured($arguments);
         Event\Registry::emitter()->testRunStarted();
 
         $suite->run($result);
