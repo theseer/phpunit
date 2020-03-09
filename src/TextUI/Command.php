@@ -89,6 +89,8 @@ class Command
             );
         }
 
+        Event\Registry::emitter()->applicationConfigured();
+
         if ($this->arguments['listGroups']) {
             return $this->handleListGroups($suite, $exit);
         }
@@ -104,8 +106,6 @@ class Command
         if ($this->arguments['listTestsXml']) {
             return $this->handleListTestsXml($suite, $this->arguments['listTestsXml'], $exit);
         }
-
-        Event\Registry::emitter()->applicationConfigured();
 
         unset($this->arguments['test'], $this->arguments['testFile']);
 
