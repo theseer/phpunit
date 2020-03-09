@@ -660,7 +660,7 @@ class Command
 
             $this->arguments['loadedExtensions'][] = $manifest->getName() . ' ' . $manifest->getVersion()->getVersionString();
 
-            Event\Registry::emitter()->extensionLoaded();
+            Event\Registry::emitter()->extensionLoaded($manifest);
         }
     }
 
