@@ -647,8 +647,6 @@ final class TestRunner extends BaseTestRunner
 
         $suite->run($result);
 
-        Event\Registry::emitter()->testRunFinished();
-
         foreach ($this->extensions as $extension) {
             if ($extension instanceof AfterLastTestHook) {
                 $extension->executeAfterLastTest();
