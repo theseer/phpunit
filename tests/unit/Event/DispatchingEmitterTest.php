@@ -54,15 +54,12 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->logicalAnd(
-                $this->isInstanceOf(Application\Started::class),
-                $this->callback(static function (Application\Started $event) use ($argv, $exit): bool {
-                    self::assertSame($argv, $event->argv());
-                    self::assertSame($exit, $event->exit());
+            ->with($this->callback(static function (Application\Started $event) use ($argv, $exit): bool {
+                self::assertSame($argv, $event->argv());
+                self::assertSame($exit, $event->exit());
 
-                    return true;
-                })
-            ));
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Application\StartedSubscriber::class,
