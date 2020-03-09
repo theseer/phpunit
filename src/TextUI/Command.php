@@ -89,8 +89,6 @@ class Command
             );
         }
 
-        Event\Registry::emitter()->applicationConfigured($suite);
-
         if ($this->arguments['listGroups']) {
             return $this->handleListGroups($suite, $exit);
         }
@@ -349,6 +347,8 @@ class Command
             }
         }
 
+        $configuration = null;
+
         if (isset($this->arguments['configuration'])) {
             try {
                 $configuration = Registry::getInstance()->get($this->arguments['configuration']);
@@ -419,6 +419,11 @@ class Command
             $this->showHelp();
             exit(TestRunner::EXCEPTION_EXIT);
         }
+
+        Event\Registry::emitter()->applicationConfigured(
+            $this->arguments,
+            $configuration
+        );
     }
 
     /**
