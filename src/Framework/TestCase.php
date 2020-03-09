@@ -646,6 +646,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         if (!$this instanceof WarningTestCase) {
             $this->setTestResultObject($result);
+        } else {
+            Event\Registry::emitter()->testCaseRunSkippedWithWarning($this);
         }
 
         if (!$this instanceof WarningTestCase &&
