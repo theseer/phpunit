@@ -555,6 +555,8 @@ class Command
      */
     protected function handleBootstrap(string $filename): void
     {
+        Event\Registry::emitter()->bootstrapStarted($filename);
+
         try {
             $resolvedFilename = FileLoader::checkAndLoad($filename);
 

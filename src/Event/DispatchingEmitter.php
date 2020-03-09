@@ -69,6 +69,10 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Bootstrap\Finished($this->telemetryInfo()));
     }
 
+    public function bootstrapStarted(): void
+    {
+    }
+
     public function comparatorRegistered(): void
     {
         $this->dispatcher->dispatch(new Comparator\Registered($this->telemetryInfo()));

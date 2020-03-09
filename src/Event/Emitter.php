@@ -23,6 +23,8 @@ interface Emitter
 
     public function bootstrapFinished(): void;
 
+    public function bootstrapStarted(): void;
+
     public function comparatorRegistered(): void;
 
     public function extensionLoaded(): void;
