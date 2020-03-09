@@ -556,6 +556,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
             $result->endTestSuite($this);
 
+            Event\Registry::emitter()->testSuiteRunFinished($this);
+
             return $result;
         } catch (\Throwable $t) {
             $errorAdded = false;
@@ -583,6 +585,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
             }
 
             $result->endTestSuite($this);
+
+            Event\Registry::emitter()->testSuiteRunFinished($this);
 
             return $result;
         }
@@ -625,6 +629,8 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
         }
 
         $result->endTestSuite($this);
+
+        Event\Registry::emitter()->testSuiteRunFinished($this);
 
         return $result;
     }
