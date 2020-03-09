@@ -12,6 +12,7 @@ namespace PHPUnit\Framework;
 use AssertionError;
 use Countable;
 use Error;
+use PHPUnit\Event;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Util\Blacklist;
 use PHPUnit\Util\ErrorHandler;
@@ -655,6 +656,16 @@ final class TestResult implements Countable
             /* @noinspection ForgottenDebugOutputInspection */
             \xdebug_start_function_monitor(ResourceOperations::getFunctions());
         }
+
+        Event\Registry::emitter()->testRunStarted(
+            $test,
+            $this->convertDeprecationsToExceptions,
+            $this->convertErrorsToExceptions,
+            $this->convertNoticesToExceptions,
+            $this->convertWarningsToExceptions,
+            $collectCodeCoverage,
+            $monitorFunctions
+        );
 
         Timer::start();
 
