@@ -16,12 +16,33 @@ use PHPUnit\Event\AbstractEventTestCase;
  */
 final class StartedTest extends AbstractEventTestCase
 {
-    public function testConstructorSetsValues(): void
+    /**
+     * @dataProvider provideBoolean
+     */
+    public function testConstructorSetsValues(bool $exit): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $argv          = [
+            'foo' => 'bar',
+            'bar' => 'baz',
+        ];
 
-        $event = new Started($telemetryInfo);
+        $event = new Started(
+            $telemetryInfo,
+            $argv,
+            $exit
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($argv, $event->argv());
+        self::assertSame($exit, $event->exit());
+    }
+
+    public function provideBoolean(): array
+    {
+        return [
+            'bool-false' => [false],
+            'bool-true'  => [true],
+        ];
     }
 }

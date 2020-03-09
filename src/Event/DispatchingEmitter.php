@@ -41,9 +41,13 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Application\Configured($this->telemetryInfo()));
     }
 
-    public function applicationStarted(): void
+    public function applicationStarted(array $argv, bool $exit): void
     {
-        $this->dispatcher->dispatch(new Application\Started($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Application\Started(
+            $this->telemetryInfo(),
+            $argv,
+            $exit
+        ));
     }
 
     public function assertionMade(): void

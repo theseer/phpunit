@@ -43,12 +43,26 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testApplicationStartedDispatchesApplicationStartedEvent(): void
     {
+        $argv = [
+            'foo' => 'bar',
+            'bar' => 'baz',
+        ];
+        $exit = false;
+
         $subscriber = $this->createMock(Application\StartedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Application\Started::class));
+            ->with($this->logicalAnd(
+                $this->isInstanceOf(Application\Started::class),
+                $this->callback(static function (Application\Started $event) use ($argv, $exit): bool {
+                    self::assertSame($argv, $event->argv());
+                    self::assertSame($exit, $event->exit());
+
+                    return true;
+                })
+            ));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Application\StartedSubscriber::class,
@@ -63,7 +77,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->applicationStarted();
+        $emitter->applicationStarted(
+            $argv,
+            $exit
+        );
     }
 
     public function testAssertionMadeDispatchesAssertionMadeEvent(): void

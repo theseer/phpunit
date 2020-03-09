@@ -14,7 +14,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function applicationStarted(): void
+    public function applicationStarted(array $argv, bool $exit): void
     {
     }
 

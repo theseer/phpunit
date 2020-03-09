@@ -19,13 +19,35 @@ final class Started implements Event
      */
     private $telemetryInfo;
 
-    public function __construct(Telemetry\Info $telemetryInfo)
+    /**
+     * @var array
+     */
+    private $argv;
+
+    /**
+     * @var bool
+     */
+    private $exit;
+
+    public function __construct(Telemetry\Info $telemetryInfo, array $argv, bool $exit)
     {
         $this->telemetryInfo = $telemetryInfo;
+        $this->argv          = $argv;
+        $this->exit          = $exit;
     }
 
     public function telemetryInfo(): Telemetry\Info
     {
         return $this->telemetryInfo;
+    }
+
+    public function argv(): array
+    {
+        return $this->argv;
+    }
+
+    public function exit(): bool
+    {
+        return $this->exit;
     }
 }

@@ -13,7 +13,7 @@ interface Emitter
 {
     public function applicationConfigured(): void;
 
-    public function applicationStarted(): void;
+    public function applicationStarted(array $argv, bool $exit): void;
 
     public function assertionMade(): void;
 
