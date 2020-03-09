@@ -641,7 +641,6 @@ final class TestRunner extends BaseTestRunner
         }
 
         Event\Registry::emitter()->applicationConfigured($arguments);
-        Event\Registry::emitter()->testRunStarted();
 
         $suite->run($result);
 
