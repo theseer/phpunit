@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Event;
 
+use PHPUnit\Framework;
 use PHPUnit\TextUI;
 
 interface Emitter
@@ -88,6 +89,8 @@ interface Emitter
     public function testSuiteConfigured(): void;
 
     public function testSuiteLoaded(): void;
+
+    public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error);
 
     public function testSuiteRunFinished(): void;
 

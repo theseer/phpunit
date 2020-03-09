@@ -12,6 +12,7 @@ namespace PHPUnit\Event;
 use PHPUnit\Event\Telemetry\Info;
 use PHPUnit\Event\Telemetry\Snapshot;
 use PHPUnit\Event\Telemetry\System;
+use PHPUnit\Framework;
 use PHPUnit\TextUI;
 
 final class DispatchingEmitter implements Emitter
@@ -227,6 +228,10 @@ final class DispatchingEmitter implements Emitter
     public function testSuiteLoaded(): void
     {
         $this->dispatcher->dispatch(new TestSuite\Loaded($this->telemetryInfo()));
+    }
+
+    public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error): void
+    {
     }
 
     public function testSuiteRunFinished(): void

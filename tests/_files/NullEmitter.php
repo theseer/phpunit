@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+use PHPUnit\Framework;
 use PHPUnit\TextUI;
 
 final class NullEmitter implements \PHPUnit\Event\Emitter
@@ -161,6 +162,10 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     }
 
     public function testSuiteLoaded(): void
+    {
+    }
+
+    public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error): void
     {
     }
 
