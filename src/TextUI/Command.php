@@ -89,7 +89,7 @@ class Command
             );
         }
 
-        Event\Registry::emitter()->applicationConfigured();
+        Event\Registry::emitter()->applicationConfigured($suite);
 
         if ($this->arguments['listGroups']) {
             return $this->handleListGroups($suite, $exit);
