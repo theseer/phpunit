@@ -816,56 +816,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testDoubleTestProxyCreated();
     }
 
-    public function testTestSuiteAfterClassFinishedDispatchesTestSuiteAfterClassFinishedEvent(): void
-    {
-        $subscriber = $this->createMock(TestSuite\AfterClassFinishedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(TestSuite\AfterClassFinished::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            TestSuite\AfterClassFinishedSubscriber::class,
-            TestSuite\AfterClassFinished::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testSuiteAfterClassFinished();
-    }
-
-    public function testTestSuiteBeforeClassFinishedDispatchesTestSuiteBeforeClassFinishedEvent(): void
-    {
-        $subscriber = $this->createMock(TestSuite\BeforeClassFinishedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(TestSuite\BeforeClassFinished::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            TestSuite\BeforeClassFinishedSubscriber::class,
-            TestSuite\BeforeClassFinished::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testSuiteBeforeClassFinished();
-    }
-
     public function testTestSuiteConfiguredDispatchesTestSuiteConfiguredEvent(): void
     {
         $subscriber = $this->createMock(TestSuite\ConfiguredSubscriber::class);

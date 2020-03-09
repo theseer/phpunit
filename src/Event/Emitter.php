@@ -75,10 +75,6 @@ interface Emitter
 
     public function testDoubleTestProxyCreated(): void;
 
-    public function testSuiteAfterClassFinished(): void;
-
-    public function testSuiteBeforeClassFinished(): void;
-
     public function testSuiteConfigured(): void;
 
     public function testSuiteLoaded(): void;
