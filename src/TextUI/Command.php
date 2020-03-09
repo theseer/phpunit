@@ -556,12 +556,12 @@ class Command
     protected function handleBootstrap(string $filename): void
     {
         try {
-            FileLoader::checkAndLoad($filename);
+            $resolvedFilename = FileLoader::checkAndLoad($filename);
+
+            Event\Registry::emitter()->bootstrapFinished($resolvedFilename);
         } catch (Exception $e) {
             $this->exitWithErrorMessage($e->getMessage());
         }
-
-        Event\Registry::emitter()->bootstrapFinished();
     }
 
     protected function handleVersionCheck(): void
