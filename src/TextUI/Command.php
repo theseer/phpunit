@@ -345,11 +345,11 @@ class Command
             }
         }
 
-        $configuration = null;
-
         if (isset($this->arguments['configuration'])) {
             try {
                 $configuration = Registry::getInstance()->get($this->arguments['configuration']);
+
+                Event\Registry::emitter()->configurationLoaded($configuration);
             } catch (Throwable $e) {
                 print $e->getMessage() . \PHP_EOL;
                 exit(TestRunner::FAILURE_EXIT);
@@ -417,11 +417,6 @@ class Command
             $this->showHelp();
             exit(TestRunner::EXCEPTION_EXIT);
         }
-
-        Event\Registry::emitter()->applicationConfigured(
-            $this->arguments,
-            $configuration
-        );
     }
 
     /**

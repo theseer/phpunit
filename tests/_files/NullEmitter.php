@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+use PHPUnit\TextUI;
+
 final class NullEmitter implements \PHPUnit\Event\Emitter
 {
     public function applicationConfigured(): void
@@ -31,6 +33,10 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     }
 
     public function comparatorRegistered(): void
+    {
+    }
+
+    public function configurationLoaded(TextUI\Configuration\Configuration $configuration): void
     {
     }
 

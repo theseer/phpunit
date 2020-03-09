@@ -12,6 +12,7 @@ namespace PHPUnit\Event;
 use PHPUnit\Event\Telemetry\Info;
 use PHPUnit\Event\Telemetry\Snapshot;
 use PHPUnit\Event\Telemetry\System;
+use PHPUnit\TextUI;
 
 final class DispatchingEmitter implements Emitter
 {
@@ -67,6 +68,10 @@ final class DispatchingEmitter implements Emitter
     public function comparatorRegistered(): void
     {
         $this->dispatcher->dispatch(new Comparator\Registered($this->telemetryInfo()));
+    }
+
+    public function configurationLoaded(TextUI\Configuration\Configuration $configuration): void
+    {
     }
 
     public function extensionLoaded(): void

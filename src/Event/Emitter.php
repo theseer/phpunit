@@ -9,6 +9,8 @@
  */
 namespace PHPUnit\Event;
 
+use PHPUnit\TextUI;
+
 interface Emitter
 {
     public function applicationConfigured(): void;
@@ -22,6 +24,8 @@ interface Emitter
     public function bootstrapStarted(): void;
 
     public function comparatorRegistered(): void;
+
+    public function configurationLoaded(TextUI\Configuration\Configuration $configuration): void;
 
     public function extensionLoaded(): void;
 
