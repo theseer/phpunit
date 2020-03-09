@@ -646,13 +646,12 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         if (!$this instanceof WarningTestCase) {
             $this->setTestResultObject($result);
-        } else {
-            Event\Registry::emitter()->testCaseRunSkippedWithWarning($this);
         }
 
         if (!$this instanceof WarningTestCase &&
             !$this instanceof SkippedTestCase &&
             !$this->handleDependencies()) {
+
             return $result;
         }
 
@@ -2069,13 +2068,17 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->startTest($this);
 
+        $error = new SkippedTestError(
+            \sprintf('This method has an invalid @depends annotation.')
+        );
+
         $this->result->addError(
             $this,
-            new SkippedTestError(
-                \sprintf('This method has an invalid @depends annotation.')
-            ),
+            $error,
             0
         );
+
+        Event\Registry::emitter()->testCaseRunSkippedWithError($this, $error);
 
         $this->result->endTest($this, 0);
     }
@@ -2086,16 +2089,20 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->startTest($this);
 
+        $error = new SkippedTestError(
+            \sprintf(
+                'This test depends on "%s" to pass.',
+                $dependency
+            )
+        );
+
         $this->result->addError(
             $this,
-            new SkippedTestError(
-                \sprintf(
-                    'This test depends on "%s" to pass.',
-                    $dependency
-                )
-            ),
+            $error,
             0
         );
+
+        Event\Registry::emitter()->testCaseRunSkippedWithError($this, $error);
 
         $this->result->endTest($this, 0);
     }
@@ -2106,16 +2113,19 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->result->startTest($this);
 
+        $warning = new Warning(
+            \sprintf(
+                'This test depends on "%s" which does not exist.',
+                $dependency
+            )
+        );
         $this->result->addWarning(
             $this,
-            new Warning(
-                \sprintf(
-                    'This test depends on "%s" which does not exist.',
-                    $dependency
-                )
-            ),
+            $warning,
             0
         );
+
+        Event\Registry::emitter()->testCaseRunSkippedWithWarning($this, $warning);
 
         $this->result->endTest($this, 0);
     }
