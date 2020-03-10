@@ -97,10 +97,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunStarted(): void
-    {
-    }
-
     public function testSetUpFinished(): void
     {
     }

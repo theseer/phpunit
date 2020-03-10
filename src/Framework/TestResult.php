@@ -657,7 +657,7 @@ final class TestResult implements Countable
             \xdebug_start_function_monitor(ResourceOperations::getFunctions());
         }
 
-        Event\Registry::emitter()->testRunStarted(
+        Event\Registry::emitter()->testRunConfigured(
             $test,
             $this->convertDeprecationsToExceptions,
             $this->convertErrorsToExceptions,

@@ -56,8 +56,6 @@ interface Emitter
 
     public function testRunSkippedWithWarning(): void;
 
-    public function testRunStarted(): void;
-
     public function testSetUpFinished(): void;
 
     public function testTearDownFinished(): void;

@@ -82,7 +82,6 @@ final class Registry
             Test\RunSkippedIncomplete::class,
             Test\RunSkippedWithFailedRequirements::class,
             Test\RunSkippedWithWarning::class,
-            Test\RunStarted::class,
             Test\SetUpFinished::class,
             Test\TearDownFinished::class,
             TestCase\AfterClassFinished::class,

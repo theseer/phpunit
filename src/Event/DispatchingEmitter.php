@@ -167,11 +167,6 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunSkippedWithWarning($this->telemetryInfo()));
     }
 
-    public function testRunStarted(): void
-    {
-        $this->dispatcher->dispatch(new Test\RunStarted($this->telemetryInfo()));
-    }
-
     public function testSetUpFinished(): void
     {
         $this->dispatcher->dispatch(new Test\SetUpFinished($this->telemetryInfo()));

@@ -539,31 +539,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunSkippedWithWarning();
     }
 
-    public function testTestRunStartedDispatchesTestRunStartedEvent(): void
-    {
-        $subscriber = $this->createMock(Test\RunStartedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\RunStarted::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\RunStartedSubscriber::class,
-            Test\RunStarted::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testRunStarted();
-    }
-
     public function testTestSetUpFinishedDispatchesTestSetUpFinishedEvent(): void
     {
         $subscriber = $this->createMock(Test\SetUpFinishedSubscriber::class);
