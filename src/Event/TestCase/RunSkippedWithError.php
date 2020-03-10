@@ -30,11 +30,8 @@ final class RunSkippedWithError implements Event
      */
     private $error;
 
-    public function __construct(
-        Telemetry\Info $telemetryInfo,
-        Framework\TestCase $testCase,
-        \Throwable $error
-    ) {
+    public function __construct(Telemetry\Info $telemetryInfo, Framework\TestCase $testCase, \Throwable $error)
+    {
         $this->telemetryInfo = $telemetryInfo;
         $this->testCase      = $testCase;
         $this->error         = $error;
