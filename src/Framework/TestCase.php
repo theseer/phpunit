@@ -1082,6 +1082,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     foreach ($hookMethods['afterClass'] as $method) {
                         $this->$method();
                     }
+
+                    Event\Registry::emitter()->testSuiteTearDownAfterClassFinished();
                 }
             }
         } catch (\Throwable $_e) {
