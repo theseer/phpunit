@@ -1001,31 +1001,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testSuiteSetUpBeforeClassFinished();
     }
 
-    public function testTestSuiteConfiguredDispatchesTestSuiteConfiguredEvent(): void
-    {
-        $subscriber = $this->createMock(TestSuite\ConfiguredSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(TestSuite\Configured::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            TestSuite\ConfiguredSubscriber::class,
-            TestSuite\Configured::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testSuiteConfigured();
-    }
-
     public function testTestSuiteRunFinishedDispatchesTestSuiteRunFinishedEvent(): void
     {
         $testSuite = new Framework\TestSuite();

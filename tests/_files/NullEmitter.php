@@ -168,10 +168,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testSuiteConfigured(): void
-    {
-    }
-
     public function testSuiteRunFailed(Framework\TestSuite $testSuite, \Throwable $error): void
     {
     }
