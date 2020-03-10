@@ -1263,31 +1263,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testSuiteRunStarted($testSuite);
     }
 
-    public function testTestSuiteSortedDispatchesTestSuiteSortedEvent(): void
-    {
-        $subscriber = $this->createMock(TestSuite\SortedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(TestSuite\Sorted::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            TestSuite\SortedSubscriber::class,
-            TestSuite\Sorted::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testSuiteSorted();
-    }
-
     private static function createDispatcherWithRegisteredSubscriber(string $subscriberInterface, string $eventClass, Subscriber $subscriber): Dispatcher
     {
         $typeMap = new TypeMap();

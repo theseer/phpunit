@@ -121,6 +121,4 @@ interface Emitter
     public function testSuiteRunFinished(Framework\TestSuite $testSuite): void;
 
     public function testSuiteRunStarted(Framework\TestSuite $testSuite): void;
-
-    public function testSuiteSorted(): void;
 }

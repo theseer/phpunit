@@ -347,11 +347,6 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function testSuiteSorted(): void
-    {
-        $this->dispatcher->dispatch(new TestSuite\Sorted($this->telemetryInfo()));
-    }
-
     private function telemetryInfo(): Info
     {
         $current = $this->system->snapshot();

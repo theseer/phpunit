@@ -101,7 +101,6 @@ final class Registry
             TestSuite\Configured::class,
             TestSuite\RunFinished::class,
             TestSuite\RunStarted::class,
-            TestSuite\Sorted::class,
         ];
 
         foreach ($defaultEvents as $eventClass) {

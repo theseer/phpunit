@@ -203,8 +203,4 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     public function testSuiteRunStarted(Framework\TestSuite $testSuite): void
     {
     }
-
-    public function testSuiteSorted(): void
-    {
-    }
 }
