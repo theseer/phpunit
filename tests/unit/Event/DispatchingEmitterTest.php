@@ -512,6 +512,45 @@ final class DispatchingEmitterTest extends Framework\TestCase
         );
     }
 
+    public function testTestRunSkippedDispatchesTestRunSkippedEvent(): void
+    {
+        $test          = $this->createMock(Framework\Test::class);
+        $error         = $this->createMock(Framework\SkippedTest::class);
+        $stopOnSkipped = false;
+
+        $subscriber = $this->createMock(Test\RunSkippedSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->callback(static function (Test\RunSkipped $event) use ($test, $error, $stopOnSkipped): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($error, $event->error());
+                self::assertSame($stopOnSkipped, $event->stopOnSkipped());
+
+                return true;
+            }));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Test\RunSkippedSubscriber::class,
+            Test\RunSkipped::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->testRunSkipped(
+            $test,
+            $error,
+            $stopOnSkipped
+        );
+    }
+
     public function testTestRunSkippedByDataProviderDispatchesTestRunSkippedByDataProviderEvent(): void
     {
         $subscriber = $this->createMock(Test\RunSkippedByDataProviderSubscriber::class);

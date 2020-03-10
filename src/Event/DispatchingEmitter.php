@@ -153,6 +153,12 @@ final class DispatchingEmitter implements Emitter
 
     public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void
     {
+        $this->dispatcher->dispatch(new Test\RunSkipped(
+            $this->telemetryInfo(),
+            $test,
+            $error,
+            $stopOnSkipped
+        ));
     }
 
     public function testRunSkippedByDataProvider(): void
