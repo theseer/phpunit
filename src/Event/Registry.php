@@ -67,6 +67,7 @@ final class Registry
             Assertion\Made::class,
             Bootstrap\Finished::class,
             Comparator\Registered::class,
+            Configuration\Loaded::class,
             Extension\Loaded::class,
             GlobalState\Captured::class,
             GlobalState\Modified::class,

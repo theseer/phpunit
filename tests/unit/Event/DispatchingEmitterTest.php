@@ -10,6 +10,7 @@
 namespace PHPUnit\Event;
 
 use PHPUnit\Framework;
+use PHPUnit\TextUI;
 
 /**
  * @covers \PHPUnit\Event\DispatchingEmitter
@@ -153,6 +154,39 @@ final class DispatchingEmitterTest extends Framework\TestCase
         );
 
         $emitter->comparatorRegistered();
+    }
+
+    public function testConfigurationLoadedDispatchesConfigurationLoadedEvent(): void
+    {
+        $loader = new TextUI\Configuration\Loader();
+
+        $configuration = $loader->load(__DIR__ . '/../../../phpunit.xml');
+
+        $subscriber = $this->createMock(Configuration\LoadedSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->callback(static function (Configuration\Loaded $event) use ($configuration): bool {
+                self::assertSame($configuration, $event->configuration());
+
+                return true;
+            }));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Configuration\LoadedSubscriber::class,
+            Configuration\Loaded::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->configurationLoaded($configuration);
     }
 
     public function testExtensionLoadedDispatchesExtensionLoadedEvent(): void

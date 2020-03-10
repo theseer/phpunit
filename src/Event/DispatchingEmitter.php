@@ -73,6 +73,10 @@ final class DispatchingEmitter implements Emitter
 
     public function configurationLoaded(TextUI\Configuration\Configuration $configuration): void
     {
+        $this->dispatcher->dispatch(new Configuration\Loaded(
+            $this->telemetryInfo(),
+            $configuration
+        ));
     }
 
     public function extensionLoaded(): void
