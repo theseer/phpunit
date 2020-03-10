@@ -686,31 +686,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunSkippedByDataProvider();
     }
 
-    public function testTestRunSkippedIncompleteDispatchesTestRunSkippedIncompleteEvent(): void
-    {
-        $subscriber = $this->createMock(Test\RunSkippedIncompleteSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\RunSkippedIncomplete::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\RunSkippedIncompleteSubscriber::class,
-            Test\RunSkippedIncomplete::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testRunSkippedIncomplete();
-    }
-
     public function testTestRunSkippedWithFailedRequirementsDispatchesTestRunSkippedWithFailedRequirementsEvent(): void
     {
         $subscriber = $this->createMock(Test\RunSkippedWithFailedRequirementsSubscriber::class);

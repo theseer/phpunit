@@ -78,8 +78,6 @@ interface Emitter
 
     public function testRunSkippedByDataProvider(): void;
 
-    public function testRunSkippedIncomplete(): void;
-
     public function testRunSkippedWithFailedRequirements(): void;
 
     public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void;

@@ -116,10 +116,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunSkippedIncomplete(): void
-    {
-    }
-
     public function testRunSkippedWithFailedRequirements(): void
     {
     }

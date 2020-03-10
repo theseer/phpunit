@@ -218,11 +218,6 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunSkippedByDataProvider($this->telemetryInfo()));
     }
 
-    public function testRunSkippedIncomplete(): void
-    {
-        $this->dispatcher->dispatch(new Test\RunSkippedIncomplete($this->telemetryInfo()));
-    }
-
     public function testRunSkippedWithFailedRequirements(): void
     {
         $this->dispatcher->dispatch(new Test\RunSkippedWithFailedRequirements($this->telemetryInfo()));
