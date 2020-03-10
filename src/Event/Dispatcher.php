@@ -30,12 +30,10 @@ final class Dispatcher
     public function register(Subscriber $subscriber): void
     {
         if (!$this->typeMap->isKnownSubscriberType($subscriber)) {
-            throw new UnknownSubscriberType(
-                \sprintf(
-                    'Subscriber "%s" does not implement any known interface - did you forget to register it?',
-                    \get_class($subscriber)
-                )
-            );
+            throw new UnknownSubscriberType(\sprintf(
+                'Subscriber "%s" does not implement any known interface - did you forget to register it?',
+                \get_class($subscriber)
+            ));
         }
 
         $eventClassName = $this->typeMap->map($subscriber);
@@ -52,9 +50,10 @@ final class Dispatcher
         $eventClassName = \get_class($event);
 
         if (!$this->typeMap->isKnownEventType($event)) {
-            throw new UnknownEventType(
-                \sprintf('Unknown event type "%s"', $eventClassName)
-            );
+            throw new UnknownEventType(\sprintf(
+                'Unknown event type "%s"',
+                $eventClassName
+            ));
         }
 
         if (!\array_key_exists($eventClassName, $this->subscribers)) {

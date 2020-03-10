@@ -2077,7 +2077,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             0
         );
 
-        Event\Registry::emitter()->testCaseRunSkippedWithError($this, $error);
+        Event\Registry::emitter()->testCaseRunSkippedWithError(
+            $this,
+            $error
+        );
 
         $this->result->endTest($this, 0);
     }
@@ -2101,7 +2104,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             0
         );
 
-        Event\Registry::emitter()->testCaseRunSkippedWithError($this, $error);
+        Event\Registry::emitter()->testCaseRunSkippedWithError(
+            $this,
+            $error
+        );
 
         $this->result->endTest($this, 0);
     }
@@ -2124,7 +2130,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             0
         );
 
-        Event\Registry::emitter()->testCaseRunSkippedWithWarning($this, $warning);
+        Event\Registry::emitter()->testCaseRunSkippedWithWarning(
+            $this,
+            $warning
+        );
 
         $this->result->endTest($this, 0);
     }
