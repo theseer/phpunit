@@ -99,15 +99,6 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new GlobalState\Restored($this->telemetryInfo()));
     }
 
-    public function testCaseRunSkippedWithWarning(Framework\TestCase $testCase, \Throwable $warning): void
-    {
-        $this->dispatcher->dispatch(new TestCase\RunSkippedWithWarning(
-            $this->telemetryInfo(),
-            $testCase,
-            $warning
-        ));
-    }
-
     public function testRunConfigured(): void
     {
         $this->dispatcher->dispatch(new Test\RunConfigured($this->telemetryInfo()));

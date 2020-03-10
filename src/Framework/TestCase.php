@@ -2120,11 +2120,6 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             0
         );
 
-        Event\Registry::emitter()->testCaseRunSkippedWithWarning(
-            $this,
-            $warning
-        );
-
         $this->result->endTest($this, 0);
     }
 
