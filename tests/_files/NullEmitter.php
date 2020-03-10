@@ -61,7 +61,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunErrored(): void
+    public function testRunErrored(Framework\Test $test, \Throwable $error, bool $stopOnError, bool $stopOnFailure): void
     {
     }
 

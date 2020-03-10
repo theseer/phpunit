@@ -38,7 +38,7 @@ interface Emitter
 
     public function testRunConfigured(): void;
 
-    public function testRunErrored(): void;
+    public function testRunErrored(Framework\Test $test, \Throwable $error, bool $stopOnError, bool $stopOnFailure): void;
 
     public function testRunFailed(): void;
 
