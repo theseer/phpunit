@@ -120,11 +120,11 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, bool $stopOnWarning, bool $stopOnDefect): void
+    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void
     {
     }
 
-    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void
+    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void
     {
     }
 
