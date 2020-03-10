@@ -335,7 +335,6 @@ final class TestResult implements Countable
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
         if ($e instanceof RiskyTestError || $e instanceof OutputError) {
-
             if ($e instanceof OutputError) {
                 Event\Registry::emitter()->testRunWithOutput($test, $e, $this->stopOnRisky, $this->stopOnDefect);
             } else {
