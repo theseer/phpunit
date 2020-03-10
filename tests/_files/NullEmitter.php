@@ -177,7 +177,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testSuiteRunFinished(): void
+    public function testSuiteRunFinished(Framework\TestSuite $suite): void
     {
     }
 

@@ -252,9 +252,12 @@ final class DispatchingEmitter implements Emitter
     {
     }
 
-    public function testSuiteRunFinished(): void
+    public function testSuiteRunFinished(Framework\TestSuite $suite): void
     {
-        $this->dispatcher->dispatch(new TestSuite\RunFinished($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new TestSuite\RunFinished(
+            $this->telemetryInfo(),
+            $suite
+        ));
     }
 
     public function testSuiteRunStarted(Framework\TestSuite $suite): void

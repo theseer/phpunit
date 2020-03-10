@@ -1004,12 +1004,18 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestSuiteRunFinishedDispatchesTestSuiteRunFinishedEvent(): void
     {
+        $testSuite = new Framework\TestSuite();
+
         $subscriber = $this->createMock(TestSuite\RunFinishedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(TestSuite\RunFinished::class));
+            ->with($this->callback(static function (TestSuite\RunFinished $event) use ($testSuite): bool {
+                self::assertSame($testSuite, $event->testSuite());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             TestSuite\RunFinishedSubscriber::class,
@@ -1024,7 +1030,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testSuiteRunFinished();
+        $emitter->testSuiteRunFinished($testSuite);
     }
 
     public function testTestSuiteRunStartedDispatchesTestSuiteRunStartedEvent(): void

@@ -96,7 +96,7 @@ interface Emitter
 
     public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error);
 
-    public function testSuiteRunFinished(): void;
+    public function testSuiteRunFinished(Framework\TestSuite $suite): void;
 
     public function testSuiteRunStarted(Framework\TestSuite $suite): void;
 
