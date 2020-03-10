@@ -58,7 +58,7 @@ interface Emitter
 
     public function testRunSkippedWithFailedRequirements(): void;
 
-    public function testRunWarning(): void;
+    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, bool $stopOnWarning, bool $stopOnDefect): void;
 
     public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void;
 

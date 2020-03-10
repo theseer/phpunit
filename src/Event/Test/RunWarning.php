@@ -11,6 +11,7 @@ namespace PHPUnit\Event\Test;
 
 use PHPUnit\Event\Event;
 use PHPUnit\Event\Telemetry;
+use PHPUnit\Framework;
 
 final class RunWarning implements Event
 {
@@ -19,13 +20,62 @@ final class RunWarning implements Event
      */
     private $telemetryInfo;
 
-    public function __construct(Telemetry\Info $telemetryInfo)
-    {
+    /**
+     * @var Framework\Test
+     */
+    private $test;
+
+    /**
+     * @var Framework\Warning
+     */
+    private $warning;
+
+    /**
+     * @var bool
+     */
+    private $stopOnWarning;
+
+    /**
+     * @var bool
+     */
+    private $stopOnDefect;
+
+    public function __construct(
+        Telemetry\Info $telemetryInfo,
+        Framework\Test $test,
+        Framework\Warning $warning,
+        bool $stopOnWarning,
+        bool $stopOnDefect
+    ) {
         $this->telemetryInfo = $telemetryInfo;
+        $this->test          = $test;
+        $this->warning       = $warning;
+        $this->stopOnWarning = $stopOnWarning;
+        $this->stopOnDefect  = $stopOnDefect;
     }
 
     public function telemetryInfo(): Telemetry\Info
     {
         return $this->telemetryInfo;
+    }
+
+    public function test(): Framework\Test
+    {
+        return $this->test;
+    }
+
+    public function warning(): Framework\Warning
+    {
+        return $this->warning;
+    }
+
+    public function stopOnWarning(): bool
+    {
+        return $this->stopOnWarning;
+    }
+
+    public function stopOnDefect(): bool
+    {
+        return $this->stopOnDefect;
     }
 }

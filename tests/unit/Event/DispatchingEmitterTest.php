@@ -516,12 +516,24 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestRunWarningDispatchesTestRunWarningEvent(): void
     {
+        $test          = $this->createMock(Framework\Test::class);
+        $warning       = new Framework\Warning();
+        $stopOnWarning = false;
+        $stopOnDefect  = true;
+
         $subscriber = $this->createMock(Test\RunWarningSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Test\RunWarning::class));
+            ->with($this->callback(static function (Test\RunWarning $event) use ($test, $warning, $stopOnWarning, $stopOnDefect): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($warning, $event->warning());
+                self::assertSame($stopOnWarning, $event->stopOnWarning());
+                self::assertSame($stopOnDefect, $event->stopOnDefect());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Test\RunWarningSubscriber::class,
@@ -536,7 +548,12 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testRunWarning();
+        $emitter->testRunWarning(
+            $test,
+            $warning,
+            $stopOnWarning,
+            $stopOnDefect
+        );
     }
 
     public function testTestRunWithOutputDispatchesTestRunWithOutputEvent(): void

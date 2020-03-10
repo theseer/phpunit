@@ -152,9 +152,15 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunSkippedWithFailedRequirements($this->telemetryInfo()));
     }
 
-    public function testRunWarning(): void
+    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, bool $stopOnWarning, bool $stopOnDefect): void
     {
-        $this->dispatcher->dispatch(new Test\RunWarning($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Test\RunWarning(
+            $this->telemetryInfo(),
+            $test,
+            $warning,
+            $stopOnWarning,
+            $stopOnDefect
+        ));
     }
 
     public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void
