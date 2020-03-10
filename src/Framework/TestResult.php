@@ -1068,7 +1068,17 @@ final class TestResult implements Countable
             }
         }
 
-        Event\Registry::emitter()->testRunFinished($test, $time, $coverageData, $skipped, $incomplete, $risky, $warning, $error, $failure);
+        Event\Registry::emitter()->testRunFinished(
+            $test,
+            $time,
+            $coverageData,
+            $error,
+            $failure,
+            $incomplete,
+            $risky,
+            $skipped,
+            $warning
+        );
 
         $this->endTest($test, $time);
     }
