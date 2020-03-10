@@ -121,6 +121,10 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
+    public function testCaseRunSkippedWithError(Framework\TestCase $testCase, \Throwable $error): void
+    {
+    }
+
     public function testCaseSetUpBeforeClassFinished(): void
     {
     }

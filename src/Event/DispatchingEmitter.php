@@ -99,6 +99,15 @@ final class DispatchingEmitter implements Emitter
     {
     }
 
+    public function testCaseRunSkippedWithError(Framework\TestCase $testCase, \Throwable $error): void
+    {
+        $this->dispatcher->dispatch(new TestCase\RunSkippedWithError(
+            $this->telemetryInfo(),
+            $testCase,
+            $error
+        ));
+    }
+
     public function testRunConfigured(): void
     {
         $this->dispatcher->dispatch(new Test\RunConfigured($this->telemetryInfo()));

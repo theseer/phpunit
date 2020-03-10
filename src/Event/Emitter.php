@@ -66,6 +66,8 @@ interface Emitter
 
     public function testCaseBeforeClassFinished(): void;
 
+    public function testCaseRunSkippedWithError(Framework\TestCase $testCase, \Throwable $error): void;
+
     public function testCaseRunSkippedWithWarning(): void;
 
     public function testCaseSetUpBeforeClassFinished(): void;

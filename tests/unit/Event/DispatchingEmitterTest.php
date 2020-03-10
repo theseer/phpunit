@@ -630,6 +630,42 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testCaseBeforeClassFinished();
     }
 
+    public function testTestCaseRunSkippedWithErrorDispatchesTestCaseRunSkippedWithErrorEvent(): void
+    {
+        $testCase = $this->createMock(Framework\TestCase::class);
+        $error    = $this->createMock(\Throwable::class);
+
+        $subscriber = $this->createMock(TestCase\RunSkippedWithErrorSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->callback(static function (TestCase\RunSkippedWithError $event) use ($testCase, $error): bool {
+                self::assertSame($testCase, $event->testCase());
+                self::assertSame($error, $event->error());
+
+                return true;
+            }));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            TestCase\RunSkippedWithErrorSubscriber::class,
+            TestCase\RunSkippedWithError::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->testCaseRunSkippedWithError(
+            $testCase,
+            $error
+        );
+    }
+
     public function testTestCaseSetUpBeforeClassFinishedDispatchesTestSetUpBeforeClassFinishedEvent(): void
     {
         $subscriber = $this->createMock(TestCase\SetUpBeforeClassFinishedSubscriber::class);

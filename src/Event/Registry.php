@@ -86,6 +86,7 @@ final class Registry
             Test\TearDownFinished::class,
             TestCase\AfterClassFinished::class,
             TestCase\BeforeClassFinished::class,
+            TestCase\RunSkippedWithError::class,
             TestCase\SetUpBeforeClassFinished::class,
             TestCase\SetUpFinished::class,
             TestCase\TearDownAfterClassFinished::class,
