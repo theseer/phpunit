@@ -22,18 +22,21 @@ final class RunSkippedTest extends AbstractEventTestCase
         $telemetryInfo   = self::createTelemetryInfo();
         $test            = $this->createMock(Framework\Test::class);
         $error           = $this->createMock(Framework\SkippedTest::class);
+        $time            = 123.45;
         $stopOnSkipped   = false;
 
         $event = new RunSkipped(
             $telemetryInfo,
             $test,
             $error,
+            $time,
             $stopOnSkipped
         );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
         self::assertSame($test, $event->test());
         self::assertSame($error, $event->error());
+        self::assertSame($time, $event->time());
         self::assertSame($stopOnSkipped, $event->stopOnSkipped());
     }
 }

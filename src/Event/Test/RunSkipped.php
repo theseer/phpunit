@@ -31,6 +31,11 @@ final class RunSkipped implements Event
     private $error;
 
     /**
+     * @var float
+     */
+    private $time;
+
+    /**
      * @var bool
      */
     private $stopOnSkipped;
@@ -39,11 +44,13 @@ final class RunSkipped implements Event
         Telemetry\Info $telemetryInfo,
         Framework\Test $test,
         Framework\SkippedTest $error,
+        float $time,
         bool $stopOnSkipped
     ) {
         $this->telemetryInfo = $telemetryInfo;
         $this->test          = $test;
         $this->error         = $error;
+        $this->time          = $time;
         $this->stopOnSkipped = $stopOnSkipped;
     }
 
@@ -60,6 +67,11 @@ final class RunSkipped implements Event
     public function error(): Framework\SkippedTest
     {
         return $this->error;
+    }
+
+    public function time(): float
+    {
+        return $this->time;
     }
 
     public function stopOnSkipped(): bool

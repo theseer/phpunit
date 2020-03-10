@@ -38,19 +38,19 @@ interface Emitter
 
     public function testRunConfigured(): void;
 
-    public function testRunErrored(Framework\Test $test, \Throwable $error, bool $stopOnError, bool $stopOnFailure): void;
+    public function testRunErrored(Framework\Test $test, \Throwable $error, float $time, bool $stopOnError, bool $stopOnFailure): void;
 
     public function testRunFailed(): void;
 
     public function testRunFinished(): void;
 
-    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, bool $stopOnIncomplete): void;
+    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, float $time, bool $stopOnIncomplete): void;
 
     public function testRunPassed(): void;
 
-    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, bool $stopOnRisky, bool $stopOnDefect): void;
+    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void;
 
-    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void;
+    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, float $time, bool $stopOnSkipped): void;
 
     public function testRunSkippedByDataProvider(): void;
 
@@ -58,9 +58,9 @@ interface Emitter
 
     public function testRunSkippedWithFailedRequirements(): void;
 
-    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, bool $stopOnWarning, bool $stopOnDefect): void;
+    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void;
 
-    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void;
+    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void;
 
     public function testSetUpFinished(): void;
 

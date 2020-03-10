@@ -104,12 +104,13 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunConfigured($this->telemetryInfo()));
     }
 
-    public function testRunErrored(Framework\Test $test, \Throwable $error, bool $stopOnError, bool $stopOnFailure): void
+    public function testRunErrored(Framework\Test $test, \Throwable $error, float $time, bool $stopOnError, bool $stopOnFailure): void
     {
         $this->dispatcher->dispatch(new Test\RunErrored(
             $this->telemetryInfo(),
             $test,
             $error,
+            $time,
             $stopOnError,
             $stopOnFailure
         ));
@@ -125,12 +126,13 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunFinished($this->telemetryInfo()));
     }
 
-    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, bool $stopOnIncomplete): void
+    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, float $time, bool $stopOnIncomplete): void
     {
         $this->dispatcher->dispatch(new Test\RunIncomplete(
             $this->telemetryInfo(),
             $test,
             $error,
+            $time,
             $stopOnIncomplete
         ));
     }
@@ -140,23 +142,25 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunPassed($this->telemetryInfo()));
     }
 
-    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, bool $stopOnRisky, bool $stopOnDefect): void
+    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void
     {
         $this->dispatcher->dispatch(new Test\RunRisky(
             $this->telemetryInfo(),
             $test,
             $error,
+            $time,
             $stopOnRisky,
             $stopOnDefect
         ));
     }
 
-    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void
+    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, float $time, bool $stopOnSkipped): void
     {
         $this->dispatcher->dispatch(new Test\RunSkipped(
             $this->telemetryInfo(),
             $test,
             $error,
+            $time,
             $stopOnSkipped
         ));
     }
@@ -176,23 +180,25 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunSkippedWithFailedRequirements($this->telemetryInfo()));
     }
 
-    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, bool $stopOnWarning, bool $stopOnDefect): void
+    public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void
     {
         $this->dispatcher->dispatch(new Test\RunWarning(
             $this->telemetryInfo(),
             $test,
             $warning,
+            $time,
             $stopOnWarning,
             $stopOnDefect
         ));
     }
 
-    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void
+    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void
     {
         $this->dispatcher->dispatch(new Test\RunWithOutput(
             $this->telemetryInfo(),
             $test,
             $error,
+            $time,
             $stopOnRisky,
             $stopOnDefect
         ));

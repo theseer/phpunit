@@ -31,6 +31,11 @@ final class RunIncomplete implements Event
     private $error;
 
     /**
+     * @var float
+     */
+    private $time;
+
+    /**
      * @var bool
      */
     private $stopOnIncomplete;
@@ -39,11 +44,13 @@ final class RunIncomplete implements Event
         Telemetry\Info $telemetryInfo,
         Framework\Test $test,
         Framework\IncompleteTest $error,
+        float $time,
         bool $stopOnIncomplete
     ) {
         $this->telemetryInfo    = $telemetryInfo;
         $this->test             = $test;
         $this->error            = $error;
+        $this->time             = $time;
         $this->stopOnIncomplete = $stopOnIncomplete;
     }
 
@@ -60,6 +67,11 @@ final class RunIncomplete implements Event
     public function error(): Framework\IncompleteTest
     {
         return $this->error;
+    }
+
+    public function time(): float
+    {
+        return $this->time;
     }
 
     public function stopOnIncomplete(): bool

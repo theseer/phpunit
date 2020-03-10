@@ -31,6 +31,11 @@ final class RunWarning implements Event
     private $warning;
 
     /**
+     * @var float
+     */
+    private $time;
+
+    /**
      * @var bool
      */
     private $stopOnWarning;
@@ -44,12 +49,14 @@ final class RunWarning implements Event
         Telemetry\Info $telemetryInfo,
         Framework\Test $test,
         Framework\Warning $warning,
+        float $time,
         bool $stopOnWarning,
         bool $stopOnDefect
     ) {
         $this->telemetryInfo = $telemetryInfo;
         $this->test          = $test;
         $this->warning       = $warning;
+        $this->time          = $time;
         $this->stopOnWarning = $stopOnWarning;
         $this->stopOnDefect  = $stopOnDefect;
     }
@@ -67,6 +74,11 @@ final class RunWarning implements Event
     public function warning(): Framework\Warning
     {
         return $this->warning;
+    }
+
+    public function time(): float
+    {
+        return $this->time;
     }
 
     public function stopOnWarning(): bool

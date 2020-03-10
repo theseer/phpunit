@@ -22,6 +22,7 @@ final class RunWarningTest extends AbstractEventTestCase
         $telemetryInfo = self::createTelemetryInfo();
         $test          = $this->createMock(Framework\Test::class);
         $warning       = new Framework\Warning();
+        $time          = 123.45;
         $stopOnWarning = false;
         $stopOnDefect  = true;
 
@@ -29,6 +30,7 @@ final class RunWarningTest extends AbstractEventTestCase
             $telemetryInfo,
             $test,
             $warning,
+            $time,
             $stopOnWarning,
             $stopOnDefect
         );
@@ -36,6 +38,7 @@ final class RunWarningTest extends AbstractEventTestCase
         self::assertSame($telemetryInfo, $event->telemetryInfo());
         self::assertSame($test, $event->test());
         self::assertSame($warning, $event->warning());
+        self::assertSame($time, $event->time());
         self::assertSame($stopOnWarning, $event->stopOnWarning());
         self::assertSame($stopOnDefect, $event->stopOnDefect());
     }

@@ -318,6 +318,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
     {
         $test        = $this->createMock(Framework\Test::class);
         $error       = $this->createMock(\Throwable::class);
+        $time        = 123.45;
         $stopOnError = false;
         $stopOnDefect= true;
 
@@ -326,9 +327,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->callback(static function (Test\RunErrored $event) use ($test, $error, $stopOnError, $stopOnDefect): bool {
+            ->with($this->callback(static function (Test\RunErrored $event) use ($test, $error, $time, $stopOnError, $stopOnDefect): bool {
                 self::assertSame($test, $event->test());
                 self::assertSame($error, $event->error());
+                self::assertSame($time, $event->time());
                 self::assertSame($stopOnError, $event->stopOnError());
                 self::assertSame($stopOnDefect, $event->stopOnDefect());
 
@@ -351,6 +353,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunErrored(
             $test,
             $error,
+            $time,
             $stopOnError,
             $stopOnDefect
         );
@@ -410,6 +413,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
     {
         $test             = $this->createMock(Framework\Test::class);
         $error            = $this->createMock(Framework\IncompleteTest::class);
+        $time             = 123.45;
         $stopOnIncomplete = false;
 
         $subscriber = $this->createMock(Test\RunIncompleteSubscriber::class);
@@ -417,9 +421,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->callback(static function (Test\RunIncomplete $event) use ($test, $error, $stopOnIncomplete): bool {
+            ->with($this->callback(static function (Test\RunIncomplete $event) use ($test, $error, $time, $stopOnIncomplete): bool {
                 self::assertSame($test, $event->test());
                 self::assertSame($error, $event->error());
+                self::assertSame($time, $event->time());
                 self::assertSame($stopOnIncomplete, $event->stopOnIncomplete());
 
                 return true;
@@ -441,6 +446,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunIncomplete(
             $test,
             $error,
+            $time,
             $stopOnIncomplete
         );
     }
@@ -474,6 +480,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
     {
         $test         = $this->createMock(Framework\Test::class);
         $error        = new Framework\RiskyTestError();
+        $time         = 123.45;
         $stopOnRisky  = false;
         $stopOnDefect = true;
 
@@ -482,9 +489,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->callback(static function (Test\RunRisky $event) use ($test, $error, $stopOnRisky, $stopOnDefect): bool {
+            ->with($this->callback(static function (Test\RunRisky $event) use ($test, $error, $time, $stopOnRisky, $stopOnDefect): bool {
                 self::assertSame($test, $event->test());
                 self::assertSame($error, $event->error());
+                self::assertSame($time, $event->time());
                 self::assertSame($stopOnRisky, $event->stopOnRisky());
                 self::assertSame($stopOnDefect, $event->stopOnDefect());
 
@@ -507,6 +515,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunRisky(
             $test,
             $error,
+            $time,
             $stopOnRisky,
             $stopOnDefect
         );
@@ -516,6 +525,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
     {
         $test          = $this->createMock(Framework\Test::class);
         $error         = $this->createMock(Framework\SkippedTest::class);
+        $time          = 123.45;
         $stopOnSkipped = false;
 
         $subscriber = $this->createMock(Test\RunSkippedSubscriber::class);
@@ -523,9 +533,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->callback(static function (Test\RunSkipped $event) use ($test, $error, $stopOnSkipped): bool {
+            ->with($this->callback(static function (Test\RunSkipped $event) use ($test, $error, $time, $stopOnSkipped): bool {
                 self::assertSame($test, $event->test());
                 self::assertSame($error, $event->error());
+                self::assertSame($time, $event->time());
                 self::assertSame($stopOnSkipped, $event->stopOnSkipped());
 
                 return true;
@@ -547,6 +558,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunSkipped(
             $test,
             $error,
+            $time,
             $stopOnSkipped
         );
     }
@@ -630,6 +642,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
     {
         $test          = $this->createMock(Framework\Test::class);
         $warning       = new Framework\Warning();
+        $time          = 123.45;
         $stopOnWarning = false;
         $stopOnDefect  = true;
 
@@ -638,9 +651,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->callback(static function (Test\RunWarning $event) use ($test, $warning, $stopOnWarning, $stopOnDefect): bool {
+            ->with($this->callback(static function (Test\RunWarning $event) use ($test, $warning, $time, $stopOnWarning, $stopOnDefect): bool {
                 self::assertSame($test, $event->test());
                 self::assertSame($warning, $event->warning());
+                self::assertSame($time, $event->time());
                 self::assertSame($stopOnWarning, $event->stopOnWarning());
                 self::assertSame($stopOnDefect, $event->stopOnDefect());
 
@@ -663,6 +677,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunWarning(
             $test,
             $warning,
+            $time,
             $stopOnWarning,
             $stopOnDefect
         );
@@ -672,6 +687,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
     {
         $test         = $this->createMock(Framework\Test::class);
         $error        = new Framework\OutputError();
+        $time         = 123.45;
         $stopOnRisky  = true;
         $stopOnDefect = false;
 
@@ -680,9 +696,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->callback(static function (Test\RunWithOutput $event) use ($test, $error, $stopOnRisky, $stopOnDefect): bool {
+            ->with($this->callback(static function (Test\RunWithOutput $event) use ($test, $error, $time, $stopOnRisky, $stopOnDefect): bool {
                 self::assertSame($test, $event->test());
                 self::assertSame($error, $event->error());
+                self::assertSame($time, $event->time());
                 self::assertSame($stopOnRisky, $event->stopOnRisky());
                 self::assertSame($stopOnDefect, $event->stopOnDefect());
 
@@ -705,6 +722,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunWithOutput(
             $test,
             $error,
+            $time,
             $stopOnRisky,
             $stopOnDefect
         );

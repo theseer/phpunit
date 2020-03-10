@@ -22,6 +22,7 @@ final class RunErroredTest extends AbstractEventTestCase
         $telemetryInfo = self::createTelemetryInfo();
         $test          = $this->createMock(Framework\Test::class);
         $error         = $this->createMock(\Throwable::class);
+        $time          = 123.45;
         $stopOnError   = false;
         $stopOnDefect  = true;
 
@@ -29,6 +30,7 @@ final class RunErroredTest extends AbstractEventTestCase
             $telemetryInfo,
             $test,
             $error,
+            $time,
             $stopOnError,
             $stopOnDefect
         );
@@ -36,6 +38,7 @@ final class RunErroredTest extends AbstractEventTestCase
         self::assertSame($telemetryInfo, $event->telemetryInfo());
         self::assertSame($test, $event->test());
         self::assertSame($error, $event->error());
+        self::assertSame($time, $event->time());
         self::assertSame($stopOnError, $event->stopOnError());
         self::assertSame($stopOnDefect, $event->stopOnDefect());
     }

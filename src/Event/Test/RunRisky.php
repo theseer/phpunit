@@ -31,6 +31,11 @@ final class RunRisky implements Event
     private $error;
 
     /**
+     * @var float
+     */
+    private $time;
+
+    /**
      * @var bool
      */
     private $stopOnRisky;
@@ -44,12 +49,14 @@ final class RunRisky implements Event
         Telemetry\Info $telemetryInfo,
         Framework\Test $test,
         Framework\RiskyTestError $error,
+        float $time,
         bool $stopOnRisky,
         bool $stopOnDefect
     ) {
         $this->telemetryInfo = $telemetryInfo;
         $this->test          = $test;
         $this->error         = $error;
+        $this->time          = $time;
         $this->stopOnRisky   = $stopOnRisky;
         $this->stopOnDefect  = $stopOnDefect;
     }
@@ -67,6 +74,11 @@ final class RunRisky implements Event
     public function error(): Framework\RiskyTestError
     {
         return $this->error;
+    }
+
+    public function time(): float
+    {
+        return $this->time;
     }
 
     public function stopOnRisky(): bool

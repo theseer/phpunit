@@ -22,18 +22,21 @@ final class RunIncompleteTest extends AbstractEventTestCase
         $telemetryInfo    = self::createTelemetryInfo();
         $test             = $this->createMock(Framework\Test::class);
         $error            = $this->createMock(Framework\IncompleteTest::class);
+        $time             = 123.45;
         $stopOnIncomplete = false;
 
         $event = new RunIncomplete(
             $telemetryInfo,
             $test,
             $error,
+            $time,
             $stopOnIncomplete
         );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
         self::assertSame($test, $event->test());
         self::assertSame($error, $event->error());
+        self::assertSame($time, $event->time());
         self::assertSame($stopOnIncomplete, $event->stopOnIncomplete());
     }
 }
