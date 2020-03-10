@@ -44,9 +44,13 @@ interface Emitter
 
     public function testRunFinished(): void;
 
+    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, bool $stopOnIncomplete): void;
+
     public function testRunPassed(): void;
 
     public function testRunRisky(): void;
+
+    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void;
 
     public function testRunSkippedByDataProvider(): void;
 
@@ -55,6 +59,8 @@ interface Emitter
     public function testRunSkippedWithFailedRequirements(): void;
 
     public function testRunSkippedWithWarning(): void;
+
+    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void;
 
     public function testSetUpFinished(): void;
 

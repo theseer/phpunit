@@ -137,6 +137,10 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunFinished($this->telemetryInfo()));
     }
 
+    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, bool $stopOnIncomplete): void
+    {
+    }
+
     public function testRunPassed(): void
     {
         $this->dispatcher->dispatch(new Test\RunPassed($this->telemetryInfo()));
@@ -145,6 +149,10 @@ final class DispatchingEmitter implements Emitter
     public function testRunRisky(): void
     {
         $this->dispatcher->dispatch(new Test\RunRisky($this->telemetryInfo()));
+    }
+
+    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void
+    {
     }
 
     public function testRunSkippedByDataProvider(): void
@@ -165,6 +173,10 @@ final class DispatchingEmitter implements Emitter
     public function testRunSkippedWithWarning(): void
     {
         $this->dispatcher->dispatch(new Test\RunSkippedWithWarning($this->telemetryInfo()));
+    }
+
+    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void
+    {
     }
 
     public function testSetUpFinished(): void

@@ -73,11 +73,19 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
+    public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, bool $stopOnIncomplete): void
+    {
+    }
+
     public function testRunPassed(): void
     {
     }
 
     public function testRunRisky(): void
+    {
+    }
+
+    public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void
     {
     }
 
@@ -94,6 +102,10 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     }
 
     public function testRunSkippedWithWarning(): void
+    {
+    }
+
+    public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void
     {
     }
 
