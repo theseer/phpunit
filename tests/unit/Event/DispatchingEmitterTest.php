@@ -901,31 +901,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testCaseSetUpBeforeClassFinished();
     }
 
-    public function testTestCaseSetUpFinishedDispatchesTestCaseSetUpFinishedEvent(): void
-    {
-        $subscriber = $this->createMock(TestCase\SetUpFinishedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(TestCase\SetUpFinished::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            TestCase\SetUpFinishedSubscriber::class,
-            TestCase\SetUpFinished::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testCaseSetUpFinished();
-    }
-
     public function testTestCaseTearDownAfterClassFinishedDispatchesTestCaseTearDownAfterClassFinishedEvent(): void
     {
         $subscriber = $this->createMock(TestCase\TearDownAfterClassFinishedSubscriber::class);

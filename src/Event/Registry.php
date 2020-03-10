@@ -87,7 +87,6 @@ final class Registry
             Test\SetUpFinished::class,
             Test\TearDownFinished::class,
             TestCase\SetUpBeforeClassFinished::class,
-            TestCase\SetUpFinished::class,
             TestCase\TearDownAfterClassFinished::class,
             TestDouble\MockCreated::class,
             TestDouble\MockForTraitCreated::class,

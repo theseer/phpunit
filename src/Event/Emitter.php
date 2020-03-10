@@ -92,8 +92,6 @@ interface Emitter
 
     public function testCaseSetUpBeforeClassFinished(): void;
 
-    public function testCaseSetUpFinished(): void;
-
     public function testCaseTearDownAfterClassFinished(): void;
 
     public function testDoubleMockCreated(): void;

@@ -144,10 +144,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testCaseSetUpFinished(): void
-    {
-    }
-
     public function testCaseTearDownAfterClassFinished(): void
     {
     }
