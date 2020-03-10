@@ -12,7 +12,7 @@ namespace PHPUnit\Event\Test;
 use PHPUnit\Event\Event;
 use PHPUnit\Event\Telemetry;
 
-final class TearDownAfterClassFinished implements Event
+final class AfterClassFinished implements Event
 {
     /**
      * @var Telemetry\Info

@@ -11,7 +11,7 @@ namespace PHPUnit\Event\Test;
 
 use PHPUnit\Event\Subscriber;
 
-interface SetUpBeforeClassFinishedSubscriber extends Subscriber
+interface AfterClassFinishedSubscriber extends Subscriber
 {
-    public function notify(SetUpBeforeClassFinished $event): void;
+    public function notify(AfterClassFinished $event): void;
 }

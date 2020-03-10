@@ -289,6 +289,56 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->globalStateRestored();
     }
 
+    public function testAfterClassFinishedDispatchesAfterClassFinishedEvent(): void
+    {
+        $subscriber = $this->createMock(Test\AfterClassFinishedSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->isInstanceOf(Test\AfterClassFinished::class));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Test\AfterClassFinishedSubscriber::class,
+            Test\AfterClassFinished::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->testAfterClassFinished();
+    }
+
+    public function testBeforeClassFinishedDispatchesBeforeClassFinishedEvent(): void
+    {
+        $subscriber = $this->createMock(Test\BeforeClassFinishedSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->isInstanceOf(Test\BeforeClassFinished::class));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Test\BeforeClassFinishedSubscriber::class,
+            Test\BeforeClassFinished::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->testBeforeClassFinished();
+    }
+
     public function testTestRunConfiguredDispatchesTestRunConfiguredEvent(): void
     {
         $test                                       = $this->createMock(Framework\Test::class);
@@ -776,31 +826,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         );
     }
 
-    public function testTestSetUpBeforeClassFinishedDispatchesTestSetUpBeforeClassFinishedEvent(): void
-    {
-        $subscriber = $this->createMock(Test\SetUpBeforeClassFinishedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\SetUpBeforeClassFinished::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\SetUpBeforeClassFinishedSubscriber::class,
-            Test\SetUpBeforeClassFinished::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testSetUpBeforeClassFinished();
-    }
-
     public function testTestSetUpFinishedDispatchesTestSetUpFinishedEvent(): void
     {
         $subscriber = $this->createMock(Test\SetUpFinishedSubscriber::class);
@@ -824,31 +849,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         );
 
         $emitter->testSetUpFinished();
-    }
-
-    public function testTestTearDownAfterClassFinishedDispatchesTestCaseTearDownAfterClassFinishedEvent(): void
-    {
-        $subscriber = $this->createMock(Test\TearDownAfterClassFinishedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\TearDownAfterClassFinished::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\TearDownAfterClassFinishedSubscriber::class,
-            Test\TearDownAfterClassFinished::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testTearDownAfterClassFinished();
     }
 
     public function testTestTearDownFinishedDispatchesTestTearDownFinishedEvent(): void

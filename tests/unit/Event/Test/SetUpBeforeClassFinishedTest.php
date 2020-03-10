@@ -12,7 +12,7 @@ namespace PHPUnit\Event\Test;
 use PHPUnit\Event\AbstractEventTestCase;
 
 /**
- * @covers \PHPUnit\Event\Test\SetUpBeforeClassFinished
+ * @covers \PHPUnit\Event\Test\BeforeClassFinished
  */
 final class SetUpBeforeClassFinishedTest extends AbstractEventTestCase
 {
@@ -20,7 +20,7 @@ final class SetUpBeforeClassFinishedTest extends AbstractEventTestCase
     {
         $telemetryInfo = self::createTelemetryInfo();
 
-        $event = new SetUpBeforeClassFinished($telemetryInfo);
+        $event = new BeforeClassFinished($telemetryInfo);
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
     }

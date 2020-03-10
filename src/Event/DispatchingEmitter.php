@@ -99,6 +99,16 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new GlobalState\Restored($this->telemetryInfo()));
     }
 
+    public function testAfterClassFinished(): void
+    {
+        $this->dispatcher->dispatch(new Test\AfterClassFinished($this->telemetryInfo()));
+    }
+
+    public function testBeforeClassFinished(): void
+    {
+        $this->dispatcher->dispatch(new Test\BeforeClassFinished($this->telemetryInfo()));
+    }
+
     public function testRunConfigured(
         Framework\Test $test,
         bool $beStrictAboutOutputDuringTests,
@@ -242,19 +252,9 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function testSetUpBeforeClassFinished(): void
-    {
-        $this->dispatcher->dispatch(new Test\SetUpBeforeClassFinished($this->telemetryInfo()));
-    }
-
     public function testSetUpFinished(): void
     {
         $this->dispatcher->dispatch(new Test\SetUpFinished($this->telemetryInfo()));
-    }
-
-    public function testTearDownAfterClassFinished(): void
-    {
-        $this->dispatcher->dispatch(new Test\TearDownAfterClassFinished($this->telemetryInfo()));
     }
 
     public function testTearDownFinished(): void

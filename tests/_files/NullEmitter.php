@@ -57,6 +57,14 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
+    public function testAfterClassFinished(): void
+    {
+    }
+
+    public function testBeforeClassFinished(): void
+    {
+    }
+
     public function testRunConfigured(
         Framework\Test $test,
         bool $beStrictAboutOutputDuringTests,
@@ -124,15 +132,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testSetUpBeforeClassFinished(): void
-    {
-    }
-
     public function testSetUpFinished(): void
-    {
-    }
-
-    public function testTearDownAfterClassFinished(): void
     {
     }
 

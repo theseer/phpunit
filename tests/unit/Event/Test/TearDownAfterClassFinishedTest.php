@@ -12,7 +12,7 @@ namespace PHPUnit\Event\Test;
 use PHPUnit\Event\AbstractEventTestCase;
 
 /**
- * @covers \PHPUnit\Event\Test\TearDownAfterClassFinished
+ * @covers \PHPUnit\Event\Test\AfterClassFinished
  */
 final class TearDownAfterClassFinishedTest extends AbstractEventTestCase
 {
@@ -20,7 +20,7 @@ final class TearDownAfterClassFinishedTest extends AbstractEventTestCase
     {
         $telemetryInfo = self::createTelemetryInfo();
 
-        $event = new TearDownAfterClassFinished($telemetryInfo);
+        $event = new AfterClassFinished($telemetryInfo);
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
     }
