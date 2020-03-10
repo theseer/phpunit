@@ -13,7 +13,7 @@ use PHPUnit\Event\AbstractEventTestCase;
 use PHPUnit\Framework;
 
 /**
- * @covers \PHPUnit\Event\Test\RunPassed
+ * @covers \PHPUnit\Event\Test\RunWithOutput
  */
 final class RunWithOutputTest extends AbstractEventTestCase
 {
