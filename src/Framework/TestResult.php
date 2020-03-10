@@ -657,16 +657,6 @@ final class TestResult implements Countable
             \xdebug_start_function_monitor(ResourceOperations::getFunctions());
         }
 
-        Event\Registry::emitter()->testRunConfigured(
-            $test,
-            $this->convertDeprecationsToExceptions,
-            $this->convertErrorsToExceptions,
-            $this->convertNoticesToExceptions,
-            $this->convertWarningsToExceptions,
-            $collectCodeCoverage,
-            $monitorFunctions
-        );
-
         Timer::start();
 
         try {
@@ -698,8 +688,30 @@ final class TestResult implements Countable
                         break;
                 }
 
+                Event\Registry::emitter()->testRunConfigured(
+                    $test,
+                    $this->convertDeprecationsToExceptions,
+                    $this->convertErrorsToExceptions,
+                    $this->convertNoticesToExceptions,
+                    $this->convertWarningsToExceptions,
+                    $collectCodeCoverage,
+                    $monitorFunctions,
+                    $_timeout
+                );
+
                 $invoker->invoke([$test, 'runBare'], [], $_timeout);
             } else {
+                Event\Registry::emitter()->testRunConfigured(
+                    $test,
+                    $this->convertDeprecationsToExceptions,
+                    $this->convertErrorsToExceptions,
+                    $this->convertNoticesToExceptions,
+                    $this->convertWarningsToExceptions,
+                    $collectCodeCoverage,
+                    $monitorFunctions,
+                    0
+                );
+
                 $test->runBare();
             }
         } catch (TimeoutException $e) {
