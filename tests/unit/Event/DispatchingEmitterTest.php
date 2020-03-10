@@ -636,56 +636,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         );
     }
 
-    public function testTestRunSkippedByDataProviderDispatchesTestRunSkippedByDataProviderEvent(): void
-    {
-        $subscriber = $this->createMock(Test\RunSkippedByDataProviderSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\RunSkippedByDataProvider::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\RunSkippedByDataProviderSubscriber::class,
-            Test\RunSkippedByDataProvider::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testRunSkippedByDataProvider();
-    }
-
-    public function testTestRunSkippedWithFailedRequirementsDispatchesTestRunSkippedWithFailedRequirementsEvent(): void
-    {
-        $subscriber = $this->createMock(Test\RunSkippedWithFailedRequirementsSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\RunSkippedWithFailedRequirements::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\RunSkippedWithFailedRequirementsSubscriber::class,
-            Test\RunSkippedWithFailedRequirements::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testRunSkippedWithFailedRequirements();
-    }
-
     public function testTestRunWarningDispatchesTestRunWarningEvent(): void
     {
         $test          = $this->createMock(Framework\Test::class);

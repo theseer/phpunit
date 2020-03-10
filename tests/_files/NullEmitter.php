@@ -116,14 +116,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunSkippedByDataProvider(): void
-    {
-    }
-
-    public function testRunSkippedWithFailedRequirements(): void
-    {
-    }
-
     public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void
     {
     }

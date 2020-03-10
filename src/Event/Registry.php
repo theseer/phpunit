@@ -88,8 +88,6 @@ final class Registry
             Test\RunIncomplete::class,
             Test\RunRisky::class,
             Test\RunSkipped::class,
-            Test\RunSkippedByDataProvider::class,
-            Test\RunSkippedWithFailedRequirements::class,
             Test\RunWarning::class,
             Test\SetUpFinished::class,
             Test\TearDownFinished::class,

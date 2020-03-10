@@ -208,16 +208,6 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function testRunSkippedByDataProvider(): void
-    {
-        $this->dispatcher->dispatch(new Test\RunSkippedByDataProvider($this->telemetryInfo()));
-    }
-
-    public function testRunSkippedWithFailedRequirements(): void
-    {
-        $this->dispatcher->dispatch(new Test\RunSkippedWithFailedRequirements($this->telemetryInfo()));
-    }
-
     public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void
     {
         $this->dispatcher->dispatch(new Test\RunWarning(

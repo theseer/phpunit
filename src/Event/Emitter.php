@@ -74,10 +74,6 @@ interface Emitter
 
     public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, float $time, bool $stopOnSkipped): void;
 
-    public function testRunSkippedByDataProvider(): void;
-
-    public function testRunSkippedWithFailedRequirements(): void;
-
     public function testRunWarning(Framework\Test $test, Framework\Warning $warning, float $time, bool $stopOnWarning, bool $stopOnDefect): void;
 
     public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void;
