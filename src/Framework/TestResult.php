@@ -334,8 +334,10 @@ final class TestResult implements Countable
      */
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
+        $testFailure = new TestFailure($test, $e);
+
         if ($e instanceof RiskyTestError || $e instanceof OutputError) {
-            $this->risky[] = new TestFailure($test, $e);
+            $this->risky[] = $testFailure;
             $notifyMethod  = 'addRiskyTest';
 
             if ($test instanceof TestCase) {
@@ -346,21 +348,21 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($e instanceof IncompleteTest) {
-            $this->notImplemented[] = new TestFailure($test, $e);
+            $this->notImplemented[] = $testFailure;
             $notifyMethod           = 'addIncompleteTest';
 
             if ($this->stopOnIncomplete) {
                 $this->stop();
             }
         } elseif ($e instanceof SkippedTest) {
-            $this->skipped[] = new TestFailure($test, $e);
+            $this->skipped[] = $testFailure;
             $notifyMethod    = 'addSkippedTest';
 
             if ($this->stopOnSkipped) {
                 $this->stop();
             }
         } else {
-            $this->failures[] = new TestFailure($test, $e);
+            $this->failures[] = $testFailure;
             $notifyMethod     = 'addFailure';
 
             if ($this->stopOnFailure || $this->stopOnDefect) {
