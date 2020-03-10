@@ -117,7 +117,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testCaseRunSkippedWithWarning(): void
+    public function testCaseRunSkippedWithWarning(Framework\TestCase $testCase, \Throwable $warning): void
     {
     }
 

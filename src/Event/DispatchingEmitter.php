@@ -104,8 +104,13 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function testCaseRunSkippedWithWarning(): void
+    public function testCaseRunSkippedWithWarning(Framework\TestCase $testCase, \Throwable $warning): void
     {
+        $this->dispatcher->dispatch(new TestCase\RunSkippedWithWarning(
+            $this->telemetryInfo(),
+            $testCase,
+            $warning
+        ));
     }
 
     public function testRunConfigured(): void
