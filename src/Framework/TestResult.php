@@ -334,10 +334,15 @@ final class TestResult implements Countable
      */
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
-        $testFailure = new TestFailure($test, $e);
-
         if ($e instanceof RiskyTestError || $e instanceof OutputError) {
-            $this->risky[] = $testFailure;
+
+            if ($e instanceof OutputError) {
+                Event\Registry::emitter()->testRunWithOutput($test, $e, $this->stopOnRisky, $this->stopOnDefect);
+            } else {
+                Event\Registry::emitter()->testRunRisky($test, $e, $this->stopOnRisky, $this->stopOnDefect);
+            }
+
+            $this->risky[] = new TestFailure($test, $e);
             $notifyMethod  = 'addRiskyTest';
 
             if ($test instanceof TestCase) {
@@ -348,21 +353,25 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($e instanceof IncompleteTest) {
-            $this->notImplemented[] = $testFailure;
+            Event\Registry::emitter()->testRunIncomplete($test, $e, $this->stopOnIncomplete);
+
+            $this->notImplemented[] = new TestFailure($test, $e);
             $notifyMethod           = 'addIncompleteTest';
 
             if ($this->stopOnIncomplete) {
                 $this->stop();
             }
         } elseif ($e instanceof SkippedTest) {
-            $this->skipped[] = $testFailure;
+            Event\Registry::emitter()->testRunSkipped($test, $e, $this->stopOnSkipped);
+            $this->skipped[] = new TestFailure($test, $e);
             $notifyMethod    = 'addSkippedTest';
 
             if ($this->stopOnSkipped) {
                 $this->stop();
             }
         } else {
-            $this->failures[] = $testFailure;
+            Event\Registry::emitter()->testRunFailed($test, $e, $this->stopOnFailure, $this->stopOnDefect);
+            $this->failures[] = new TestFailure($test, $e);
             $notifyMethod     = 'addFailure';
 
             if ($this->stopOnFailure || $this->stopOnDefect) {
