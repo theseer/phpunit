@@ -266,6 +266,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunRisky(
                 $test,
                 $t,
+                $time,
                 $this->stopOnRisky,
                 $this->stopOnDefect
             );
@@ -284,6 +285,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunIncomplete(
                 $test,
                 $t,
+                $time,
                 $this->stopOnIncomplete
             );
 
@@ -297,6 +299,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunSkipped(
                 $test,
                 $t,
+                $time,
                 $this->stopOnSkipped
             );
 
@@ -310,6 +313,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunErrored(
                 $test,
                 $t,
+                $time,
                 $this->stopOnError,
                 $this->stopOnFailure
             );
@@ -348,6 +352,7 @@ final class TestResult implements Countable
         Event\Registry::emitter()->testRunWarning(
             $test,
             $e,
+            $time,
             $this->stopOnWarning,
             $this->stopOnDefect
         );
@@ -372,6 +377,7 @@ final class TestResult implements Countable
                 Event\Registry::emitter()->testRunWithOutput(
                     $test,
                     $e,
+                    $time,
                     $this->stopOnRisky,
                     $this->stopOnDefect
                 );
@@ -379,6 +385,7 @@ final class TestResult implements Countable
                 Event\Registry::emitter()->testRunRisky(
                     $test,
                     $e,
+                    $time,
                     $this->stopOnRisky,
                     $this->stopOnDefect
                 );
@@ -398,6 +405,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunIncomplete(
                 $test,
                 $e,
+                $time,
                 $this->stopOnIncomplete
             );
 
@@ -411,6 +419,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunSkipped(
                 $test,
                 $e,
+                $time,
                 $this->stopOnSkipped
             );
 
@@ -424,6 +433,7 @@ final class TestResult implements Countable
             Event\Registry::emitter()->testRunFailed(
                 $test,
                 $e,
+                $time,
                 $this->stopOnFailure,
                 $this->stopOnDefect
             );
