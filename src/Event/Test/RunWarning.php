@@ -12,7 +12,7 @@ namespace PHPUnit\Event\Test;
 use PHPUnit\Event\Event;
 use PHPUnit\Event\Telemetry;
 
-final class RunSkippedWithWarning implements Event
+final class RunWarning implements Event
 {
     /**
      * @var Telemetry\Info
