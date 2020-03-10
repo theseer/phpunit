@@ -121,6 +121,12 @@ final class DispatchingEmitter implements Emitter
 
     public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, bool $stopOnIncomplete): void
     {
+        $this->dispatcher->dispatch(new Test\RunIncomplete(
+            $this->telemetryInfo(),
+            $test,
+            $error,
+            $stopOnIncomplete
+        ));
     }
 
     public function testRunPassed(): void

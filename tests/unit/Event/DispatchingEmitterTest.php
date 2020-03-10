@@ -389,6 +389,45 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->testRunFinished();
     }
 
+    public function testTestRunIncompleteDispatchesTestRunIncompleteEvent(): void
+    {
+        $test             = $this->createMock(Framework\Test::class);
+        $error            = $this->createMock(Framework\IncompleteTest::class);
+        $stopOnIncomplete = false;
+
+        $subscriber = $this->createMock(Test\RunIncompleteSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->callback(static function (Test\RunIncomplete $event) use ($test, $error, $stopOnIncomplete): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($error, $event->error());
+                self::assertSame($stopOnIncomplete, $event->stopOnIncomplete());
+
+                return true;
+            }));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Test\RunIncompleteSubscriber::class,
+            Test\RunIncomplete::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->testRunIncomplete(
+            $test,
+            $error,
+            $stopOnIncomplete
+        );
+    }
+
     public function testTestRunPassedDispatchesTestRunPassedEvent(): void
     {
         $subscriber = $this->createMock(Test\RunPassedSubscriber::class);

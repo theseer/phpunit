@@ -76,6 +76,7 @@ final class Registry
             Test\RunErrored::class,
             Test\RunFailed::class,
             Test\RunFinished::class,
+            Test\RunIncomplete::class,
             Test\RunPassed::class,
             Test\RunRisky::class,
             Test\RunSkippedByDataProvider::class,
