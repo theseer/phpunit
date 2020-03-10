@@ -7,20 +7,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Event\TestCase;
+namespace PHPUnit\Event\Test;
 
 use PHPUnit\Event\AbstractEventTestCase;
 
 /**
- * @covers \PHPUnit\Event\TestCase\SetUpBeforeClassFinished
+ * @covers \PHPUnit\Event\Test\TearDownAfterClassFinished
  */
-final class SetUpBeforeClassFinishedTest extends AbstractEventTestCase
+final class TearDownAfterClassFinishedTest extends AbstractEventTestCase
 {
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
 
-        $event = new SetUpBeforeClassFinished($telemetryInfo);
+        $event = new TearDownAfterClassFinished($telemetryInfo);
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
     }

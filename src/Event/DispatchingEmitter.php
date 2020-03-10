@@ -252,24 +252,24 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
+    public function testSetUpBeforeClassFinished(): void
+    {
+        $this->dispatcher->dispatch(new Test\SetUpBeforeClassFinished($this->telemetryInfo()));
+    }
+
     public function testSetUpFinished(): void
     {
         $this->dispatcher->dispatch(new Test\SetUpFinished($this->telemetryInfo()));
     }
 
+    public function testTearDownAfterClassFinished(): void
+    {
+        $this->dispatcher->dispatch(new Test\TearDownAfterClassFinished($this->telemetryInfo()));
+    }
+
     public function testTearDownFinished(): void
     {
         $this->dispatcher->dispatch(new Test\TearDownFinished($this->telemetryInfo()));
-    }
-
-    public function testCaseSetUpBeforeClassFinished(): void
-    {
-        $this->dispatcher->dispatch(new TestCase\SetUpBeforeClassFinished($this->telemetryInfo()));
-    }
-
-    public function testCaseTearDownAfterClassFinished(): void
-    {
-        $this->dispatcher->dispatch(new TestCase\TearDownAfterClassFinished($this->telemetryInfo()));
     }
 
     public function testDoubleMockCreated(): void
