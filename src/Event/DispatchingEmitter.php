@@ -248,23 +248,23 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new TestSuite\Loaded($this->telemetryInfo()));
     }
 
-    public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error): void
+    public function testSuiteRunFailed(Framework\TestSuite $testSuite, \Throwable $error): void
     {
     }
 
-    public function testSuiteRunFinished(Framework\TestSuite $suite): void
+    public function testSuiteRunFinished(Framework\TestSuite $testSuite): void
     {
         $this->dispatcher->dispatch(new TestSuite\RunFinished(
             $this->telemetryInfo(),
-            $suite
+            $testSuite
         ));
     }
 
-    public function testSuiteRunStarted(Framework\TestSuite $suite): void
+    public function testSuiteRunStarted(Framework\TestSuite $testSuite): void
     {
         $this->dispatcher->dispatch(new TestSuite\RunStarted(
             $this->telemetryInfo(),
-            $suite
+            $testSuite
         ));
     }
 

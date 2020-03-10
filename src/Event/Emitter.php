@@ -94,11 +94,11 @@ interface Emitter
 
     public function testSuiteLoaded(): void;
 
-    public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error);
+    public function testSuiteRunFailed(Framework\TestSuite $testSuite, \Throwable $error);
 
-    public function testSuiteRunFinished(Framework\TestSuite $suite): void;
+    public function testSuiteRunFinished(Framework\TestSuite $testSuite): void;
 
-    public function testSuiteRunStarted(Framework\TestSuite $suite): void;
+    public function testSuiteRunStarted(Framework\TestSuite $testSuite): void;
 
     public function testSuiteSorted(): void;
 }

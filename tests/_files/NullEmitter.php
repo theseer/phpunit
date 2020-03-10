@@ -173,15 +173,15 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testSuiteRunFailed(Framework\TestSuite $suite, \Throwable $error): void
+    public function testSuiteRunFailed(Framework\TestSuite $testSuite, \Throwable $error): void
     {
     }
 
-    public function testSuiteRunFinished(Framework\TestSuite $suite): void
+    public function testSuiteRunFinished(Framework\TestSuite $testSuite): void
     {
     }
 
-    public function testSuiteRunStarted(Framework\TestSuite $suite): void
+    public function testSuiteRunStarted(Framework\TestSuite $testSuite): void
     {
     }
 
