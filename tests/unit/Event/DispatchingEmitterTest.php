@@ -504,12 +504,44 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestRunFinishedDispatchesTestRunFinishedEvent(): void
     {
+        $test            = $this->createMock(Framework\Test::class);
+        $time            = 123.45;
+        $coverageData    = [];
+        $error           = false;
+        $failure         = true;
+        $incomplete      = false;
+        $risky           = false;
+        $skipped         = true;
+        $warning         = false;
+
         $subscriber = $this->createMock(Test\RunFinishedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Test\RunFinished::class));
+            ->with($this->callback(static function (Test\RunFinished $event) use (
+                $test,
+                $time,
+                $coverageData,
+                $error,
+                $failure,
+                $incomplete,
+                $risky,
+                $skipped,
+                $warning
+            ): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($time, $event->time());
+                self::assertSame($coverageData, $event->coverageData());
+                self::assertSame($error, $event->error());
+                self::assertSame($failure, $event->failure());
+                self::assertSame($incomplete, $event->incomplete());
+                self::assertSame($risky, $event->risky());
+                self::assertSame($skipped, $event->skipped());
+                self::assertSame($warning, $event->warning());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Test\RunFinishedSubscriber::class,
@@ -524,7 +556,17 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testRunFinished();
+        $emitter->testRunFinished(
+            $test,
+            $time,
+            $coverageData,
+            $error,
+            $failure,
+            $incomplete,
+            $risky,
+            $skipped,
+            $warning
+        );
     }
 
     public function testTestRunIncompleteDispatchesTestRunIncompleteEvent(): void

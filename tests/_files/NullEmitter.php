@@ -100,7 +100,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunFinished(): void
+    public function testRunFinished(Framework\Test  $test, float $time, ?array $coverageData, bool $error, bool $failure, bool $incomplete, bool $risky, bool $skipped, bool $warning): void
     {
     }
 

@@ -176,9 +176,20 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function testRunFinished(): void
+    public function testRunFinished(Framework\Test  $test, float $time, ?array $coverageData, bool $error, bool $failure, bool $incomplete, bool $risky, bool $skipped, bool $warning): void
     {
-        $this->dispatcher->dispatch(new Test\RunFinished($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Test\RunFinished(
+            $this->telemetryInfo(),
+            $test,
+            $time,
+            $coverageData,
+            $error,
+            $failure,
+            $incomplete,
+            $risky,
+            $skipped,
+            $warning
+        ));
     }
 
     public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, float $time, bool $stopOnIncomplete): void

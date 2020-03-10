@@ -66,7 +66,7 @@ interface Emitter
 
     public function testRunFailed(Framework\Test $test, Framework\AssertionFailedError $error, float $time, bool $stopOnFailure, bool $stopOnDefect): void;
 
-    public function testRunFinished(): void;
+    public function testRunFinished(Framework\Test  $test, float $time, ?array $coverageData, bool $error, bool $failure, bool $incomplete, bool $risky, bool $skipped, bool $warning): void;
 
     public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, float $time, bool $stopOnIncomplete): void;
 
