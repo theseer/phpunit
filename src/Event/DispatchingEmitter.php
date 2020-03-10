@@ -164,9 +164,16 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function testRunFailed(): void
+    public function testRunFailed(Framework\Test $test, Framework\AssertionFailedError $error, float $time, bool $stopOnFailure, bool $stopOnDefect): void
     {
-        $this->dispatcher->dispatch(new Test\RunFailed($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Test\RunFailed(
+            $this->telemetryInfo(),
+            $test,
+            $error,
+            $time,
+            $stopOnFailure,
+            $stopOnDefect
+        ));
     }
 
     public function testRunFinished(): void

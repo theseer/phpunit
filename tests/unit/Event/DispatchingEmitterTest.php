@@ -459,12 +459,26 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestRunFailedDispatchesTestRunFailedEvent(): void
     {
+        $test            = $this->createMock(Framework\Test::class);
+        $error           = new Framework\AssertionFailedError();
+        $time            = 123.45;
+        $stopOnFailure   = false;
+        $stopOnDefect    = true;
+
         $subscriber = $this->createMock(Test\RunFailedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Test\RunFailed::class));
+            ->with($this->callback(static function (Test\RunFailed $event) use ($test, $error, $time, $stopOnFailure, $stopOnDefect): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($error, $event->error());
+                self::assertSame($time, $event->time());
+                self::assertSame($stopOnFailure, $event->stopOnFailure());
+                self::assertSame($stopOnDefect, $event->stopOnDefect());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Test\RunFailedSubscriber::class,
@@ -479,7 +493,13 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testRunFailed();
+        $emitter->testRunFailed(
+            $test,
+            $error,
+            $time,
+            $stopOnFailure,
+            $stopOnDefect
+        );
     }
 
     public function testTestRunFinishedDispatchesTestRunFinishedEvent(): void
