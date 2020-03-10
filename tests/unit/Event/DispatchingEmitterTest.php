@@ -416,12 +416,24 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestRunRiskyDispatchesTestRunRiskyEvent(): void
     {
+        $test         = $this->createMock(Framework\Test::class);
+        $error        = new Framework\RiskyTestError();
+        $stopOnRisky  = false;
+        $stopOnDefect = true;
+
         $subscriber = $this->createMock(Test\RunRiskySubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Test\RunRisky::class));
+            ->with($this->callback(static function (Test\RunRisky $event) use ($test, $error, $stopOnRisky, $stopOnDefect): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($error, $event->error());
+                self::assertSame($stopOnRisky, $event->stopOnRisky());
+                self::assertSame($stopOnDefect, $event->stopOnDefect());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Test\RunRiskySubscriber::class,
@@ -436,7 +448,12 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testRunRisky();
+        $emitter->testRunRisky(
+            $test,
+            $error,
+            $stopOnRisky,
+            $stopOnDefect
+        );
     }
 
     public function testTestRunSkippedByDataProviderDispatchesTestRunSkippedByDataProviderEvent(): void

@@ -48,7 +48,7 @@ interface Emitter
 
     public function testRunPassed(): void;
 
-    public function testRunRisky(): void;
+    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, bool $stopOnRisky, bool $stopOnDefect): void;
 
     public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void;
 

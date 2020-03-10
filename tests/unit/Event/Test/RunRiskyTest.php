@@ -10,6 +10,7 @@
 namespace PHPUnit\Event\Test;
 
 use PHPUnit\Event\AbstractEventTestCase;
+use PHPUnit\Framework;
 
 /**
  * @covers \PHPUnit\Event\Test\RunRisky
@@ -19,9 +20,23 @@ final class RunRiskyTest extends AbstractEventTestCase
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $test          = $this->createMock(Framework\Test::class);
+        $error         = new Framework\RiskyTestError();
+        $stopOnRisky   = false;
+        $stopOnDefect  = true;
 
-        $event = new RunRisky($telemetryInfo);
+        $event = new RunRisky(
+            $telemetryInfo,
+            $test,
+            $error,
+            $stopOnRisky,
+            $stopOnDefect
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($test, $event->test());
+        self::assertSame($error, $event->error());
+        self::assertSame($stopOnRisky, $event->stopOnRisky());
+        self::assertSame($stopOnDefect, $event->stopOnDefect());
     }
 }

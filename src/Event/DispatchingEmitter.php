@@ -128,9 +128,15 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new Test\RunPassed($this->telemetryInfo()));
     }
 
-    public function testRunRisky(): void
+    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, bool $stopOnRisky, bool $stopOnDefect): void
     {
-        $this->dispatcher->dispatch(new Test\RunRisky($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Test\RunRisky(
+            $this->telemetryInfo(),
+            $test,
+            $error,
+            $stopOnRisky,
+            $stopOnDefect
+        ));
     }
 
     public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, bool $stopOnSkipped): void

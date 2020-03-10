@@ -81,7 +81,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunRisky(): void
+    public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, bool $stopOnRisky, bool $stopOnDefect): void
     {
     }
 
