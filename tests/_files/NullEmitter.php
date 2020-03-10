@@ -100,10 +100,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunPassed(): void
-    {
-    }
-
     public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void
     {
     }

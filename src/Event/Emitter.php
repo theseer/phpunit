@@ -70,8 +70,6 @@ interface Emitter
 
     public function testRunIncomplete(Framework\Test $test, Framework\IncompleteTest $error, float $time, bool $stopOnIncomplete): void;
 
-    public function testRunPassed(): void;
-
     public function testRunRisky(Framework\Test $test, Framework\RiskyTestError $error, float $time, bool $stopOnRisky, bool $stopOnDefect): void;
 
     public function testRunSkipped(Framework\Test $test, Framework\SkippedTest $error, float $time, bool $stopOnSkipped): void;
