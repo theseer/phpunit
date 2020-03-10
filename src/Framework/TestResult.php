@@ -263,7 +263,13 @@ final class TestResult implements Countable
     public function addError(Test $test, Throwable $t, float $time): void
     {
         if ($t instanceof RiskyTestError) {
-            Event\Registry::emitter()->testRunRisky($test, $t, $this->stopOnRisky, $this->stopOnDefect);
+            Event\Registry::emitter()->testRunRisky(
+                $test,
+                $t,
+                $this->stopOnRisky,
+                $this->stopOnDefect
+            );
+
             $this->risky[] = new TestFailure($test, $t);
             $notifyMethod  = 'addRiskyTest';
 
@@ -275,7 +281,12 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($t instanceof IncompleteTest) {
-            Event\Registry::emitter()->testRunIncomplete($test, $t, $this->stopOnIncomplete);
+            Event\Registry::emitter()->testRunIncomplete(
+                $test,
+                $t,
+                $this->stopOnIncomplete
+            );
+
             $this->notImplemented[] = new TestFailure($test, $t);
             $notifyMethod           = 'addIncompleteTest';
 
@@ -283,7 +294,12 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($t instanceof SkippedTest) {
-            Event\Registry::emitter()->testRunSkipped($test, $t, $this->stopOnSkipped);
+            Event\Registry::emitter()->testRunSkipped(
+                $test,
+                $t,
+                $this->stopOnSkipped
+            );
+
             $this->skipped[] = new TestFailure($test, $t);
             $notifyMethod    = 'addSkippedTest';
 
@@ -291,7 +307,13 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } else {
-            Event\Registry::emitter()->testRunErrored($test, $t, $this->stopOnError, $this->stopOnFailure);
+            Event\Registry::emitter()->testRunErrored(
+                $test,
+                $t,
+                $this->stopOnError,
+                $this->stopOnFailure
+            );
+
             $this->errors[] = new TestFailure($test, $t);
             $notifyMethod   = 'addError';
 
@@ -323,7 +345,13 @@ final class TestResult implements Countable
             $this->stop();
         }
 
-        Event\Registry::emitter()->testRunWarning($test, $e, $this->stopOnWarning, $this->stopOnDefect);
+        Event\Registry::emitter()->testRunWarning(
+            $test,
+            $e,
+            $this->stopOnWarning,
+            $this->stopOnDefect
+        );
+
         $this->warnings[] = new TestFailure($test, $e);
 
         foreach ($this->listeners as $listener) {
@@ -341,9 +369,19 @@ final class TestResult implements Countable
     {
         if ($e instanceof RiskyTestError || $e instanceof OutputError) {
             if ($e instanceof OutputError) {
-                Event\Registry::emitter()->testRunWithOutput($test, $e, $this->stopOnRisky, $this->stopOnDefect);
+                Event\Registry::emitter()->testRunWithOutput(
+                    $test,
+                    $e,
+                    $this->stopOnRisky,
+                    $this->stopOnDefect
+                );
             } else {
-                Event\Registry::emitter()->testRunRisky($test, $e, $this->stopOnRisky, $this->stopOnDefect);
+                Event\Registry::emitter()->testRunRisky(
+                    $test,
+                    $e,
+                    $this->stopOnRisky,
+                    $this->stopOnDefect
+                );
             }
 
             $this->risky[] = new TestFailure($test, $e);
@@ -357,7 +395,11 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($e instanceof IncompleteTest) {
-            Event\Registry::emitter()->testRunIncomplete($test, $e, $this->stopOnIncomplete);
+            Event\Registry::emitter()->testRunIncomplete(
+                $test,
+                $e,
+                $this->stopOnIncomplete
+            );
 
             $this->notImplemented[] = new TestFailure($test, $e);
             $notifyMethod           = 'addIncompleteTest';
@@ -366,7 +408,12 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($e instanceof SkippedTest) {
-            Event\Registry::emitter()->testRunSkipped($test, $e, $this->stopOnSkipped);
+            Event\Registry::emitter()->testRunSkipped(
+                $test,
+                $e,
+                $this->stopOnSkipped
+            );
+
             $this->skipped[] = new TestFailure($test, $e);
             $notifyMethod    = 'addSkippedTest';
 
@@ -374,7 +421,13 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } else {
-            Event\Registry::emitter()->testRunFailed($test, $e, $this->stopOnFailure, $this->stopOnDefect);
+            Event\Registry::emitter()->testRunFailed(
+                $test,
+                $e,
+                $this->stopOnFailure,
+                $this->stopOnDefect
+            );
+
             $this->failures[] = new TestFailure($test, $e);
             $notifyMethod     = 'addFailure';
 
