@@ -14,7 +14,7 @@ use PHPUnit\Event\Telemetry\System;
 use PHPUnit\Event\Telemetry\SystemClock;
 use PHPUnit\Event\Telemetry\SystemMemoryMeter;
 
-final class Registry
+final class Facade
 {
     /** @var null|TypeMap */
     private static $typeMap;

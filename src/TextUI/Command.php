@@ -71,7 +71,7 @@ class Command
      */
     public function run(array $argv, bool $exit = true): int
     {
-        Event\Registry::emitter()->applicationStarted(
+        Event\Facade::emitter()->applicationStarted(
             $argv,
             $exit
         );
@@ -349,7 +349,7 @@ class Command
             try {
                 $configuration = Registry::getInstance()->get($this->arguments['configuration']);
 
-                Event\Registry::emitter()->configurationLoaded($configuration);
+                Event\Facade::emitter()->configurationLoaded($configuration);
             } catch (Throwable $e) {
                 print $e->getMessage() . \PHP_EOL;
                 exit(TestRunner::FAILURE_EXIT);
@@ -553,12 +553,12 @@ class Command
      */
     protected function handleBootstrap(string $filename): void
     {
-        Event\Registry::emitter()->bootstrapStarted($filename);
+        Event\Facade::emitter()->bootstrapStarted($filename);
 
         try {
             $resolvedFilename = FileLoader::checkAndLoad($filename);
 
-            Event\Registry::emitter()->bootstrapFinished($resolvedFilename);
+            Event\Facade::emitter()->bootstrapFinished($resolvedFilename);
         } catch (Exception $e) {
             $this->exitWithErrorMessage($e->getMessage());
         }
@@ -655,7 +655,7 @@ class Command
 
             $this->arguments['loadedExtensions'][] = $manifest->getName() . ' ' . $manifest->getVersion()->getVersionString();
 
-            Event\Registry::emitter()->extensionLoaded($manifest);
+            Event\Facade::emitter()->extensionLoaded($manifest);
         }
     }
 

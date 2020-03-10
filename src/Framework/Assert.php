@@ -2234,7 +2234,7 @@ abstract class Assert
         try {
             $constraint->evaluate($value, $message);
         } finally {
-            Event\Registry::emitter()->assertionMade();
+            Event\Facade::emitter()->assertionMade();
         }
     }
 

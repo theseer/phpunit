@@ -263,7 +263,7 @@ final class TestResult implements Countable
     public function addError(Test $test, Throwable $t, float $time): void
     {
         if ($t instanceof RiskyTestError) {
-            Event\Registry::emitter()->testRunRisky(
+            Event\Facade::emitter()->testRunRisky(
                 $test,
                 $t,
                 $time,
@@ -282,7 +282,7 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($t instanceof IncompleteTest) {
-            Event\Registry::emitter()->testRunIncomplete(
+            Event\Facade::emitter()->testRunIncomplete(
                 $test,
                 $t,
                 $time,
@@ -296,7 +296,7 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($t instanceof SkippedTest) {
-            Event\Registry::emitter()->testRunSkipped(
+            Event\Facade::emitter()->testRunSkipped(
                 $test,
                 $t,
                 $time,
@@ -310,7 +310,7 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } else {
-            Event\Registry::emitter()->testRunErrored(
+            Event\Facade::emitter()->testRunErrored(
                 $test,
                 $t,
                 $time,
@@ -349,7 +349,7 @@ final class TestResult implements Countable
             $this->stop();
         }
 
-        Event\Registry::emitter()->testRunWarning(
+        Event\Facade::emitter()->testRunWarning(
             $test,
             $e,
             $time,
@@ -374,7 +374,7 @@ final class TestResult implements Countable
     {
         if ($e instanceof RiskyTestError || $e instanceof OutputError) {
             if ($e instanceof OutputError) {
-                Event\Registry::emitter()->testRunWithOutput(
+                Event\Facade::emitter()->testRunWithOutput(
                     $test,
                     $e,
                     $time,
@@ -382,7 +382,7 @@ final class TestResult implements Countable
                     $this->stopOnDefect
                 );
             } else {
-                Event\Registry::emitter()->testRunRisky(
+                Event\Facade::emitter()->testRunRisky(
                     $test,
                     $e,
                     $time,
@@ -402,7 +402,7 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($e instanceof IncompleteTest) {
-            Event\Registry::emitter()->testRunIncomplete(
+            Event\Facade::emitter()->testRunIncomplete(
                 $test,
                 $e,
                 $time,
@@ -416,7 +416,7 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } elseif ($e instanceof SkippedTest) {
-            Event\Registry::emitter()->testRunSkipped(
+            Event\Facade::emitter()->testRunSkipped(
                 $test,
                 $e,
                 $time,
@@ -430,7 +430,7 @@ final class TestResult implements Countable
                 $this->stop();
             }
         } else {
-            Event\Registry::emitter()->testRunFailed(
+            Event\Facade::emitter()->testRunFailed(
                 $test,
                 $e,
                 $time,
@@ -766,7 +766,7 @@ final class TestResult implements Countable
                         break;
                 }
 
-                Event\Registry::emitter()->testRunConfigured(
+                Event\Facade::emitter()->testRunConfigured(
                     $test,
                     $this->beStrictAboutOutputDuringTests,
                     $this->beStrictAboutResourceUsageDuringSmallTests,
@@ -794,7 +794,7 @@ final class TestResult implements Countable
 
                 $invoker->invoke([$test, 'runBare'], [], $_timeout);
             } else {
-                Event\Registry::emitter()->testRunConfigured(
+                Event\Facade::emitter()->testRunConfigured(
                     $test,
                     $this->beStrictAboutOutputDuringTests,
                     $this->beStrictAboutResourceUsageDuringSmallTests,
@@ -1068,7 +1068,7 @@ final class TestResult implements Countable
             }
         }
 
-        Event\Registry::emitter()->testRunFinished(
+        Event\Facade::emitter()->testRunFinished(
             $test,
             $time,
             $coverageData,

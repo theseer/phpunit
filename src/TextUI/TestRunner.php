@@ -640,7 +640,7 @@ final class TestRunner extends BaseTestRunner
             }
         }
 
-        Event\Registry::emitter()->applicationConfigured(
+        Event\Facade::emitter()->applicationConfigured(
             $arguments,
             $suite
         );

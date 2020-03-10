@@ -531,7 +531,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
         $result->startTestSuite($this);
 
-        Event\Registry::emitter()->testSuiteRunStarted($this);
+        Event\Facade::emitter()->testSuiteRunStarted($this);
 
         try {
             foreach ($hookMethods['beforeClass'] as $beforeClassMethod) {
@@ -546,7 +546,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 }
             }
 
-            Event\Registry::emitter()->testSuiteSetUpBeforeClassFinished();
+            Event\Facade::emitter()->testSuiteSetUpBeforeClassFinished();
         } catch (SkippedTestSuiteError $error) {
             foreach ($this->tests() as $test) {
                 $result->startTest($test);
@@ -556,7 +556,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
             $result->endTestSuite($this);
 
-            Event\Registry::emitter()->testSuiteRunFailed(
+            Event\Facade::emitter()->testSuiteRunFailed(
                 $this,
                 $error
             );
@@ -589,7 +589,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
             $result->endTestSuite($this);
 
-            Event\Registry::emitter()->testSuiteRunFailed(
+            Event\Facade::emitter()->testSuiteRunFailed(
                 $this,
                 $t
             );
@@ -621,7 +621,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 }
             }
 
-            Event\Registry::emitter()->testSuiteTearDownAfterClassFinished();
+            Event\Facade::emitter()->testSuiteTearDownAfterClassFinished();
         } catch (\Throwable $t) {
             $message = "Exception in {$this->name}::$afterClassMethod" . \PHP_EOL . $t->getMessage();
             $error   = new SyntheticError($message, 0, $t->getFile(), $t->getLine(), $t->getTrace());
@@ -636,7 +636,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
 
         $result->endTestSuite($this);
 
-        Event\Registry::emitter()->testSuiteRunFinished($this);
+        Event\Facade::emitter()->testSuiteRunFinished($this);
 
         return $result;
     }

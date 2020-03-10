@@ -796,7 +796,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     {
         ComparatorFactory::getInstance()->register($comparator);
 
-        Event\Registry::emitter()->comparatorRegistered();
+        Event\Facade::emitter()->comparatorRegistered();
 
         $this->customComparators[] = $comparator;
     }
@@ -1020,7 +1020,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     $this->$method();
                 }
 
-                Event\Registry::emitter()->testSuiteSetUpBeforeClassFinished();
+                Event\Facade::emitter()->testSuiteSetUpBeforeClassFinished();
             }
 
             $this->setDoesNotPerformAssertionsFromAnnotation();
@@ -1029,7 +1029,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 $this->$method();
             }
 
-            Event\Registry::emitter()->testSetUpFinished();
+            Event\Facade::emitter()->testSetUpFinished();
 
             $this->assertPreConditions();
             $this->testResult = $this->runTest();
@@ -1078,14 +1078,14 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     $this->$method();
                 }
 
-                Event\Registry::emitter()->testTearDownFinished();
+                Event\Facade::emitter()->testTearDownFinished();
 
                 if ($this->inIsolation) {
                     foreach ($hookMethods['afterClass'] as $method) {
                         $this->$method();
                     }
 
-                    Event\Registry::emitter()->testSuiteTearDownAfterClassFinished();
+                    Event\Facade::emitter()->testSuiteTearDownAfterClassFinished();
                 }
             }
         } catch (\Throwable $_e) {
@@ -1591,7 +1591,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             ->disallowMockingUnknownTypes()
             ->getMock();
 
-        Event\Registry::emitter()->testDoubleMockCreated();
+        Event\Facade::emitter()->testDoubleMockCreated();
 
         return $mock;
     }
@@ -1662,7 +1662,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             ->setMethods(empty($methods) ? null : $methods)
             ->getMock();
 
-        Event\Registry::emitter()->testDoublePartialMockCreated();
+        Event\Facade::emitter()->testDoublePartialMockCreated();
 
         return $mock;
     }
@@ -1681,7 +1681,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             ->enableProxyingToOriginalMethods()
             ->getMock();
 
-        Event\Registry::emitter()->testDoubleTestProxyCreated();
+        Event\Facade::emitter()->testDoubleTestProxyCreated();
 
         return $mock;
     }
@@ -1801,7 +1801,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->registerMockObject($mockObject);
 
-        Event\Registry::emitter()->testDoubleMockForTraitCreated();
+        Event\Facade::emitter()->testDoubleMockForTraitCreated();
 
         return $mockObject;
     }
@@ -1880,7 +1880,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $prophecy = $this->getProphet()->prophesize($classOrInterface);
 
-        Event\Registry::emitter()->testDoubleProphecyCreated();
+        Event\Facade::emitter()->testDoubleProphecyCreated();
 
         return $prophecy;
     }
@@ -2185,7 +2185,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
         $this->snapshot = $this->createGlobalStateSnapshot($this->backupGlobals === true);
 
-        Event\Registry::emitter()->globalStateCaptured();
+        Event\Facade::emitter()->globalStateCaptured();
     }
 
     /**
@@ -2214,7 +2214,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         if ($this->backupGlobals) {
             $restorer->restoreGlobalVariables($this->snapshot);
 
-            Event\Registry::emitter()->globalStateRestored();
+            Event\Facade::emitter()->globalStateRestored();
         }
 
         if ($this->backupStaticAttributes) {
@@ -2224,7 +2224,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         $this->snapshot = null;
 
         if (isset($rte)) {
-            Event\Registry::emitter()->globalStateModified();
+            Event\Facade::emitter()->globalStateModified();
 
             throw $rte;
         }
