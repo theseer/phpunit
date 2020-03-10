@@ -116,8 +116,6 @@ interface Emitter
 
     public function testSuiteConfigured(): void;
 
-    public function testSuiteLoaded(): void;
-
     public function testSuiteRunFailed(Framework\TestSuite $testSuite, \Throwable $error);
 
     public function testSuiteRunFinished(Framework\TestSuite $testSuite): void;

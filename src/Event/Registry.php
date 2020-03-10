@@ -99,7 +99,6 @@ final class Registry
             TestSuite\AfterClassFinished::class,
             TestSuite\BeforeClassFinished::class,
             TestSuite\Configured::class,
-            TestSuite\Loaded::class,
             TestSuite\RunFinished::class,
             TestSuite\RunStarted::class,
             TestSuite\Sorted::class,
