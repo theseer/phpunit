@@ -57,8 +57,31 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testRunConfigured(): void
-    {
+    public function testRunConfigured(
+        Framework\Test $test,
+        bool $beStrictAboutOutputDuringTests,
+        bool $beStrictAboutResourceUsageDuringSmallTests,
+        bool $beStrictAboutTestsThatDoNotTestAnything,
+        bool $beStrictAboutTodoAnnotatedTests,
+        bool $convertDeprecationsToExceptions,
+        bool $convertErrorsToExceptions,
+        bool $convertNoticesToExceptions,
+        bool $convertWarningsToExceptions,
+        bool $stopOnDefect,
+        bool $stopOnError,
+        bool $stopOnFailure,
+        bool $stopOnIncomplete,
+        bool $stopOnRisky,
+        bool $stopOnSkipped,
+        bool $stopOnWarning,
+        int $timeoutForLargeTests,
+        int $timeoutForMediumTests,
+        int $timeoutForSmallTests,
+        bool $enforceTimeLimit,
+        int $timeout,
+        bool $collectCodeCoverage,
+        bool $monitorFunctions
+    ): void {
     }
 
     public function testRunErrored(Framework\Test $test, \Throwable $error, float $time, bool $stopOnError, bool $stopOnFailure): void
