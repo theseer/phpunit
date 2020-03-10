@@ -11,6 +11,7 @@ namespace PHPUnit\Event\TestSuite;
 
 use PHPUnit\Event\Event;
 use PHPUnit\Event\Telemetry;
+use PHPUnit\Framework;
 
 final class RunStarted implements Event
 {
@@ -19,13 +20,24 @@ final class RunStarted implements Event
      */
     private $telemetryInfo;
 
-    public function __construct(Telemetry\Info $telemetryInfo)
+    /**
+     * @var Framework\TestSuite
+     */
+    private $testSuite;
+
+    public function __construct(Telemetry\Info $telemetryInfo, Framework\TestSuite $testSuite)
     {
         $this->telemetryInfo = $telemetryInfo;
+        $this->testSuite     = $testSuite;
     }
 
     public function telemetryInfo(): Telemetry\Info
     {
         return $this->telemetryInfo;
+    }
+
+    public function testSuite(): Framework\TestSuite
+    {
+        return $this->testSuite;
     }
 }

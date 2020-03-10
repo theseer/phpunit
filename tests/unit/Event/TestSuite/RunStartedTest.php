@@ -10,6 +10,7 @@
 namespace PHPUnit\Event\TestSuite;
 
 use PHPUnit\Event\AbstractEventTestCase;
+use PHPUnit\Framework;
 
 /**
  * @covers \PHPUnit\Event\TestSuite\RunStarted
@@ -19,9 +20,14 @@ final class RunStartedTest extends AbstractEventTestCase
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $testSuite     = new Framework\TestSuite();
 
-        $event = new RunStarted($telemetryInfo);
+        $event = new RunStarted(
+            $telemetryInfo,
+            $testSuite
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($testSuite, $event->testSuite());
     }
 }

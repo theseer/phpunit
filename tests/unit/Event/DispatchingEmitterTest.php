@@ -1029,12 +1029,18 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestSuiteRunStartedDispatchesTestSuiteRunStartedEvent(): void
     {
+        $testSuite = new Framework\TestSuite();
+
         $subscriber = $this->createMock(TestSuite\RunStartedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(TestSuite\RunStarted::class));
+            ->with($this->callback(static function (TestSuite\RunStarted $event) use ($testSuite): bool {
+                self::assertSame($testSuite, $event->testSuite());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             TestSuite\RunStartedSubscriber::class,
@@ -1049,7 +1055,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testSuiteRunStarted();
+        $emitter->testSuiteRunStarted($testSuite);
     }
 
     public function testTestSuiteSortedDispatchesTestSuiteSortedEvent(): void

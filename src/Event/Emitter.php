@@ -98,7 +98,7 @@ interface Emitter
 
     public function testSuiteRunFinished(): void;
 
-    public function testSuiteRunStarted(): void;
+    public function testSuiteRunStarted(Framework\TestSuite $suite): void;
 
     public function testSuiteSorted(): void;
 }
