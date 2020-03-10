@@ -12,7 +12,7 @@ namespace PHPUnit\Event\TestSuite;
 use PHPUnit\Event\Event;
 use PHPUnit\Event\Telemetry;
 
-final class AfterClassFinished implements Event
+final class SetUpBeforeClassFinished implements Event
 {
     /**
      * @var Telemetry\Info

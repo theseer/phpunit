@@ -12,15 +12,15 @@ namespace PHPUnit\Event\TestSuite;
 use PHPUnit\Event\AbstractEventTestCase;
 
 /**
- * @covers \PHPUnit\Event\TestSuite\AfterClassFinished
+ * @covers \PHPUnit\Event\TestSuite\SetUpBeforeClassFinished
  */
-final class AfterClassFinishedTest extends AbstractEventTestCase
+final class SetUpBeforeClassFinishedTest extends AbstractEventTestCase
 {
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
 
-        $event = new AfterClassFinished($telemetryInfo);
+        $event = new SetUpBeforeClassFinished($telemetryInfo);
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
     }

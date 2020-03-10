@@ -36,10 +36,6 @@ interface Emitter
 
     public function globalStateRestored(): void;
 
-    public function testAfterClassFinished(): void;
-
-    public function testBeforeClassFinished(): void;
-
     public function testRunConfigured(
         Framework\Test $test,
         bool $beStrictAboutOutputDuringTests,
@@ -100,9 +96,9 @@ interface Emitter
 
     public function testDoubleTestProxyCreated(): void;
 
-    public function testSuiteAfterClassFinished(): void;
+    public function testSuiteTearDownAfterClassFinished(): void;
 
-    public function testSuiteBeforeClassFinished(): void;
+    public function testSuiteSetUpBeforeClassFinished(): void;
 
     public function testSuiteConfigured(): void;
 

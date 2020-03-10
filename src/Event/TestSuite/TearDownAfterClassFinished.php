@@ -7,12 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Event\Test;
+namespace PHPUnit\Event\TestSuite;
 
 use PHPUnit\Event\Event;
 use PHPUnit\Event\Telemetry;
 
-final class BeforeClassFinished implements Event
+final class TearDownAfterClassFinished implements Event
 {
     /**
      * @var Telemetry\Info

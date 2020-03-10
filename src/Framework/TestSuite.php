@@ -546,7 +546,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 }
             }
 
-            Event\Registry::emitter()->testSuiteBeforeClassFinished();
+            Event\Registry::emitter()->testSuiteSetUpBeforeClassFinished();
         } catch (SkippedTestSuiteError $error) {
             foreach ($this->tests() as $test) {
                 $result->startTest($test);
@@ -621,7 +621,7 @@ class TestSuite implements \IteratorAggregate, SelfDescribing, Test
                 }
             }
 
-            Event\Registry::emitter()->testSuiteAfterClassFinished();
+            Event\Registry::emitter()->testSuiteTearDownAfterClassFinished();
         } catch (\Throwable $t) {
             $message = "Exception in {$this->name}::$afterClassMethod" . \PHP_EOL . $t->getMessage();
             $error   = new SyntheticError($message, 0, $t->getFile(), $t->getLine(), $t->getTrace());

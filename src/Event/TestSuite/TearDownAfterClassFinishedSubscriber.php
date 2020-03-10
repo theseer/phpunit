@@ -11,7 +11,7 @@ namespace PHPUnit\Event\TestSuite;
 
 use PHPUnit\Event\Subscriber;
 
-interface AfterClassFinishedSubscriber extends Subscriber
+interface TearDownAfterClassFinishedSubscriber extends Subscriber
 {
-    public function notify(AfterClassFinished $event): void;
+    public function notify(TearDownAfterClassFinished $event): void;
 }
