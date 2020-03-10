@@ -1019,6 +1019,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 foreach ($hookMethods['beforeClass'] as $method) {
                     $this->$method();
                 }
+
+                Event\Registry::emitter()->testSuiteSetUpBeforeClassFinished();
             }
 
             $this->setDoesNotPerformAssertionsFromAnnotation();
