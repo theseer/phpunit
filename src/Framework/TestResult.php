@@ -906,6 +906,8 @@ final class TestResult implements Countable
             $risky = true;
         }
 
+        $coverageData = null;
+
         if ($collectCodeCoverage) {
             $append           = !$risky && !$incomplete && !$skipped;
             $linesToBeCovered = [];
@@ -934,7 +936,7 @@ final class TestResult implements Countable
             }
 
             try {
-                $this->codeCoverage->stop(
+                $coverageData = $this->codeCoverage->stop(
                     $append,
                     $linesToBeCovered,
                     $linesToBeUsed
@@ -1066,7 +1068,8 @@ final class TestResult implements Countable
             }
         }
 
-        Event\Registry::emitter()->testRunFinished($test, $time, $skipped, $incomplete, $risky, $warning, $error, $failure);
+
+        Event\Registry::emitter()->testRunFinished($test, $time, $coverageData, $skipped, $incomplete, $risky, $warning, $error, $failure);
 
         $this->endTest($test, $time);
     }
