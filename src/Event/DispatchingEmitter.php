@@ -177,6 +177,13 @@ final class DispatchingEmitter implements Emitter
 
     public function testRunWithOutput(Framework\Test $test, Framework\OutputError $error, bool $stopOnRisky, bool $stopOnDefect): void
     {
+        $this->dispatcher->dispatch(new Test\RunWithOutput(
+            $this->telemetryInfo(),
+            $test,
+            $error,
+            $stopOnRisky,
+            $stopOnDefect
+        ));
     }
 
     public function testSetUpFinished(): void
