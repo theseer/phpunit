@@ -99,11 +99,6 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new GlobalState\Restored($this->telemetryInfo()));
     }
 
-    public function testAfterClassFinished(): void
-    {
-        $this->dispatcher->dispatch(new Test\AfterClassFinished($this->telemetryInfo()));
-    }
-
     public function testBeforeClassFinished(): void
     {
         $this->dispatcher->dispatch(new Test\BeforeClassFinished($this->telemetryInfo()));

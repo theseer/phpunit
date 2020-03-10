@@ -36,8 +36,6 @@ interface Emitter
 
     public function globalStateRestored(): void;
 
-    public function testAfterClassFinished(): void;
-
     public function testBeforeClassFinished(): void;
 
     public function testRunConfigured(

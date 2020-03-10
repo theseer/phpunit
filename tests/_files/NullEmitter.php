@@ -57,10 +57,6 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function testAfterClassFinished(): void
-    {
-    }
-
     public function testBeforeClassFinished(): void
     {
     }
