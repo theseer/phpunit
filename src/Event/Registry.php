@@ -72,7 +72,6 @@ final class Registry
             GlobalState\Captured::class,
             GlobalState\Modified::class,
             GlobalState\Restored::class,
-            Test\BeforeClassFinished::class,
             Test\RunConfigured::class,
             Test\RunErrored::class,
             Test\RunFailed::class,

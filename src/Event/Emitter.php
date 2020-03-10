@@ -36,8 +36,6 @@ interface Emitter
 
     public function globalStateRestored(): void;
 
-    public function testBeforeClassFinished(): void;
-
     public function testRunConfigured(
         Framework\Test $test,
         bool $beStrictAboutOutputDuringTests,

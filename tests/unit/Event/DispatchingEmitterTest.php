@@ -289,31 +289,6 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->globalStateRestored();
     }
 
-    public function testTestBeforeClassFinishedDispatchesTestBeforeClassFinishedEvent(): void
-    {
-        $subscriber = $this->createMock(Test\BeforeClassFinishedSubscriber::class);
-
-        $subscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->isInstanceOf(Test\BeforeClassFinished::class));
-
-        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
-            Test\BeforeClassFinishedSubscriber::class,
-            Test\BeforeClassFinished::class,
-            $subscriber
-        );
-
-        $telemetrySystem = self::createTelemetrySystem();
-
-        $emitter = new DispatchingEmitter(
-            $dispatcher,
-            $telemetrySystem
-        );
-
-        $emitter->testBeforeClassFinished();
-    }
-
     public function testTestRunConfiguredDispatchesTestRunConfiguredEvent(): void
     {
         $test                                       = $this->createMock(Framework\Test::class);
