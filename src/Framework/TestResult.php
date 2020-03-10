@@ -768,14 +768,14 @@ final class TestResult implements Countable
 
                 Event\Registry::emitter()->testRunConfigured(
                     $test,
-                    $this->convertDeprecationsToExceptions,
-                    $this->convertErrorsToExceptions,
-                    $this->convertNoticesToExceptions,
-                    $this->convertWarningsToExceptions,
                     $this->beStrictAboutOutputDuringTests,
                     $this->beStrictAboutResourceUsageDuringSmallTests,
                     $this->beStrictAboutTestsThatDoNotTestAnything,
                     $this->beStrictAboutTodoAnnotatedTests,
+                    $this->convertDeprecationsToExceptions,
+                    $this->convertErrorsToExceptions,
+                    $this->convertNoticesToExceptions,
+                    $this->convertWarningsToExceptions,
                     $this->stopOnDefect,
                     $this->stopOnError,
                     $this->stopOnFailure,
@@ -787,23 +787,23 @@ final class TestResult implements Countable
                     $this->timeoutForMediumTests,
                     $this->timeoutForSmallTests,
                     $this->enforceTimeLimit,
+                    $_timeout,
                     $collectCodeCoverage,
-                    $monitorFunctions,
-                    $_timeout
+                    $monitorFunctions
                 );
 
                 $invoker->invoke([$test, 'runBare'], [], $_timeout);
             } else {
                 Event\Registry::emitter()->testRunConfigured(
                     $test,
-                    $this->convertDeprecationsToExceptions,
-                    $this->convertErrorsToExceptions,
-                    $this->convertNoticesToExceptions,
-                    $this->convertWarningsToExceptions,
                     $this->beStrictAboutOutputDuringTests,
                     $this->beStrictAboutResourceUsageDuringSmallTests,
                     $this->beStrictAboutTestsThatDoNotTestAnything,
                     $this->beStrictAboutTodoAnnotatedTests,
+                    $this->convertDeprecationsToExceptions,
+                    $this->convertErrorsToExceptions,
+                    $this->convertNoticesToExceptions,
+                    $this->convertWarningsToExceptions,
                     $this->stopOnDefect,
                     $this->stopOnError,
                     $this->stopOnFailure,
@@ -815,9 +815,9 @@ final class TestResult implements Countable
                     $this->timeoutForMediumTests,
                     $this->timeoutForSmallTests,
                     $this->enforceTimeLimit,
+                    0,
                     $collectCodeCoverage,
-                    $monitorFunctions,
-                    0
+                    $monitorFunctions
                 );
 
                 $test->runBare();
