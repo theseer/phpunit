@@ -1076,6 +1076,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     $this->$method();
                 }
 
+                Event\Registry::emitter()->testTearDownFinished();
+
                 if ($this->inIsolation) {
                     foreach ($hookMethods['afterClass'] as $method) {
                         $this->$method();
