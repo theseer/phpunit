@@ -12,7 +12,7 @@ namespace PHPUnit\Event\Test;
 use PHPUnit\Event\AbstractEventTestCase;
 
 /**
- * @covers \PHPUnit\Event\TestCase\BeforeClassFinished
+ * @covers \PHPUnit\Event\Test\BeforeClassFinished
  */
 final class BeforeClassFinishedTest extends AbstractEventTestCase
 {
