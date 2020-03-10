@@ -36,6 +36,10 @@ interface Emitter
 
     public function globalStateRestored(): void;
 
+    public function testAfterClassFinished(): void;
+
+    public function testBeforeClassFinished(): void;
+
     public function testRunConfigured(
         Framework\Test $test,
         bool $beStrictAboutOutputDuringTests,
@@ -85,10 +89,6 @@ interface Emitter
     public function testSetUpFinished(): void;
 
     public function testTearDownFinished(): void;
-
-    public function testCaseAfterClassFinished(): void;
-
-    public function testCaseBeforeClassFinished(): void;
 
     public function testCaseSetUpBeforeClassFinished(): void;
 
