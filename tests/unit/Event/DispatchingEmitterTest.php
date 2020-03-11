@@ -108,12 +108,20 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testBootstrapFinishedDispatchesBootstrapFinishedEvent(): void
     {
+        $filename         = __FILE__;
+        $resolvedFilename = 'phpunit.xml';
+
         $subscriber = $this->createMock(Bootstrap\FinishedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Bootstrap\Finished::class));
+            ->with($this->callback(static function (Bootstrap\Finished $event) use ($filename, $resolvedFilename): bool {
+                self::assertSame($filename, $event->filename());
+                self::assertSame($resolvedFilename, $event->resolvedFilename());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Bootstrap\FinishedSubscriber::class,
@@ -128,7 +136,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->bootstrapFinished();
+        $emitter->bootstrapFinished(
+            $filename,
+            $resolvedFilename
+        );
     }
 
     public function testBootstrapStartedDispatchesBootstrapStartedEvent(): void

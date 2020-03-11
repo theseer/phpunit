@@ -18,10 +18,18 @@ final class FinishedTest extends AbstractEventTestCase
 {
     public function testConstructorSetsValues(): void
     {
-        $telemetryInfo = self::createTelemetryInfo();
+        $telemetryInfo    = self::createTelemetryInfo();
+        $filename         = __FILE__;
+        $resolvedFilename = 'phpunit.xml';
 
-        $event = new Finished($telemetryInfo);
+        $event = new Finished(
+            $telemetryInfo,
+            $filename,
+            $resolvedFilename
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($filename, $event->filename());
+        self::assertSame($resolvedFilename, $event->resolvedFilename());
     }
 }

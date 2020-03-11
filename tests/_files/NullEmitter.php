@@ -25,7 +25,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function bootstrapFinished(): void
+    public function bootstrapFinished(string $filename, string $resolvedFilename): void
     {
     }
 

@@ -558,7 +558,10 @@ class Command
         try {
             $resolvedFilename = FileLoader::checkAndLoad($filename);
 
-            Event\Facade::emitter()->bootstrapFinished($resolvedFilename);
+            Event\Facade::emitter()->bootstrapFinished(
+                $filename,
+                $resolvedFilename
+            );
         } catch (Exception $e) {
             $this->exitWithErrorMessage($e->getMessage());
         }

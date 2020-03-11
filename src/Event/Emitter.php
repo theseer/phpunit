@@ -20,7 +20,7 @@ interface Emitter
 
     public function assertionMade(): void;
 
-    public function bootstrapFinished(): void;
+    public function bootstrapFinished(string $filename, string $resolvedFilename): void;
 
     public function bootstrapStarted(string $filename): void;
 
