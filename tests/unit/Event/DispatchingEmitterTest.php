@@ -1021,12 +1021,18 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestDoubleTestProxyCreatedDispatchesTestDoubleTestProxyCreatedEvent(): void
     {
+        $className = self::class;
+
         $subscriber = $this->createMock(TestDouble\TestProxyCreatedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(TestDouble\TestProxyCreated::class));
+            ->with($this->callback(static function (TestDouble\TestProxyCreated $event) use ($className): bool {
+                self::assertSame($className, $event->className());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             TestDouble\TestProxyCreatedSubscriber::class,
@@ -1041,7 +1047,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testDoubleTestProxyCreated();
+        $emitter->testDoubleTestProxyCreated($className);
     }
 
     public function testTestSuiteAfterClassFinishedDispatchesTestSuiteAfterClassFinishedEvent(): void

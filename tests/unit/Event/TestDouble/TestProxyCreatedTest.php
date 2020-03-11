@@ -19,9 +19,14 @@ final class TestProxyCreatedTest extends AbstractEventTestCase
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $className     = self::class;
 
-        $event = new TestProxyCreated($telemetryInfo);
+        $event = new TestProxyCreated(
+            $telemetryInfo,
+            $className
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($className, $event->className());
     }
 }

@@ -91,7 +91,7 @@ interface Emitter
 
     public function testDoubleProphecyCreated(): void;
 
-    public function testDoubleTestProxyCreated(): void;
+    public function testDoubleTestProxyCreated(string $className): void;
 
     public function testSuiteTearDownAfterClassFinished(): void;
 

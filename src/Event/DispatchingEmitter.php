@@ -305,9 +305,12 @@ final class DispatchingEmitter implements Emitter
         $this->dispatcher->dispatch(new TestDouble\ProphecyCreated($this->telemetryInfo()));
     }
 
-    public function testDoubleTestProxyCreated(): void
+    public function testDoubleTestProxyCreated(string $className): void
     {
-        $this->dispatcher->dispatch(new TestDouble\TestProxyCreated($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new TestDouble\TestProxyCreated(
+            $this->telemetryInfo(),
+            $className
+        ));
     }
 
     public function testSuiteTearDownAfterClassFinished(): void

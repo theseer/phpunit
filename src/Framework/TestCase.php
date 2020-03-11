@@ -1681,7 +1681,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             ->enableProxyingToOriginalMethods()
             ->getMock();
 
-        Event\Facade::emitter()->testDoubleTestProxyCreated();
+        Event\Facade::emitter()->testDoubleTestProxyCreated($originalClassName);
 
         return $mock;
     }
