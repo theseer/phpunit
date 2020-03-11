@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+use PharIo\Manifest;
 use PHPUnit\Framework;
 use PHPUnit\TextUI;
 
@@ -41,7 +42,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function extensionLoaded(): void
+    public function extensionLoaded(Manifest\Manifest $manifest): void
     {
     }
 

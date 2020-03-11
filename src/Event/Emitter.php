@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Event;
 
+use PharIo\Manifest;
 use PHPUnit\Framework;
 use PHPUnit\TextUI;
 
@@ -28,7 +29,7 @@ interface Emitter
 
     public function configurationLoaded(TextUI\Configuration\Configuration $configuration): void;
 
-    public function extensionLoaded(): void;
+    public function extensionLoaded(Manifest\Manifest $manifest): void;
 
     public function globalStateCaptured(): void;
 

@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Event;
 
+use PharIo\Manifest;
 use PHPUnit\Event\Telemetry\Info;
 use PHPUnit\Event\Telemetry\Snapshot;
 use PHPUnit\Event\Telemetry\System;
@@ -87,9 +88,12 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function extensionLoaded(): void
+    public function extensionLoaded(Manifest\Manifest $manifest): void
     {
-        $this->dispatcher->dispatch(new Extension\Loaded($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Extension\Loaded(
+            $this->telemetryInfo(),
+            $manifest
+        ));
     }
 
     public function globalStateCaptured(): void

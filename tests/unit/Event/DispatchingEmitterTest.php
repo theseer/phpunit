@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Event;
 
+use PharIo\Manifest;
 use PHPUnit\Framework;
 use PHPUnit\TextUI;
 
@@ -233,12 +234,18 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testExtensionLoadedDispatchesExtensionLoadedEvent(): void
     {
+        $manifest = $this->createMock(Manifest\Manifest::class);
+
         $subscriber = $this->createMock(Extension\LoadedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Extension\Loaded::class));
+            ->with($this->callback(static function (Extension\Loaded $event) use ($manifest): bool {
+                self::assertSame($manifest, $event->manifest());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Extension\LoadedSubscriber::class,
@@ -253,7 +260,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->extensionLoaded();
+        $emitter->extensionLoaded($manifest);
     }
 
     public function testGlobalStateCapturedDispatchesGlobalStateCapturedEvent(): void

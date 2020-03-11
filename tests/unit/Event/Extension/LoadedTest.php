@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Event\Extension;
 
+use PharIo\Manifest;
 use PHPUnit\Event\AbstractEventTestCase;
 
 /**
@@ -19,9 +20,14 @@ final class LoadedTest extends AbstractEventTestCase
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $manifest      = $this->createMock(Manifest\Manifest::class);
 
-        $event = new Loaded($telemetryInfo);
+        $event = new Loaded(
+            $telemetryInfo,
+            $manifest
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($manifest, $event->manifest());
     }
 }
