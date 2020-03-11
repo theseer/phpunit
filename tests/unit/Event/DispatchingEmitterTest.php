@@ -98,12 +98,18 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testAssertionMadeDispatchesAssertionMadeEvent(): void
     {
+        $failed = true;
+
         $subscriber = $this->createMock(Assertion\MadeSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Assertion\Made::class));
+            ->with($this->callback(static function (Assertion\Made $event) use ($failed): bool {
+                self::assertSame($failed, $event->failed());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Assertion\MadeSubscriber::class,
@@ -118,7 +124,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->assertionMade();
+        $emitter->assertionMade($failed);
     }
 
     public function testBootstrapFinishedDispatchesBootstrapFinishedEvent(): void

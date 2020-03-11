@@ -19,9 +19,14 @@ final class MadeTest extends AbstractEventTestCase
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $failed        = true;
 
-        $event = new Made($telemetryInfo);
+        $event = new Made(
+            $telemetryInfo,
+            $failed
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($failed, $event->failed());
     }
 }

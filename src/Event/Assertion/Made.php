@@ -19,13 +19,24 @@ final class Made implements Event
      */
     private $telemetryInfo;
 
-    public function __construct(Telemetry\Info $telemetryInfo)
+    /**
+     * @var bool
+     */
+    private $failed;
+
+    public function __construct(Telemetry\Info $telemetryInfo, bool $failed)
     {
         $this->telemetryInfo = $telemetryInfo;
+        $this->failed        = $failed;
     }
 
     public function telemetryInfo(): Telemetry\Info
     {
         return $this->telemetryInfo;
+    }
+
+    public function failed(): bool
+    {
+        return $this->failed;
     }
 }

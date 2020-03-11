@@ -2231,10 +2231,14 @@ abstract class Assert
     {
         self::$count += \count($constraint);
 
+        $failed = true;
+
         try {
             $constraint->evaluate($value, $message);
+
+            $failed = false;
         } finally {
-            Event\Facade::emitter()->assertionMade();
+            Event\Facade:: emitter()->assertionMade($failed);
         }
     }
 

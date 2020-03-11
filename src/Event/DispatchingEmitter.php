@@ -57,9 +57,12 @@ final class DispatchingEmitter implements Emitter
         ));
     }
 
-    public function assertionMade(): void
+    public function assertionMade(bool $failed): void
     {
-        $this->dispatcher->dispatch(new Assertion\Made($this->telemetryInfo()));
+        $this->dispatcher->dispatch(new Assertion\Made(
+            $this->telemetryInfo(),
+            $failed
+        ));
     }
 
     public function bootstrapFinished(string $filename, string $resolvedFilename): void

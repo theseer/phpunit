@@ -22,7 +22,7 @@ final class NullEmitter implements \PHPUnit\Event\Emitter
     {
     }
 
-    public function assertionMade(): void
+    public function assertionMade(bool $failed): void
     {
     }
 

@@ -19,7 +19,7 @@ interface Emitter
 
     public function applicationStarted(array $argv, bool $exit): void;
 
-    public function assertionMade(): void;
+    public function assertionMade(bool $failed): void;
 
     public function bootstrapFinished(string $filename, string $resolvedFilename): void;
 
