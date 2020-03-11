@@ -66,6 +66,7 @@ final class Facade
             Application\Started::class,
             Assertion\Made::class,
             Bootstrap\Finished::class,
+            Bootstrap\Started::class,
             Comparator\Registered::class,
             Configuration\Loaded::class,
             Extension\Loaded::class,

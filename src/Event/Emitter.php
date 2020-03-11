@@ -22,7 +22,7 @@ interface Emitter
 
     public function bootstrapFinished(): void;
 
-    public function bootstrapStarted(): void;
+    public function bootstrapStarted(string $filename): void;
 
     public function comparatorRegistered(): void;
 

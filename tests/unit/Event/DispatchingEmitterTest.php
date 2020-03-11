@@ -131,6 +131,37 @@ final class DispatchingEmitterTest extends Framework\TestCase
         $emitter->bootstrapFinished();
     }
 
+    public function testBootstrapStartedDispatchesBootstrapStartedEvent(): void
+    {
+        $filename = __FILE__;
+
+        $subscriber = $this->createMock(Bootstrap\StartedSubscriber::class);
+
+        $subscriber
+            ->expects($this->once())
+            ->method('notify')
+            ->with($this->callback(static function (Bootstrap\Started $event) use ($filename): bool {
+                self::assertSame($filename, $event->filename());
+
+                return true;
+            }));
+
+        $dispatcher = self::createDispatcherWithRegisteredSubscriber(
+            Bootstrap\StartedSubscriber::class,
+            Bootstrap\Started::class,
+            $subscriber
+        );
+
+        $telemetrySystem = self::createTelemetrySystem();
+
+        $emitter = new DispatchingEmitter(
+            $dispatcher,
+            $telemetrySystem
+        );
+
+        $emitter->bootstrapStarted($filename);
+    }
+
     public function testComparatorRegisteredDispatchesComparatorRegisteredEvent(): void
     {
         $subscriber = $this->createMock(Comparator\RegisteredSubscriber::class);
