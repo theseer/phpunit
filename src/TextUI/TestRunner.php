@@ -944,6 +944,10 @@ final class TestRunner extends BaseTestRunner
                 $this->addExtension($extension->createHookInstance());
             }
 
+            foreach ($arguments['subscribers'] as $subscriber) {
+                // TODO - how to register new subscribers?
+            }
+
             foreach ($arguments['configuration']->listeners() as $listener) {
                 $arguments['listeners'][] = $extensionHandler->createTestListenerInstance($listener);
             }

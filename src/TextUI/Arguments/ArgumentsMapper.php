@@ -162,6 +162,10 @@ final class ArgumentsMapper
             $result['extensions'] = $arguments->extensions();
         }
 
+        if ($arguments->hasSubscribers()) {
+            $result['subscribers'] = $arguments->subscribers();
+        }
+
         if ($arguments->hasUnavailableExtensions()) {
             $result['unavailableExtensions'] = $arguments->unavailableExtensions();
         }

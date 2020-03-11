@@ -115,6 +115,7 @@ final class Help
             ['arg' => '--no-configuration', 'desc' => 'Ignore default configuration file (phpunit.xml)'],
             ['arg' => '--no-logging', 'desc' => 'Ignore logging configuration'],
             ['arg' => '--extensions <extensions>', 'desc' => 'A comma separated list of PHPUnit extensions to load'],
+            ['arg' => '--subscribers <subscribers>', 'desc' => 'A comma separated list of PHPUnit subscribers to load'],
             ['arg' => '--no-extensions', 'desc' => 'Do not load PHPUnit extensions'],
             ['arg' => '--include-path <path(s)>', 'desc' => 'Prepend PHP\'s include_path with given path(s)'],
             ['arg' => '-d <key[=value]>', 'desc' => 'Sets a php.ini value'],

@@ -47,6 +47,7 @@ final class ArgumentsBuilder
         'enforce-time-limit',
         'exclude-group=',
         'extensions=',
+        'subscribers=',
         'filter=',
         'generate-configuration',
         'globals-backup',
@@ -154,6 +155,7 @@ final class ArgumentsBuilder
         $executionOrder                             = null;
         $executionOrderDefects                      = null;
         $extensions                                 = [];
+        $subscribers                                = [];
         $unavailableExtensions                      = [];
         $failOnIncomplete                           = null;
         $failOnRisky                                = null;
@@ -563,6 +565,17 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--subscribers':
+                    foreach (\explode(',', $option[1]) as $subscriberClass) {
+                        if (!\class_exists($subscriberClass)) {
+                            throw new \InvalidArgumentException('Subscriber class not found: ' . $subscriberClass);
+                        }
+
+                        $subscribers[] = new $subscriberClass();
+                    }
+
+                    break;
+
                 case '--no-extensions':
                     $noExtensions = true;
 
@@ -760,6 +773,7 @@ final class ArgumentsBuilder
             $executionOrder,
             $executionOrderDefects,
             $extensions,
+            $subscribers,
             $unavailableExtensions,
             $failOnIncomplete,
             $failOnRisky,
