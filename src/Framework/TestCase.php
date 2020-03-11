@@ -1591,7 +1591,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             ->disallowMockingUnknownTypes()
             ->getMock();
 
-        Event\Facade::emitter()->testDoubleMockCreated();
+        Event\Facade::emitter()->testDoubleMockCreated($originalClassName);
 
         return $mock;
     }

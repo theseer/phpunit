@@ -19,9 +19,14 @@ final class MockCreatedTest extends AbstractEventTestCase
     public function testConstructorSetsValues(): void
     {
         $telemetryInfo = self::createTelemetryInfo();
+        $className     = self::class;
 
-        $event = new MockCreated($telemetryInfo);
+        $event = new MockCreated(
+            $telemetryInfo,
+            $className
+        );
 
         self::assertSame($telemetryInfo, $event->telemetryInfo());
+        self::assertSame($className, $event->className());
     }
 }

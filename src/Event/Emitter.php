@@ -83,7 +83,7 @@ interface Emitter
 
     public function testTearDownFinished(): void;
 
-    public function testDoubleMockCreated(): void;
+    public function testDoubleMockCreated(string $className): void;
 
     public function testDoubleMockForTraitCreated(): void;
 
