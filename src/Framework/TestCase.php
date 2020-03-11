@@ -1662,7 +1662,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             ->setMethods(empty($methods) ? null : $methods)
             ->getMock();
 
-        Event\Facade::emitter()->testDoublePartialMockCreated();
+        Event\Facade::emitter()->testDoublePartialMockCreated($originalClassName);
 
         return $mock;
     }

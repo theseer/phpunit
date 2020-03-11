@@ -965,12 +965,18 @@ final class DispatchingEmitterTest extends Framework\TestCase
 
     public function testTestDoublePartialMockCreatedDispatchesTestDoublePartialMockCreatedEvent(): void
     {
+        $className = self::class;
+
         $subscriber = $this->createMock(TestDouble\PartialMockCreatedSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(TestDouble\PartialMockCreated::class));
+            ->with($this->callback(static function (TestDouble\PartialMockCreated $event) use ($className): bool {
+                self::assertSame($className, $event->className());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             TestDouble\PartialMockCreatedSubscriber::class,
@@ -985,7 +991,7 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->testDoublePartialMockCreated();
+        $emitter->testDoublePartialMockCreated($className);
     }
 
     public function testTestDoubleProphecyCreatedDispatchesTestDoubleProphecyCreatedEvent(): void

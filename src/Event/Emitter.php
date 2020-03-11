@@ -87,7 +87,7 @@ interface Emitter
 
     public function testDoubleMockForTraitCreated(): void;
 
-    public function testDoublePartialMockCreated(): void;
+    public function testDoublePartialMockCreated(string $className): void;
 
     public function testDoubleProphecyCreated(): void;
 
