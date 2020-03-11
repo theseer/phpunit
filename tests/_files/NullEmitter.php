@@ -14,7 +14,7 @@ use PHPUnit\TextUI;
 
 final class NullEmitter implements \PHPUnit\Event\Emitter
 {
-    public function applicationConfigured(): void
+    public function applicationConfigured(Framework\Test $test, array $arguments): void
     {
     }
 

@@ -20,12 +20,23 @@ final class DispatchingEmitterTest extends Framework\TestCase
 {
     public function testApplicationConfiguredDispatchesApplicationConfiguredEvent(): void
     {
+        $test      = $this->createMock(Framework\Test::class);
+        $arguments = [
+            'foo' => 'bar',
+            'bar' => 'baz',
+        ];
+
         $subscriber = $this->createMock(Application\ConfiguredSubscriber::class);
 
         $subscriber
             ->expects($this->once())
             ->method('notify')
-            ->with($this->isInstanceOf(Application\Configured::class));
+            ->with($this->callback(static function (Application\Configured $event) use ($test, $arguments): bool {
+                self::assertSame($test, $event->test());
+                self::assertSame($arguments, $event->arguments());
+
+                return true;
+            }));
 
         $dispatcher = self::createDispatcherWithRegisteredSubscriber(
             Application\ConfiguredSubscriber::class,
@@ -40,7 +51,10 @@ final class DispatchingEmitterTest extends Framework\TestCase
             $telemetrySystem
         );
 
-        $emitter->applicationConfigured();
+        $emitter->applicationConfigured(
+            $test,
+            $arguments
+        );
     }
 
     public function testApplicationStartedDispatchesApplicationStartedEvent(): void

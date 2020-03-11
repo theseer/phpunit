@@ -641,8 +641,8 @@ final class TestRunner extends BaseTestRunner
         }
 
         Event\Facade::emitter()->applicationConfigured(
-            $arguments,
-            $suite
+            $suite,
+            $arguments
         );
 
         $suite->run($result);

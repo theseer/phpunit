@@ -15,7 +15,7 @@ use PHPUnit\TextUI;
 
 interface Emitter
 {
-    public function applicationConfigured(): void;
+    public function applicationConfigured(Framework\Test $test, array $arguments): void;
 
     public function applicationStarted(array $argv, bool $exit): void;
 
