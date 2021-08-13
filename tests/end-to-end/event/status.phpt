@@ -1,12 +1,13 @@
 --TEST--
 The right events are emitted in the right order for tests that have different statuses
+--CAPTURE_STDIO--
+STDERR
 --FILE--
 <?php declare(strict_types=1);
 $traceFile = tempnam(sys_get_temp_dir(), __FILE__);
 
 $_SERVER['argv'][] = '--do-not-cache-result';
 $_SERVER['argv'][] = '--no-configuration';
-$_SERVER['argv'][] = '--stderr';
 $_SERVER['argv'][] = '--trace-text';
 $_SERVER['argv'][] = $traceFile;
 $_SERVER['argv'][] = __DIR__ . '/../../basic/unit/StatusTest.php';
@@ -15,7 +16,7 @@ require __DIR__ . '/../../bootstrap.php';
 
 PHPUnit\TextUI\Application::main(false);
 
-print file_get_contents($traceFile);
+fwrite(STDERR, file_get_contents($traceFile));
 
 unlink($traceFile);
 --EXPECTF--
