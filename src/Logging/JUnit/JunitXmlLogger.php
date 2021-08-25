@@ -334,7 +334,7 @@ final class JunitXmlLogger
         $buffer = $this->testAsString($test);
 
         $buffer .= trim(
-            $throwable->description() . PHP_EOL .
+            $throwable->description() . "\n" .
             $throwable->stackTrace()
         );
 
