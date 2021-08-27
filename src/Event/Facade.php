@@ -20,6 +20,8 @@ final class Facade
 
     private static ?Emitter $emitter = null;
 
+    private static ?Emitter $officialEmitter = null;
+
     private static ?DeferredDispatcher $deferredDispatcher = null;
 
     private static bool $sealed = false;
@@ -37,6 +39,7 @@ final class Facade
                     new Telemetry\SystemMemoryMeter()
                 )
             );
+            self::$officialEmitter = self::$emitter;
         }
 
         return self::$emitter;
@@ -60,6 +63,31 @@ final class Facade
         self::$sealed = true;
 
         return $dispatcher;
+    }
+
+    /**
+     * @internal This method is not covered by the backward compatibility promise for PHPUnit
+     */
+    public static function switchToCollectingDispatching(): CollectingDispatcher
+    {
+        $dispatcher = new CollectingDispatcher;
+
+        self::$emitter = new DispatchingEmitter(
+            $dispatcher,
+            new Telemetry\System(
+                new Telemetry\SystemStopWatch(),
+                new Telemetry\SystemMemoryMeter()
+            )
+        );
+
+        self::$sealed = true;
+
+        return $dispatcher;
+    }
+
+    public static function restoreDispatching(): void
+    {
+        self::$emitter = self::$officialEmitter;
     }
 
     public static function forward(EventCollection $events): void

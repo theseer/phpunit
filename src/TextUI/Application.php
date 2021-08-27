@@ -121,6 +121,8 @@ final class Application
                 $t->getTraceAsString(),
                 PHP_EOL
             );
+
+            exit;
         }
 
         Event\Facade::emitter()->testRunnerFinished();
