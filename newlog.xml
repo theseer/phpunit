@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xmlns="https://schema.phpunit.de/log/1.0" id="7cb62fdf-d609-46e6-9811-8d16c43de3b9" timestamp="2023-03-18T16:34:11+01:00">
+
+    <environment os="" hostname="" username="">
+
+        <php version="">
+            <extension name="" version="" />
+        </php>
+
+        <phpunit version="" installationType="phar">
+            <extension bootstrapClass="" installationType="phar">
+                <parameter name="" value="" />
+            </extension>
+        </phpunit>
+
+    </environment>
+
+    <configuration scalar="value"  />
+
+    <testSuite name="">
+
+        <testClass src="{./tests/fooTest.php}" line="0" name="" prettyName="">
+            <metadata>
+            </metadata>
+
+            <testMethod line="0" name="">
+                <metadata>
+                </metadata>
+
+                <dataProvider src="" line="0" class="" method="" />
+
+                <dependency src="" line="0" class="" method="" />
+
+                <run id="" prettyName="" dataSetName="" assertionCount="0" outcome="passed">
+                    <risky>{message}</risky>
+                    <deprecation type="phpunit" file="" line="0">{message}</deprecation>
+                    <error type="phpunit" file="" line="0">{message}</error>
+                    <notice type="php" file="" line="0">{message}</notice>
+                    <warning type="phpunit" file="" line="0">{message}</warning>
+
+                    <reason>{message}</reason>
+
+                    <stub originalType="" times="0" />
+                    <mock originalType="" times="0" />
+
+                    <telemetry duration="" memory="" />
+                </run>
+
+            </testMethod>
+
+        </testClass>
+
+        <summary testCount="0" assertionCount="0">
+            <issues riskyCount="0" deprecationCount="0" errorCount="0" noticeCount="0" warningCount="0" />
+            <outcome passedCount="0" failedCount="0" erroredCount="0" skippedCount="0" incompleteCount="0" />
+            <telemetry duration="" memory="" />
+        </summary>
+
+    </testSuite>
+
+    <summary testSuiteCount="0" testCount="0" assertionCount="0">
+        <issues riskyCount="0" deprecationCount="0" errorCount="0" noticeCount="0" warningCount="0" />
+        <outcome passedCount="0" failedCount="0" erroredCount="0" skippedCount="0" incompleteCount="0" />
+        <telemetry duration="" memory="" />
+    </summary>
+
+</log>

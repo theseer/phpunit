@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           targetNamespace="https://schema.phpunit.de/log/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ns="https://schema.phpunit.de/log/1.0">
+
+    <xs:element name="log" type="ns:logType"/>
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="logType">
+        <xs:sequence>
+            <xs:element type="ns:environmentType" name="environment"/>
+            <xs:element type="ns:configurationType" name="configuration"/>
+            <xs:element type="ns:testSuiteType" name="testSuite" maxOccurs="unbounded"/>
+            <xs:element type="ns:fullSummaryType" name="summary"/>
+        </xs:sequence>
+
+        <xs:attribute type="ns:uuidType" name="id" use="required"/>
+        <xs:attribute type="xs:dateTime" name="timestamp" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="uuidType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]|[a-f]|[A-F]){8}-([0-9]|[a-f]|[A-F]){4}-([0-9]|[a-f]|[A-F]){4}-([0-9]|[a-f]|[A-F]){4}-([0-9]|[a-f]|[A-F]){12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="environmentType">
+        <xs:sequence>
+            <xs:element type="ns:phpType" name="php"/>
+            <xs:element type="ns:phpunitType" name="phpunit"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:string" name="os" use="required"/>
+        <xs:attribute type="xs:string" name="hostname" use="required"/>
+        <xs:attribute type="xs:string" name="username" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="configurationType">
+        <!-- @todo: Add collections here
+        <xs:sequence>
+            <xs:element type="ns:..." name="..." minOccurs="0"/>
+        </xs:sequence> -->
+
+        <!-- @todo: specify real attributes here -->
+        <xs:attribute type="xs:string" name="scalar"/>
+    </xs:complexType>
+
+    <xs:complexType name="testSuiteType">
+        <xs:sequence>
+            <xs:element type="ns:testClassType" name="testClass" maxOccurs="unbounded"/>
+            <xs:element type="ns:suiteSummaryType" name="summary" />
+        </xs:sequence>
+
+        <xs:attribute type="xs:string" name="name"/>
+    </xs:complexType>
+
+    <xs:complexType name="fullSummaryType">
+        <xs:complexContent>
+            <xs:extension base="ns:suiteSummaryType">
+                <xs:attribute type="xs:nonNegativeInteger" name="testSuiteCount" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="suiteSummaryType">
+        <xs:sequence>
+            <xs:element type="ns:issuesType" name="issues"/>
+            <xs:element type="ns:outcomeType" name="outcome"/>
+            <xs:element type="ns:telemetryType" name="telemetry"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:nonNegativeInteger" name="testCount" use="required"/>
+        <xs:attribute type="xs:nonNegativeInteger" name="assertionCount" use="required"/>
+    </xs:complexType>
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="phpType">
+        <xs:sequence>
+            <xs:element type="ns:phpExtensionType" name="extension"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:string" name="version" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="phpExtensionType">
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="version" use="required"/>
+    </xs:complexType>
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="phpunitType">
+        <xs:sequence>
+            <xs:element type="ns:phpunitExtensionType" name="extension"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:string" name="version" use="required"/>
+        <xs:attribute type="ns:installationType" name="installationType" use="required" />
+    </xs:complexType>
+
+    <xs:simpleType name="installationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="composer" />
+            <xs:enumeration value="phar" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="phpunitExtensionType">
+        <xs:sequence>
+            <xs:element type="ns:extensionParameterType" name="parameter" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="bootstrapClass" use="required"/>
+        <xs:attribute type="ns:installationType" name="installationType" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="extensionParameterType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name" use="required"/>
+                <xs:attribute type="xs:string" name="value" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="testClassType">
+        <xs:sequence>
+            <!-- @todo: specify real metadata struct -->
+            <xs:element type="xs:string" name="metadata"/>
+            <xs:element type="ns:testMethodType" name="testMethod"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:string" name="src" use="required"/>
+        <xs:attribute type="xs:nonNegativeInteger" name="line" use="required"/>
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="prettyName" use="required"/>
+    </xs:complexType>
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="testMethodType">
+        <xs:sequence>
+            <!-- @todo: specify real metadata struct -->
+            <xs:element type="xs:string" name="metadata"/>
+            <xs:element type="ns:dataProviderType" name="dataProvider" minOccurs="0"/>
+            <xs:element type="ns:dependencyType" name="dependency" minOccurs="0"/>
+            <xs:element type="ns:runType" name="run"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+        <xs:attribute type="xs:string" name="name"/>
+    </xs:complexType>
+
+
+    <!-- ######################################################################################################## -->
+
+    <xs:complexType name="dataProviderType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="src"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+                <xs:attribute type="xs:string" name="class"/>
+                <xs:attribute type="xs:string" name="method"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="dependencyType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="src"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+                <xs:attribute type="xs:string" name="class"/>
+                <xs:attribute type="xs:string" name="method"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="runType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="risky" minOccurs="0"/>
+            <xs:element type="ns:deprecationType" name="deprecation" minOccurs="0"/>
+            <xs:element type="ns:errorType" name="error" minOccurs="0"/>
+            <xs:element type="ns:noticeType" name="notice" minOccurs="0"/>
+            <xs:element type="ns:warningType" name="warning" minOccurs="0"/>
+            <xs:element type="xs:string" name="reason" minOccurs="0"/>
+            <xs:element type="ns:stubType" name="stub" minOccurs="0"/>
+            <xs:element type="ns:mockType" name="mock" minOccurs="0"/>
+            <xs:element type="ns:telemetryType" name="telemetry"/>
+        </xs:sequence>
+
+        <xs:attribute type="xs:string" name="id"/>
+        <xs:attribute type="xs:string" name="prettyName"/>
+        <xs:attribute type="xs:string" name="dataSetName"/>
+        <xs:attribute type="xs:nonNegativeInteger" name="assertionCount"/>
+        <xs:attribute type="ns:outcomeAttributeType" name="outcome"/>
+    </xs:complexType>
+
+    <xs:simpleType name="outcomeAttributeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="passed" />
+            <xs:enumeration value="failed" />
+            <xs:enumeration value="errored" />
+            <xs:enumeration value="skipped" />
+            <xs:enumeration value="incomplete" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="deprecationType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="ns:typeAttributeType" name="type"/>
+                <xs:attribute type="xs:string" name="file"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="typeAttributeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="php"/>
+            <xs:enumeration value="user" />
+            <xs:enumeration value="phpunit" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="noticeAttributeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="php"/>
+            <xs:enumeration value="user" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="errorType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="ns:typeAttributeType" name="type"/>
+                <xs:attribute type="xs:string" name="file"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="noticeType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="ns:noticeAttributeType" name="type"/>
+                <xs:attribute type="xs:string" name="file"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="warningType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="ns:typeAttributeType" name="type"/>
+                <xs:attribute type="xs:string" name="file"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="line"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="stubType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="originalType"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="times"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="mockType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="originalType"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="times"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="telemetryType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <!-- @todo: specify format -->
+                <xs:attribute type="xs:string" name="duration" use="required"/>
+
+                <!-- @todo: specify format -->
+                <xs:attribute type="xs:string" name="memory" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="issuesType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:nonNegativeInteger" name="riskyCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="deprecationCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="errorCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="noticeCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="warningCount" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="outcomeType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:nonNegativeInteger" name="passedCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="failedCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="erroredCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="skippedCount" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="incompleteCount" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>
