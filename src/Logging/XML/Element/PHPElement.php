@@ -1,16 +1,28 @@
 <?php declare(strict_types=1);
+/*
+ * This file is part of PHPUnit.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace PHPUnit\Logging\XML\Element;
 
-class PHPElement extends AbstractElement {
+use XMLWriter;
 
-    public function __construct(\XMLWriter $writer, string $version) {
+class PHPElement extends AbstractElement
+{
+    public function __construct(XMLWriter $writer, string $version)
+    {
         parent::__construct($writer);
 
         $this->startElement('php');
         $this->writeAttribute('version', $version);
     }
 
-    public function addExtension(string $name, string $version): void {
+    public function addExtension(string $name, string $version): void
+    {
         $this->startElement('extension');
         $this->writeAttribute('name', $name);
         $this->writeAttribute('version', $version);
