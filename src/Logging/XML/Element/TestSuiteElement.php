@@ -21,7 +21,7 @@ class TestSuiteElement extends AbstractElement
         $this->writeAttribute('name', $name);
     }
 
-    public function addTestClass(string $src, int $line, string $name, string $prettyName)
+    public function addTestClass(string $src, int $line, string $name, string $prettyName): TestClassElement
     {
         return new TestClassElement($this->writer, $src, $line, $name, $prettyName);
     }
