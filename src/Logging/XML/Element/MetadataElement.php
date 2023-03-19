@@ -17,6 +17,6 @@ class MetadataElement extends AbstractElement
     {
         parent::__construct($writer);
 
-        $this->startElement('configuration');
+        $this->startElement('metadata');
     }
 }
