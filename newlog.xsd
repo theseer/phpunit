@@ -80,7 +80,7 @@
 
     <xs:complexType name="phpType">
         <xs:sequence>
-            <xs:element type="ns:phpExtensionType" name="extension"/>
+            <xs:element type="ns:phpExtensionType" name="extension" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
 
         <xs:attribute type="xs:string" name="version" use="required"/>
@@ -95,7 +95,7 @@
 
     <xs:complexType name="phpunitType">
         <xs:sequence>
-            <xs:element type="ns:phpunitExtensionType" name="extension"/>
+            <xs:element type="ns:phpunitExtensionType" name="extension" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
 
         <xs:attribute type="xs:string" name="version" use="required"/>
@@ -131,7 +131,7 @@
     <xs:complexType name="testClassType">
         <xs:sequence>
             <!-- @todo: specify real metadata struct -->
-            <xs:element type="xs:string" name="metadata"/>
+            <xs:element type="xs:string" name="metadata" minOccurs="0"/>
             <xs:element type="ns:testMethodType" name="testMethod"/>
         </xs:sequence>
 
@@ -146,7 +146,7 @@
     <xs:complexType name="testMethodType">
         <xs:sequence>
             <!-- @todo: specify real metadata struct -->
-            <xs:element type="xs:string" name="metadata"/>
+            <xs:element type="xs:string" name="metadata" minOccurs="0"/>
             <xs:element type="ns:dataProviderType" name="dataProvider" minOccurs="0"/>
             <xs:element type="ns:dependencyType" name="dependency" minOccurs="0"/>
             <xs:element type="ns:runType" name="run"/>
@@ -184,13 +184,13 @@
     <xs:complexType name="runType">
         <xs:sequence>
             <xs:element type="xs:string" name="risky" minOccurs="0"/>
-            <xs:element type="ns:deprecationType" name="deprecation" minOccurs="0"/>
-            <xs:element type="ns:errorType" name="error" minOccurs="0"/>
-            <xs:element type="ns:noticeType" name="notice" minOccurs="0"/>
-            <xs:element type="ns:warningType" name="warning" minOccurs="0"/>
-            <xs:element type="xs:string" name="reason" minOccurs="0"/>
-            <xs:element type="ns:stubType" name="stub" minOccurs="0"/>
-            <xs:element type="ns:mockType" name="mock" minOccurs="0"/>
+            <xs:element type="ns:deprecationType" name="deprecation" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="ns:noticeType" name="notice" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="ns:warningType" name="warning" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="ns:errorType" name="error" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="xs:string" name="reason" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="ns:stubType" name="stub" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="ns:mockType" name="mock" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="ns:telemetryType" name="telemetry"/>
         </xs:sequence>
 
