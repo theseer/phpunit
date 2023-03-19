@@ -34,9 +34,9 @@
                 <run id="" prettyName="" dataSetName="" assertionCount="0" outcome="passed">
                     <risky>{message}</risky>
                     <deprecation type="phpunit" file="" line="0">{message}</deprecation>
-                    <error type="phpunit" file="" line="0">{message}</error>
                     <notice type="php" file="" line="0">{message}</notice>
                     <warning type="phpunit" file="" line="0">{message}</warning>
+                    <error type="phpunit" file="" line="0">{message}</error>
 
                     <reason>{message}</reason>
 
