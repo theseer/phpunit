@@ -7,12 +7,14 @@ All notable changes of the PHPUnit 10.1 release series are documented in this fi
 ### Added
 
 * [#5168](https://github.com/sebastianbergmann/phpunit/issues/5168): Allow test runner extensions to disable default progress and result printing
+* [#5196](https://github.com/sebastianbergmann/phpunit/issues/5196): Optionally (fail|stop) on (notice|deprecation) events
 * [#5201](https://github.com/sebastianbergmann/phpunit/issues/5201): Add `TestCase::registerFailureType()` to register interface that marks exceptions to be treated as failures, not errors
 * [#5231](https://github.com/sebastianbergmann/phpunit/pull/5231): `assertObjectHasProperty()` and `assertObjectNotHasProperty()`
 * [#5237](https://github.com/sebastianbergmann/phpunit/issues/5237): Implement `IgnoreClassForCodeCoverage`, `IgnoreMethodForCodeCoverage`, and `IgnoreFunctionForCodeCoverage` attributes
 * `TestCase::createConfiguredStub()` was added as an analogon to `TestCase::createConfiguredMock()`
+* The `PHPUnit\Event\TestRunner\ExecutionAborted` event is now emitted when the execution of tests is stopped due to `stopOn*` attributes on the `<phpunit>` XML configuration element or due to `--stop-on-*` CLI options
 
-### Changed
+### Deprecated
 
 * [#5236](https://github.com/sebastianbergmann/phpunit/issues/5236): Deprecate the `CodeCoverageIgnore` attribute
 * [#5239](https://github.com/sebastianbergmann/phpunit/issues/5239): Deprecate `TestCase::createPartialMock()` (this method only has a `@deprecated` annotation for now; using this method will trigger a deprecation warning in PHPUnit 11; this method will be removed in PHPUnit 12)

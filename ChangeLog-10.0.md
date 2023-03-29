@@ -2,6 +2,27 @@
 
 All notable changes of the PHPUnit 10.0 release series are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [10.0.19] - 2023-03-27
+
+### Fixed
+
+* [#5270](https://github.com/sebastianbergmann/phpunit/issues/5270): `GlobalState::getIniSettingsAsString()` generates code that triggers warnings
+* [#5291](https://github.com/sebastianbergmann/phpunit/pull/5291): Test Runner exits with wrong shell exit code after a PHPUnit error occurred
+
+## [10.0.18] - 2023-03-22
+
+### Fixed
+
+* [#5287](https://github.com/sebastianbergmann/phpunit/issues/5287): Tests from test class with same non-fully qualified class name as another test class are sometimes not discovered
+* [#5288](https://github.com/sebastianbergmann/phpunit/issues/5288): `@dataProvider` annotation rejects previously valid method name style
+
+## [10.0.17] - 2023-03-20
+
+### Changed
+
+* [#5204](https://github.com/sebastianbergmann/phpunit/pull/5204): Register event subscribers where state is already global
+* [#5285](https://github.com/sebastianbergmann/phpunit/issues/5285): Print complete test result (outcome and issues) when `--teamcity` is used
+
 ## [10.0.16] - 2023-03-13
 
 ### Added
@@ -173,9 +194,6 @@ All notable changes of the PHPUnit 10.0 release series are documented in this fi
 * [#4603](https://github.com/sebastianbergmann/phpunit/issues/4603): Use "property" instead of "attribute" for configuring the backup of static fields
 * [#4656](https://github.com/sebastianbergmann/phpunit/issues/4656): Prevent doubling of `__destruct()`
 * Expectations configured on test stubs created using `PHPUnit\Framework\TestCase::createStub()` are no longer evaluated, you need to create a mock object using `PHPUnit\Framework\TestCase::createMock()` instead
-* Using a non-static method as a data provider is now deprecated 
-* Using a non-public method as a data provider is now deprecated
-* Declaring a data provider method to require an argument is now deprecated
 * A test method now continues execution after test(ed) code triggered `E_(USER_)DEPRECATED`, `E_(USER_)NOTICE`, `E_STRICT`, or `E_(USER_)WARNING`
 * PHPUnit no longer invokes a static method named `suite` on a class that is declared in a file that is passed as an argument to the CLI test runner
 * PHPUnit no longer promotes variables that are global in the bootstrap script's scope to global variables in the test runner's scope (use `$GLOBALS['variable'] = 'value'` instead of `$variable = 'value'` in your bootstrap script)
@@ -196,6 +214,12 @@ All notable changes of the PHPUnit 10.0 release series are documented in this fi
 * The CLI test runner now only stops after a test was marked as risky when `--stop-on-risky` or `--stop-on-defect` is used
 * The CLI test runner now only stops after a test was skipped when `--stop-on-skipped` is used
 * The CLI test runner now only stops after a test was marked as incomplete when `--stop-on-incomplete` is used
+
+### Deprecated
+
+* Using a non-static method as a data provider is now deprecated
+* Using a non-public method as a data provider is now deprecated
+* Declaring a data provider method to require an argument is now deprecated
 
 ### Removed
 
@@ -261,6 +285,9 @@ All notable changes of the PHPUnit 10.0 release series are documented in this fi
 * PHP 7.3, PHP 7.4, and PHP 8.0 are no longer supported
 * `phpunit/php-code-coverage` [no longer supports PHPDBG and Xdebug 2](https://github.com/sebastianbergmann/php-code-coverage/blob/10.0.0/ChangeLog.md#1000---2023-02-03)
 
+[10.0.19]: https://github.com/sebastianbergmann/phpunit/compare/10.0.18...10.0.19
+[10.0.18]: https://github.com/sebastianbergmann/phpunit/compare/10.0.17...10.0.18
+[10.0.17]: https://github.com/sebastianbergmann/phpunit/compare/10.0.16...10.0.17
 [10.0.16]: https://github.com/sebastianbergmann/phpunit/compare/10.0.15...10.0.16
 [10.0.15]: https://github.com/sebastianbergmann/phpunit/compare/10.0.14...10.0.15
 [10.0.14]: https://github.com/sebastianbergmann/phpunit/compare/10.0.13...10.0.14
