@@ -17,11 +17,11 @@ use PHPUnit\Logging\TeamCity\TeamCityLogger;
 use PHPUnit\Logging\TestDox\TestResultCollection;
 use PHPUnit\TestRunner\TestResult\TestResult;
 use PHPUnit\TextUI\Configuration\Configuration;
+use PHPUnit\TextUI\DirectoryDoesNotExistException;
+use PHPUnit\TextUI\InvalidSocketException;
 use PHPUnit\TextUI\Output\Default\ProgressPrinter\ProgressPrinter as DefaultProgressPrinter;
 use PHPUnit\TextUI\Output\Default\ResultPrinter as DefaultResultPrinter;
 use PHPUnit\TextUI\Output\TestDox\ResultPrinter as TestDoxResultPrinter;
-use PHPUnit\Util\DirectoryDoesNotExistException;
-use PHPUnit\Util\InvalidSocketException;
 use SebastianBergmann\Timer\Duration;
 use SebastianBergmann\Timer\ResourceUsageFormatter;
 
@@ -155,9 +155,10 @@ final class Facade
 
         new DefaultProgressPrinter(
             self::$printer,
+            EventFacade::instance(),
             $configuration->colors(),
             $configuration->columns(),
-            EventFacade::instance()
+            $configuration->source(),
         );
 
         self::$defaultProgressPrinter = true;
@@ -189,7 +190,7 @@ final class Facade
                 self::$printer,
                 true,
                 true,
-                false,
+                true,
                 false,
                 false,
                 false,
@@ -232,7 +233,7 @@ final class Facade
             $configuration->displayDetailsOnTestsThatTriggerErrors(),
             $configuration->displayDetailsOnTestsThatTriggerNotices(),
             $configuration->displayDetailsOnTestsThatTriggerWarnings(),
-            $configuration->reverseDefectList()
+            $configuration->reverseDefectList(),
         );
     }
 

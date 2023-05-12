@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.8.0@9cf4f60a333f779ad3bc704a555920e81d4fdcda">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="src/Event/Dispatcher/DirectDispatcher.php">
     <UndefinedInterfaceMethod>
       <code>notify</code>
@@ -49,6 +49,9 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$eventClass . 'Subscriber']]></code>
     </ArgumentTypeCoercion>
+    <InvalidArrayOffset>
+      <code><![CDATA[gc_status()['running']]]></code>
+    </InvalidArrayOffset>
   </file>
   <file src="src/Event/Value/Runtime/PHP.php">
     <ImpureFunctionCall>
@@ -64,6 +67,14 @@
     <ImpureMethodCall>
       <code>fromBytes</code>
     </ImpureMethodCall>
+  </file>
+  <file src="src/Event/Value/Telemetry/Php83GarbageCollectorStatusProvider.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$status['buffer_size']]]></code>
+      <code><![CDATA[$status['full']]]></code>
+      <code><![CDATA[$status['protected']]]></code>
+      <code><![CDATA[$status['running']]]></code>
+    </InvalidArrayOffset>
   </file>
   <file src="src/Event/Value/Test/TestCollection.php">
     <PropertyTypeCoercion>
@@ -182,10 +193,8 @@
   <file src="src/Framework/MockObject/Invocation.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$this->returnType]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArgument>
       <code>$types</code>
-    </InvalidArgument>
+    </ArgumentTypeCoercion>
   </file>
   <file src="src/Framework/MockObject/Matcher.php">
     <InvalidNullableReturnType>
@@ -259,13 +268,11 @@
       <code>$originalClassName</code>
       <code><![CDATA[$this->expectedException]]></code>
     </ArgumentTypeCoercion>
-    <DeprecatedClass>
-      <code>MockBuilder</code>
-      <code><![CDATA[MockBuilder<RealInstanceType>]]></code>
-      <code>new MockBuilder($this, $className)</code>
-      <code>new MockBuilder($this, $originalClassName)</code>
-      <code>new MockBuilder($this, $originalClassName)</code>
-    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code>disableArgumentCloning</code>
+      <code>disallowMockingUnknownTypes</code>
+      <code>enableProxyingToOriginalMethods</code>
+    </DeprecatedMethod>
     <InvalidReturnStatement>
       <code>$partialMock</code>
       <code>$testProxy</code>
@@ -347,6 +354,9 @@
       <code><![CDATA[$this->status]]></code>
       <code><![CDATA[$this->time]]></code>
     </PossiblyNullArgument>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$this->testDoubles]]></code>
+    </PropertyTypeCoercion>
     <RedundantCondition>
       <code>assert($test instanceof TestMethod)</code>
     </RedundantCondition>
@@ -408,7 +418,31 @@
     </PropertyTypeCoercion>
   </file>
   <file src="src/Metadata/Parser/Annotation/DocBlock.php">
-    <MoreSpecificReturnType>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[array_merge(
+            $requires,
+            ['__OFFSET' => $recordedOffsets],
+            array_filter(
+                [
+                    'setting'            => $recordedSettings,
+                    'extension_versions' => $extensionVersions,
+                ]
+            )
+        )]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->parsedRequirements = array_merge(
+            $requires,
+            ['__OFFSET' => $recordedOffsets],
+            array_filter(
+                [
+                    'setting'            => $recordedSettings,
+                    'extension_versions' => $extensionVersions,
+                ]
+            )
+        )]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
       <code><![CDATA[array{
      *   __OFFSET: array<string, int>&array{__FILE: string},
      *   setting?: array<string, string>,
@@ -417,7 +451,7 @@
      *   string,
      *   string|array{version: string, operator: string}|array{constraint: string}|array<int|string, string>
      * >]]></code>
-    </MoreSpecificReturnType>
+    </InvalidReturnType>
   </file>
   <file src="src/Metadata/Parser/AnnotationParser.php">
     <ArgumentTypeCoercion>
@@ -528,12 +562,6 @@
       <code><![CDATA[$this->sortBySize($suite->tests())]]></code>
       <code><![CDATA[$this->sortDefectsFirst($suite->tests())]]></code>
     </ArgumentTypeCoercion>
-    <RedundantCondition>
-      <code><![CDATA[$order === self::ORDER_DURATION && $this->cache !== null]]></code>
-      <code><![CDATA[$orderDefects === self::ORDER_DEFECTS_FIRST && $this->cache !== null]]></code>
-      <code><![CDATA[$this->cache !== null]]></code>
-      <code><![CDATA[$this->cache !== null]]></code>
-    </RedundantCondition>
   </file>
   <file src="src/TextUI/Application.php">
     <InternalMethod>
@@ -624,6 +652,15 @@
     <RedundantCondition>
       <code>assert($xmlConfiguration instanceof LoadedFromFileConfiguration)</code>
     </RedundantCondition>
+  </file>
+  <file src="src/TextUI/Configuration/SourceMapper.php">
+    <InvalidArgument>
+      <code>$files</code>
+      <code>$source</code>
+      <code>$source</code>
+      <code>$source</code>
+      <code>$source</code>
+    </InvalidArgument>
   </file>
   <file src="src/TextUI/Configuration/TestSuiteBuilder.php">
     <MissingThrowsDocblock>
@@ -774,15 +811,17 @@
       <code>DefaultPrinter::standardOutput()</code>
       <code><![CDATA[new DefaultProgressPrinter(
             self::$printer,
+            EventFacade::instance(),
             $configuration->colors(),
             $configuration->columns(),
-            EventFacade::instance()
+            $configuration->source(),
         )]]></code>
       <code><![CDATA[new DefaultProgressPrinter(
             self::$printer,
+            EventFacade::instance(),
             $configuration->colors(),
             $configuration->columns(),
-            EventFacade::instance()
+            $configuration->source(),
         )]]></code>
     </MissingThrowsDocblock>
     <NullableReturnStatement>
@@ -794,6 +833,13 @@
       <code><![CDATA[$this->stream]]></code>
       <code><![CDATA[$this->stream]]></code>
     </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Util/ExcludeList.php">
+    <InvalidPropertyAssignmentValue>
+      <code>self::$directories</code>
+      <code>self::$directories</code>
+      <code>self::$directories</code>
+    </InvalidPropertyAssignmentValue>
   </file>
   <file src="src/Util/PHP/DefaultPhpProcess.php">
     <DocblockTypeContradiction>

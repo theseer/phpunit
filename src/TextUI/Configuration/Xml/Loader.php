@@ -45,6 +45,7 @@ use PHPUnit\TextUI\Configuration\GroupCollection;
 use PHPUnit\TextUI\Configuration\IniSetting;
 use PHPUnit\TextUI\Configuration\IniSettingCollection;
 use PHPUnit\TextUI\Configuration\Php;
+use PHPUnit\TextUI\Configuration\Source;
 use PHPUnit\TextUI\Configuration\TestDirectory;
 use PHPUnit\TextUI\Configuration\TestDirectoryCollection;
 use PHPUnit\TextUI\Configuration\TestFile;
@@ -68,8 +69,6 @@ use PHPUnit\TextUI\XmlConfiguration\Logging\TestDox\Html as TestDoxHtml;
 use PHPUnit\TextUI\XmlConfiguration\Logging\TestDox\Text as TestDoxText;
 use PHPUnit\Util\VersionComparisonOperator;
 use PHPUnit\Util\Xml\Loader as XmlLoader;
-use PHPUnit\Util\Xml\SchemaFinder;
-use PHPUnit\Util\Xml\Validator;
 use PHPUnit\Util\Xml\XmlException;
 use SebastianBergmann\CodeCoverage\Report\Html\Colors;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
@@ -85,7 +84,7 @@ final class Loader
     public function load(string $filename): LoadedFromFileConfiguration
     {
         try {
-            $document = (new XmlLoader)->loadFile($filename, false, true, true);
+            $document = (new XmlLoader)->loadFile($filename);
         } catch (XmlException $e) {
             throw new Exception(
                 $e->getMessage(),
@@ -98,7 +97,7 @@ final class Loader
 
         try {
             $xsdFilename = (new SchemaFinder)->find(Version::series());
-        } catch (XmlException $e) {
+        } catch (CannotFindSchemaException $e) {
             throw new Exception(
                 $e->getMessage(),
                 $e->getCode(),
@@ -110,6 +109,7 @@ final class Loader
             $filename,
             (new Validator)->validate($document, $xsdFilename),
             $this->extensions($xpath),
+            $this->source($filename, $xpath),
             $this->codeCoverage($filename, $xpath),
             $this->groups($xpath),
             $this->logging($filename, $xpath),
@@ -245,6 +245,52 @@ final class Loader
         }
 
         return $file;
+    }
+
+    private function source(string $filename, DOMXPath $xpath): Source
+    {
+        $restrictDeprecations               = false;
+        $restrictNotices                    = false;
+        $restrictWarnings                   = false;
+        $ignoreSuppressionOfDeprecations    = false;
+        $ignoreSuppressionOfPhpDeprecations = false;
+        $ignoreSuppressionOfErrors          = false;
+        $ignoreSuppressionOfNotices         = false;
+        $ignoreSuppressionOfPhpNotices      = false;
+        $ignoreSuppressionOfWarnings        = false;
+        $ignoreSuppressionOfPhpWarnings     = false;
+
+        $element = $this->element($xpath, 'source');
+
+        if ($element) {
+            $restrictDeprecations               = $this->getBooleanAttribute($element, 'restrictDeprecations', false);
+            $restrictNotices                    = $this->getBooleanAttribute($element, 'restrictNotices', false);
+            $restrictWarnings                   = $this->getBooleanAttribute($element, 'restrictWarnings', false);
+            $ignoreSuppressionOfDeprecations    = $this->getBooleanAttribute($element, 'ignoreSuppressionOfDeprecations', false);
+            $ignoreSuppressionOfPhpDeprecations = $this->getBooleanAttribute($element, 'ignoreSuppressionOfPhpDeprecations', false);
+            $ignoreSuppressionOfErrors          = $this->getBooleanAttribute($element, 'ignoreSuppressionOfErrors', false);
+            $ignoreSuppressionOfNotices         = $this->getBooleanAttribute($element, 'ignoreSuppressionOfNotices', false);
+            $ignoreSuppressionOfPhpNotices      = $this->getBooleanAttribute($element, 'ignoreSuppressionOfPhpNotices', false);
+            $ignoreSuppressionOfWarnings        = $this->getBooleanAttribute($element, 'ignoreSuppressionOfWarnings', false);
+            $ignoreSuppressionOfPhpWarnings     = $this->getBooleanAttribute($element, 'ignoreSuppressionOfPhpWarnings', false);
+        }
+
+        return new Source(
+            $this->readFilterDirectories($filename, $xpath, 'source/include/directory'),
+            $this->readFilterFiles($filename, $xpath, 'source/include/file'),
+            $this->readFilterDirectories($filename, $xpath, 'source/exclude/directory'),
+            $this->readFilterFiles($filename, $xpath, 'source/exclude/file'),
+            $restrictDeprecations,
+            $restrictNotices,
+            $restrictWarnings,
+            $ignoreSuppressionOfDeprecations,
+            $ignoreSuppressionOfPhpDeprecations,
+            $ignoreSuppressionOfErrors,
+            $ignoreSuppressionOfNotices,
+            $ignoreSuppressionOfPhpNotices,
+            $ignoreSuppressionOfWarnings,
+            $ignoreSuppressionOfPhpWarnings,
+        );
     }
 
     private function codeCoverage(string $filename, DOMXPath $xpath): CodeCoverage

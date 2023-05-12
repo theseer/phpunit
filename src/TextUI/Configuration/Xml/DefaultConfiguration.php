@@ -18,6 +18,7 @@ use PHPUnit\TextUI\Configuration\FilterDirectoryCollection as CodeCoverageFilter
 use PHPUnit\TextUI\Configuration\GroupCollection;
 use PHPUnit\TextUI\Configuration\IniSettingCollection;
 use PHPUnit\TextUI\Configuration\Php;
+use PHPUnit\TextUI\Configuration\Source;
 use PHPUnit\TextUI\Configuration\TestSuiteCollection;
 use PHPUnit\TextUI\Configuration\VariableCollection;
 use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\CodeCoverage;
@@ -34,6 +35,22 @@ final class DefaultConfiguration extends Configuration
     {
         return new self(
             ExtensionBootstrapCollection::fromArray([]),
+            new Source(
+                CodeCoverageFilterDirectoryCollection::fromArray([]),
+                FileCollection::fromArray([]),
+                CodeCoverageFilterDirectoryCollection::fromArray([]),
+                FileCollection::fromArray([]),
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+            ),
             new CodeCoverage(
                 null,
                 CodeCoverageFilterDirectoryCollection::fromArray([]),

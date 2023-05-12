@@ -34,6 +34,7 @@ Test Runner Execution Started (2 tests)
 Test Suite Started (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest, 2 tests)
 Test Preparation Started (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testOne)
 Test Prepared (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testOne)
+Assertion Succeeded (Constraint: is true, Value: true)
 Test Failed (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testOne)
 this should be treated as a failure
 Test Finished (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testOne)
@@ -41,6 +42,8 @@ Test Preparation Started (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::
 Test Prepared (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testTwo)
 Test Errored (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testTwo)
 this should be treated as an error
+Test Considered Risky (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testTwo)
+This test did not perform any assertions
 Test Finished (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest::testTwo)
 Test Suite Finished (PHPUnit\TestFixture\Event\CustomFailureInterfaceTest, 2 tests)
 Test Runner Execution Finished

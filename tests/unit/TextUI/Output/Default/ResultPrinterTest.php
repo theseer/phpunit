@@ -15,6 +15,7 @@ use PHPUnit\Event\Code\TestDoxBuilder;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\Code\ThrowableBuilder;
 use PHPUnit\Event\Telemetry\Duration;
+use PHPUnit\Event\Telemetry\GarbageCollectorStatus;
 use PHPUnit\Event\Telemetry\HRTime;
 use PHPUnit\Event\Telemetry\Info;
 use PHPUnit\Event\Telemetry\MemoryUsage;
@@ -38,6 +39,7 @@ use PHPUnit\Event\Test\WarningTriggered;
 use PHPUnit\Event\TestData\TestDataCollection;
 use PHPUnit\Event\TestRunner\DeprecationTriggered as TestRunnerDeprecationTriggered;
 use PHPUnit\Event\TestRunner\WarningTriggered as TestRunnerWarningTriggered;
+use PHPUnit\Event\TestSuite\Skipped as TestSuiteSkipped;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Medium;
@@ -189,7 +191,8 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                         ],
                     ]
@@ -206,14 +209,16 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                             new PhpDeprecationTriggered(
                                 self::telemetryInfo(),
                                 self::testMethod(),
                                 'another message',
                                 'Foo.php',
-                                2
+                                2,
+                                false,
                             ),
                         ],
                     ]
@@ -231,7 +236,13 @@ final class ResultPrinterTest extends TestCase
                                 'message'
                             ),
                         ],
-                    ]
+                    ],
+                    testRunnerTriggeredDeprecationEvents: [
+                        new TestRunnerDeprecationTriggered(
+                            self::telemetryInfo(),
+                            'message'
+                        ),
+                    ],
                 ),
             ],
 
@@ -245,7 +256,8 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                         ],
                     ]
@@ -262,7 +274,8 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                         ],
                     ]
@@ -279,7 +292,8 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                         ],
                     ]
@@ -296,7 +310,8 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                         ],
                     ]
@@ -313,7 +328,8 @@ final class ResultPrinterTest extends TestCase
                                 self::testMethod(),
                                 'message',
                                 'Foo.php',
-                                1
+                                1,
+                                false,
                             ),
                         ],
                     ]
@@ -375,7 +391,7 @@ final class ResultPrinterTest extends TestCase
             true,
             true,
             true,
-            false
+            false,
         );
 
         $resultPrinter->print($result);
@@ -515,7 +531,8 @@ final class ResultPrinterTest extends TestCase
             new Snapshot(
                 HRTime::fromSecondsAndNanoseconds(...hrtime(false)),
                 MemoryUsage::fromBytes(1000),
-                MemoryUsage::fromBytes(2000)
+                MemoryUsage::fromBytes(2000),
+                new GarbageCollectorStatus(0, 0, 0, 0, false, false, false, 0)
             ),
             Duration::fromSecondsAndNanoseconds(123, 456),
             MemoryUsage::fromBytes(2000),

@@ -22,8 +22,8 @@ use PHPUnit\Runner\TestSuiteSorter;
 use PHPUnit\TextUI\CliArguments\Configuration as CliConfiguration;
 use PHPUnit\TextUI\XmlConfiguration\Configuration as XmlConfiguration;
 use PHPUnit\TextUI\XmlConfiguration\LoadedFromFileConfiguration;
+use PHPUnit\TextUI\XmlConfiguration\SchemaDetector;
 use PHPUnit\Util\Filesystem;
-use PHPUnit\Util\Xml\SchemaDetector;
 use SebastianBergmann\CodeCoverage\Report\Html\Colors;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\Environment\Console;
@@ -628,7 +628,7 @@ final class Merger
 
         if ($xmlConfiguration->wasLoadedFromFile() && $xmlConfiguration->hasValidationErrors()) {
             if ((new SchemaDetector)->detect($xmlConfiguration->filename())->detected()) {
-                EventFacade::emitter()->testRunnerTriggeredWarning(
+                EventFacade::emitter()->testRunnerTriggeredDeprecation(
                     'Your XML configuration validates against a deprecated schema. Migrate your XML configuration using "--migrate-configuration"!'
                 );
             } else {
@@ -685,16 +685,30 @@ final class Merger
             $testSuffixes = $cliConfiguration->testSuffixes();
         }
 
-        $coverageIncludeDirectories = [];
+        $sourceIncludeDirectories = [];
 
         if ($cliConfiguration->hasCoverageFilter()) {
             foreach ($cliConfiguration->coverageFilter() as $directory) {
-                $coverageIncludeDirectories[] = new FilterDirectory($directory, '', '.php');
+                $sourceIncludeDirectories[] = new FilterDirectory($directory, '', '.php');
             }
         }
 
-        foreach ($xmlConfiguration->codeCoverage()->directories() as $directory) {
-            $coverageIncludeDirectories[] = $directory;
+        if ($xmlConfiguration->codeCoverage()->hasNonEmptyListOfFilesToBeIncludedInCodeCoverageReport()) {
+            foreach ($xmlConfiguration->codeCoverage()->directories() as $directory) {
+                $sourceIncludeDirectories[] = $directory;
+            }
+
+            $sourceIncludeFiles       = $xmlConfiguration->codeCoverage()->files();
+            $sourceExcludeDirectories = $xmlConfiguration->codeCoverage()->excludeDirectories();
+            $sourceExcludeFiles       = $xmlConfiguration->codeCoverage()->excludeFiles();
+        } else {
+            foreach ($xmlConfiguration->source()->includeDirectories() as $directory) {
+                $sourceIncludeDirectories[] = $directory;
+            }
+
+            $sourceIncludeFiles       = $xmlConfiguration->source()->includeFiles();
+            $sourceExcludeDirectories = $xmlConfiguration->source()->excludeDirectories();
+            $sourceExcludeFiles       = $xmlConfiguration->source()->excludeFiles();
         }
 
         return new Configuration(
@@ -704,10 +718,22 @@ final class Merger
             $cacheResult,
             $cacheDirectory,
             $coverageCacheDirectory,
-            FilterDirectoryCollection::fromArray($coverageIncludeDirectories),
-            $xmlConfiguration->codeCoverage()->files(),
-            $xmlConfiguration->codeCoverage()->excludeDirectories(),
-            $xmlConfiguration->codeCoverage()->excludeFiles(),
+            new Source(
+                FilterDirectoryCollection::fromArray($sourceIncludeDirectories),
+                $sourceIncludeFiles,
+                $sourceExcludeDirectories,
+                $sourceExcludeFiles,
+                $xmlConfiguration->source()->restrictDeprecations(),
+                $xmlConfiguration->source()->restrictNotices(),
+                $xmlConfiguration->source()->restrictWarnings(),
+                $xmlConfiguration->source()->ignoreSuppressionOfDeprecations(),
+                $xmlConfiguration->source()->ignoreSuppressionOfPhpDeprecations(),
+                $xmlConfiguration->source()->ignoreSuppressionOfErrors(),
+                $xmlConfiguration->source()->ignoreSuppressionOfNotices(),
+                $xmlConfiguration->source()->ignoreSuppressionOfPhpNotices(),
+                $xmlConfiguration->source()->ignoreSuppressionOfWarnings(),
+                $xmlConfiguration->source()->ignoreSuppressionOfPhpWarnings(),
+            ),
             $testResultCacheFile,
             $coverageClover,
             $coverageCobertura,

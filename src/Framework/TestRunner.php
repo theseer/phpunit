@@ -30,9 +30,9 @@ use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 use PHPUnit\Metadata\Api\CodeCoverage as CodeCoverageMetadataApi;
 use PHPUnit\Metadata\Parser\Registry as MetadataRegistry;
 use PHPUnit\Runner\CodeCoverage;
+use PHPUnit\Runner\ErrorHandler;
 use PHPUnit\TextUI\Configuration\Configuration;
 use PHPUnit\TextUI\Configuration\Registry as ConfigurationRegistry;
-use PHPUnit\Util\ErrorHandler;
 use PHPUnit\Util\GlobalState;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
 use ReflectionClass;
@@ -132,6 +132,7 @@ final class TestRunner
         $test->addToAssertionCount(Assert::getCount());
 
         if ($this->configuration->reportUselessTests() &&
+            !$test->doesNotPerformAssertions() &&
             $test->numberOfAssertionsPerformed() === 0) {
             $risky = true;
         }
@@ -193,18 +194,9 @@ final class TestRunner
 
         ErrorHandler::instance()->disable();
 
-        if (isset($e)) {
-            if ($test->wasPrepared()) {
-                Event\Facade::emitter()->testFinished(
-                    $test->valueObjectForEvents(),
-                    $test->numberOfAssertionsPerformed()
-                );
-            }
-
-            return;
-        }
-
-        if ($this->configuration->reportUselessTests() &&
+        if (!$incomplete &&
+            !$skipped &&
+            $this->configuration->reportUselessTests() &&
             !$test->doesNotPerformAssertions() &&
             $test->numberOfAssertionsPerformed() === 0) {
             Event\Facade::emitter()->testConsideredRisky(

@@ -431,10 +431,9 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
             foreach ($this->tests as $test) {
                 if (!($test instanceof Reorderable)) {
-                    // @codeCoverageIgnoreStart
                     continue;
-                    // @codeCoverageIgnoreEnd
                 }
+
                 $this->providedTests = ExecutionOrderDependency::mergeUnique($this->providedTests, $test->provides());
             }
         }
@@ -452,10 +451,9 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
             foreach ($this->tests as $test) {
                 if (!($test instanceof Reorderable)) {
-                    // @codeCoverageIgnoreStart
                     continue;
-                    // @codeCoverageIgnoreEnd
                 }
+
                 $this->requiredTests = ExecutionOrderDependency::mergeUnique(
                     ExecutionOrderDependency::filterInvalid($this->requiredTests),
                     $test->requires()

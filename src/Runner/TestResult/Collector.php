@@ -41,12 +41,15 @@ use PHPUnit\Event\TestSuite\Started as TestSuiteStarted;
 use PHPUnit\Event\TestSuite\TestSuiteForTestClass;
 use PHPUnit\Event\TestSuite\TestSuiteForTestMethodWithDataProvider;
 use PHPUnit\Event\UnknownSubscriberTypeException;
+use PHPUnit\TextUI\Configuration\Source;
+use PHPUnit\TextUI\Configuration\SourceFilter;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class Collector
 {
+    private readonly Source $source;
     private int $numberOfTests                       = 0;
     private int $numberOfTestsRun                    = 0;
     private int $numberOfAssertions                  = 0;
@@ -147,7 +150,7 @@ final class Collector
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    public function __construct(Facade $facade)
+    public function __construct(Facade $facade, Source $source)
     {
         $facade->registerSubscribers(
             new ExecutionStartedSubscriber($this),
@@ -175,6 +178,8 @@ final class Collector
             new TestRunnerTriggeredDeprecationSubscriber($this),
             new TestRunnerTriggeredWarningSubscriber($this),
         );
+
+        $this->source = $source;
     }
 
     public function result(): TestResult
@@ -359,6 +364,14 @@ final class Collector
 
     public function testTriggeredDeprecation(DeprecationTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfDeprecations() && $event->wasSuppressed()) {
+            return;
+        }
+
+        if ($this->source->restrictDeprecations() && !(new SourceFilter)->includes($this->source, $event->file())) {
+            return;
+        }
+
         if (!isset($this->testTriggeredDeprecationEvents[$event->test()->id()])) {
             $this->testTriggeredDeprecationEvents[$event->test()->id()] = [];
         }
@@ -368,6 +381,14 @@ final class Collector
 
     public function testTriggeredPhpDeprecation(PhpDeprecationTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfPhpDeprecations() && $event->wasSuppressed()) {
+            return;
+        }
+
+        if ($this->source->restrictDeprecations() && !(new SourceFilter)->includes($this->source, $event->file())) {
+            return;
+        }
+
         if (!isset($this->testTriggeredPhpDeprecationEvents[$event->test()->id()])) {
             $this->testTriggeredPhpDeprecationEvents[$event->test()->id()] = [];
         }
@@ -386,6 +407,10 @@ final class Collector
 
     public function testTriggeredError(ErrorTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfErrors() && $event->wasSuppressed()) {
+            return;
+        }
+
         if (!isset($this->testTriggeredErrorEvents[$event->test()->id()])) {
             $this->testTriggeredErrorEvents[$event->test()->id()] = [];
         }
@@ -395,6 +420,14 @@ final class Collector
 
     public function testTriggeredNotice(NoticeTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfNotices() && $event->wasSuppressed()) {
+            return;
+        }
+
+        if ($this->source->restrictNotices() && !(new SourceFilter)->includes($this->source, $event->file())) {
+            return;
+        }
+
         if (!isset($this->testTriggeredNoticeEvents[$event->test()->id()])) {
             $this->testTriggeredNoticeEvents[$event->test()->id()] = [];
         }
@@ -404,6 +437,14 @@ final class Collector
 
     public function testTriggeredPhpNotice(PhpNoticeTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfPhpNotices() && $event->wasSuppressed()) {
+            return;
+        }
+
+        if ($this->source->restrictNotices() && !(new SourceFilter)->includes($this->source, $event->file())) {
+            return;
+        }
+
         if (!isset($this->testTriggeredPhpNoticeEvents[$event->test()->id()])) {
             $this->testTriggeredPhpNoticeEvents[$event->test()->id()] = [];
         }
@@ -413,6 +454,14 @@ final class Collector
 
     public function testTriggeredWarning(WarningTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfWarnings() && $event->wasSuppressed()) {
+            return;
+        }
+
+        if ($this->source->restrictWarnings() && !(new SourceFilter)->includes($this->source, $event->file())) {
+            return;
+        }
+
         if (!isset($this->testTriggeredWarningEvents[$event->test()->id()])) {
             $this->testTriggeredWarningEvents[$event->test()->id()] = [];
         }
@@ -422,6 +471,14 @@ final class Collector
 
     public function testTriggeredPhpWarning(PhpWarningTriggered $event): void
     {
+        if (!$this->source->ignoreSuppressionOfPhpWarnings() && $event->wasSuppressed()) {
+            return;
+        }
+
+        if ($this->source->restrictWarnings() && !(new SourceFilter)->includes($this->source, $event->file())) {
+            return;
+        }
+
         if (!isset($this->testTriggeredPhpWarningEvents[$event->test()->id()])) {
             $this->testTriggeredPhpWarningEvents[$event->test()->id()] = [];
         }

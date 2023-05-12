@@ -483,8 +483,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      * @psalm-param class-string<RealInstanceType> $className
      *
      * @psalm-return MockBuilder<RealInstanceType>
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5252
      */
     final public function getMockBuilder(string $className): MockBuilder
     {
@@ -619,7 +617,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             }
 
             if (method_exists(static::class, $this->name) &&
-                MetadataRegistry::parser()->forMethod(static::class, $this->name)->isDoesNotPerformAssertions()->isNotEmpty()) {
+                MetadataRegistry::parser()->forClassAndMethod(static::class, $this->name)->isDoesNotPerformAssertions()->isNotEmpty()) {
                 $this->doesNotPerformAssertions = true;
             }
 
@@ -662,8 +660,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         } catch (TimeoutException $e) {
             $this->status = TestStatus::risky($e->getMessage());
         } catch (Throwable $_e) {
-            $e = $_e;
-
             if ($this->isRegisteredFailure($_e)) {
                 $this->status = TestStatus::failure($_e->getMessage());
 
@@ -673,11 +669,13 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                     null
                 );
             } else {
-                $this->status = TestStatus::error($_e->getMessage());
+                $e = $this->transformException($_e);
+
+                $this->status = TestStatus::error($e->getMessage());
 
                 $emitter->testErrored(
                     $this->valueObjectForEvents(),
-                    Event\Code\ThrowableBuilder::from($_e)
+                    Event\Code\ThrowableBuilder::from($e)
                 );
             }
         }
@@ -1272,8 +1270,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws InvalidArgumentException
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5239
      */
     protected function createPartialMock(string $originalClassName, array $methods): MockObject
     {
@@ -1465,6 +1461,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
     }
 
+    protected function transformException(Throwable $t): Throwable
+    {
+        return $t;
+    }
+
     /**
      * This method is called when a test method did not execute successfully.
      *
@@ -1649,12 +1650,18 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      */
     private function stopOutputBuffering(): bool
     {
-        if (ob_get_level() !== $this->outputBufferingLevel) {
+        $bufferingLevel = ob_get_level();
+
+        if ($bufferingLevel !== $this->outputBufferingLevel) {
+            if ($bufferingLevel > $this->outputBufferingLevel) {
+                $message = 'Test code or tested code did not close its own output buffers';
+            } else {
+                $message = 'Test code or tested code closed output buffers other than its own';
+            }
+
             while (ob_get_level() >= $this->outputBufferingLevel) {
                 ob_end_clean();
             }
-
-            $message = 'Test code or tested code did not (only) close its own output buffers';
 
             Event\Facade::emitter()->testConsideredRisky(
                 $this->valueObjectForEvents(),
@@ -1893,7 +1900,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         if (is_string($this->expectedException)) {
             try {
                 $reflector = new ReflectionClass($this->expectedException);
-                // @codeCoverageIgnoreStart
             } catch (ReflectionException $e) {
                 throw new Exception(
                     $e->getMessage(),
@@ -1901,7 +1907,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                     $e
                 );
             }
-            // @codeCoverageIgnoreEnd
 
             if ($this->expectedException === 'PHPUnit\Framework\Exception' ||
                 $this->expectedException === '\PHPUnit\Framework\Exception' ||
@@ -2008,6 +2013,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     private function invokeBeforeClassHookMethods(array $hookMethods, Event\Emitter $emitter): void
     {
         $this->invokeHookMethods(
@@ -2018,6 +2026,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     private function invokeBeforeTestHookMethods(array $hookMethods, Event\Emitter $emitter): void
     {
         $this->invokeHookMethods(
@@ -2028,6 +2039,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     private function invokePreConditionHookMethods(array $hookMethods, Event\Emitter $emitter): void
     {
         $this->invokeHookMethods(
@@ -2038,6 +2052,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     private function invokePostConditionHookMethods(array $hookMethods, Event\Emitter $emitter): void
     {
         $this->invokeHookMethods(
@@ -2048,6 +2065,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     private function invokeAfterTestHookMethods(array $hookMethods, Event\Emitter $emitter): void
     {
         $this->invokeHookMethods(
@@ -2058,6 +2078,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     private function invokeAfterClassHookMethods(array $hookMethods, Event\Emitter $emitter): void
     {
         $this->invokeHookMethods(
@@ -2072,6 +2095,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      * @psalm-param list<non-empty-string> $hookMethods
      * @psalm-param 'testBeforeFirstTestMethodCalled'|'testBeforeTestMethodCalled'|'testPreConditionCalled'|'testPostConditionCalled'|'testAfterTestMethodCalled'|'testAfterLastTestMethodCalled' $calledMethod
      * @psalm-param 'testBeforeFirstTestMethodFinished'|'testBeforeTestMethodFinished'|'testPreConditionFinished'|'testPostConditionFinished'|'testAfterTestMethodFinished'|'testAfterLastTestMethodFinished' $finishedMethod
+     *
+     * @throws Throwable
      */
     private function invokeHookMethods(array $hookMethods, Event\Emitter $emitter, string $calledMethod, string $finishedMethod): void
     {
@@ -2082,7 +2107,10 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 continue;
             }
 
-            $this->{$methodName}();
+            try {
+                $this->{$methodName}();
+            } catch (Throwable $t) {
+            }
 
             $methodInvoked = new Event\Code\ClassMethod(
                 static::class,
@@ -2095,6 +2123,10 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             );
 
             $methodsInvoked[] = $methodInvoked;
+
+            if (isset($t)) {
+                break;
+            }
         }
 
         if (!empty($methodsInvoked)) {
@@ -2102,6 +2134,10 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 static::class,
                 ...$methodsInvoked
             );
+        }
+
+        if (isset($t)) {
+            throw $t;
         }
     }
 

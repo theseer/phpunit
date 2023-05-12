@@ -1,4 +1,4 @@
-There was 1 PHP deprecation:
+1 test triggered 2 PHP deprecations:
 
 1) FooTest::testBar
 * message
@@ -9,5 +9,5 @@ There was 1 PHP deprecation:
 
 FooTest.php:1
 
-OK, but some tests have issues!
+OK, but there are issues!
 Tests: 1, Assertions: 1, Deprecations: 1.
